@@ -31,25 +31,25 @@ router.get("/fetch-all", verifyToken, async (req, res) => {
     const mySpace = await Space.findById(spaceId);
     if (!mySpace) return res.status(400).json("Space not found!");
 
-    res.status(200).json(mySpace?.testimonials);
+    res.status(200).json((mySpace?.testimonials).reverse());
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
-router.put("/update-wall", verifyToken, async (req, res) => {
-  const { spaceId, testimonialId, WOF } = req.query;
-  const isActiveBoolean = WOF === "true";
+router.delete("/delete", verifyToken, async (req, res) => {
+  const { spaceId, testimonialId } = req.query;
   try {
-    const UpdatedTestimonial = await Space.findOneAndUpdate(
-      { _id: spaceId, "testimonials._id": testimonialId },
-      { $set: { "testimonials.$.WOF": isActiveBoolean } },
-      { new: true }
+    const deleteTestimonial = await Space.updateOne(
+      { _id: spaceId },
+      { $pull: { testimonials: { _id: testimonialId } } }
     );
-
-    res.status(200).json(UpdatedTestimonial);
+    if (deleteTestimonial.modifiedCount === 1) {
+      res.status(200).json("testimonial deleted successfully");
+    }
   } catch (err) {
     res.status(400).json(err);
   }
 });
+
 module.exports = router;

@@ -9,7 +9,6 @@ import ReviewBox from "../components/ReviewBox";
 const ReviewPage = () => {
   const [spaceInfo, setSpaceInfo] = useState();
   const [toggle, setToggle] = useState(false);
-  console.log(spaceInfo);
   const location = useLocation();
   const spaceId = location.pathname.split("/")[1];
   useEffect(() => {

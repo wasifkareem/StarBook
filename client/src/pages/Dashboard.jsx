@@ -7,20 +7,23 @@ import { useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Wall from "../components/Wall";
 import DashoardCard from "../components/DashoardCard";
+import EditSpace from "../components/EditSpace";
+import AddSpace from "../components/AddSpace";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const location = useLocation();
+  const { ReloadSpaceInfo } = useSelector((state) => state?.info);
   const spaceId = location.pathname.split("/")[2];
   const { token } = useSelector((state) => state?.user?.currentUser);
-  const [testimonials, setTestimonials] = useState([]);
-  console.log(testimonials);
-  console.log(spaceInfo);
+  const { ReloadCards } = useSelector((state) => state?.info);
+  const [testimonials, setTestimonials] = useState(null);
 
   useEffect(() => {
     const getSpace = async () => {
-      const res = await axios(
+      const res = await axios.get(
         `http://localhost:3000/api/space/fetch-space?spaceId=${spaceId}`,
 
         {
@@ -32,7 +35,7 @@ const Dashboard = () => {
       setSpaceInfo(res?.data);
     };
     getSpace();
-  }, []);
+  }, [ReloadSpaceInfo]);
 
   useEffect(() => {
     const getTestimonials = async () => {
@@ -47,18 +50,20 @@ const Dashboard = () => {
       setTestimonials(res?.data);
     };
     getTestimonials();
-  }, []);
+  }, [ReloadCards]);
 
-  const publicTestimonials = testimonials.filter(
+  const publicTestimonials = testimonials?.filter(
     (testimonial) => testimonial.WOF === true
   );
-  console.log(publicTestimonials);
   if (!spaceInfo || !testimonials) {
     return <Loader />;
   }
 
   return (
     <>
+      {toggle ? (
+        <AddSpace spaceInfo={spaceInfo} setToggle={setToggle} isEdit={true} />
+      ) : null}
       {wallPageToggle ? (
         <Wall
           spaceId={spaceId}
@@ -96,9 +101,6 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        <button className=" bg-slate-800 font-semibold text-white rounded-md px-3 py-1 h-fit md:self-center">
-          Wall of fame
-        </button>
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
@@ -121,25 +123,38 @@ const Dashboard = () => {
               Public landing page
             </button>
           </Link>
-          <button className=" w-full hover:bg-slate-200 transition-colors  font-semibold text-slate-800 text-start px-4 py-2 rounded-md ">
+          <button
+            onClick={() => setToggle(true)}
+            className=" w-full hover:bg-slate-200 transition-colors  font-semibold text-slate-800 text-start px-4 py-2 rounded-md "
+          >
             Edit Space
           </button>
         </div>
         <div className=" md:w-4/6 grid md:grid-cols-1 grid-cols-1 md:flex-row flex-col gap-3  m-3 ">
-          {testimonials.map((testimonial) => (
-            <DashoardCard
-              token={token}
-              spaceId={spaceId}
-              email={testimonial.email}
-              key={testimonial._id}
-              Id={testimonial._id}
-              imgPath={testimonial.imgPath}
-              name={testimonial.name}
-              starRating={testimonial.starRating}
-              testimonial={testimonial.testimonial}
-              createdAt={testimonial.createdAt}
-            />
-          ))}
+          {testimonials?.length === 0 ? (
+            <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200 md:mt-40 mt-12">
+              No Testimonials! Send the public URL to your best customers and
+              ask them for feedback.{" "}
+            </p>
+          ) : (
+            <div className=" transition-all flex flex-col gap-3">
+              {testimonials?.map((testimonial) => (
+                <DashoardCard
+                  token={token}
+                  spaceId={spaceId}
+                  email={testimonial.email}
+                  key={testimonial._id}
+                  Id={testimonial._id}
+                  imgPath={testimonial.imgPath}
+                  name={testimonial.name}
+                  starRating={testimonial.starRating}
+                  testimonial={testimonial.testimonial}
+                  createdAt={testimonial.createdAt}
+                  WOF={testimonial.WOF}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

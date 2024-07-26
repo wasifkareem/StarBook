@@ -5,6 +5,7 @@ import Testimonials from "../components/Testimonials";
 
 const Embed = () => {
   const location = useLocation();
+  const theme = location.search.split("=")[1];
   const spaceId = location.pathname.split("/")[2];
   const [testimonials, setTestimonials] = useState([]);
   useEffect(() => {
@@ -18,18 +19,26 @@ const Embed = () => {
   }, []);
 
   return (
-    <div className="   grid md:grid-cols-3 p-5 md:p-10 grid-cols-1 md:flex-row flex-col gap-3  m-3">
-      {testimonials.map((testimonial) => (
-        <Testimonials
-          email={testimonial.email}
-          key={testimonial._id}
-          imgPath={testimonial.imgPath}
-          name={testimonial.name}
-          starRating={testimonial.starRating}
-          testimonial={testimonial.testimonial}
-          createdAt={testimonial.createdAt}
-        />
-      ))}
+    <div className=" flex justify-center">
+      <div className=" w-fit  grid sm:grid-cols-2 lg:grid-cols-3 p-5 md:p-10   gap-3  m-3">
+        <script
+          src="/node_modules/@iframe-resizer/child/index.umd.js"
+          type="text/javascript"
+          async
+        ></script>
+        {testimonials.map((testimonial) => (
+          <Testimonials
+            email={testimonial.email}
+            key={testimonial._id}
+            imgPath={testimonial.imgPath}
+            name={testimonial.name}
+            starRating={testimonial.starRating}
+            testimonial={testimonial.testimonial}
+            createdAt={testimonial.createdAt}
+            theme={theme}
+          />
+        ))}
+      </div>
     </div>
   );
 };

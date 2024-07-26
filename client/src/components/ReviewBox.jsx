@@ -24,7 +24,6 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
     setImgPreview(url);
   };
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       setIsFetching(true);
       if (ImgFile) {
@@ -41,7 +40,6 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
           "http://localhost:3000/api/testimonials/create",
           data
         );
-        console.log(response);
       }
       setImgPreview(null);
       reset();
@@ -56,7 +54,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
   return (
     <div
       className=" overflow-y-auto fixed top-0 bottom-0 left-0 right-0 flex flex-col "
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      style={{ backgroundColor: "#0000007f" }}
     >
       <div className="md:flex md:flex-col bg-white rounded-lg m-5 p-3 md:w-fit md:self-center">
         <button

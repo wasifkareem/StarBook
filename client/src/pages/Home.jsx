@@ -11,6 +11,8 @@ const Home = () => {
   const { email } = useSelector(
     (state) => state?.user?.currentUser?.userObject
   );
+  const { ReloadSpaces } = useSelector((state) => state?.info);
+
   const { token } = useSelector((state) => state?.user?.currentUser);
   const [cardData, setCardData] = useState(null);
   const handleClick = () => {
@@ -30,7 +32,7 @@ const Home = () => {
       setCardData(response.data);
     };
     getCards();
-  }, [toggle]);
+  }, [toggle, ReloadSpaces]);
 
   if (!cardData) {
     return <Loader />;
@@ -52,6 +54,13 @@ const Home = () => {
           </button>
         </div>
         <div className=" mt-12 md:flex md:flex-wrap gap-2 justify-start">
+          {cardData.length === 0 ? (
+            <p className=" text-slate-200 text-2xl md:text-4xl font-semibold text-center md:mt-28">
+              No spaces available. Create a new space, start collecting
+              testimonials and use our free embed to showcase them on your
+              website
+            </p>
+          ) : null}
           {cardData?.map((card) => (
             <SpaceCard
               spaceName={card.spaceName}
@@ -63,7 +72,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-      {toggle ? <AddSpace setToggle={setToggle} /> : null}
+      {toggle ? <AddSpace setToggle={setToggle} isEdit={false} /> : null}
     </>
   );
 };
