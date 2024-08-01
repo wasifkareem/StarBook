@@ -1,5 +1,7 @@
 const Space = require("../modals/Space");
 const verifyToken = require("../middleware/auth");
+const bycrypt = require("bcrypt");
+
 const router = require("express").Router();
 
 router.post("/create-space", verifyToken, async (req, res) => {
@@ -53,6 +55,7 @@ router.put("/update-space", verifyToken, async (req, res) => {
     console.error(err);
   }
 });
+
 router.get("/fetch-spaces", verifyToken, async (req, res) => {
   const email = req.query.email;
   try {

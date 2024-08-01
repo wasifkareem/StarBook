@@ -5,12 +5,18 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import ReviewBox from "../components/ReviewBox";
+import { toast } from "react-toastify";
 
 const ReviewPage = () => {
   const [spaceInfo, setSpaceInfo] = useState();
+  console.log(spaceInfo);
   const [toggle, setToggle] = useState(false);
   const location = useLocation();
   const spaceId = location.pathname.split("/")[1];
+  const { email } = useSelector(
+    (state) => state?.user?.currentUser?.userObject
+  );
+
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios(
@@ -27,6 +33,7 @@ const ReviewPage = () => {
   if (!spaceInfo) {
     return <Loader />;
   }
+
   return (
     <>
       {toggle ? (
@@ -63,12 +70,14 @@ const ReviewPage = () => {
             <li>{spaceInfo?.qThree}</li>
           </ul>
         </div>
-        <button
-          onClick={handleClick}
-          className=" w-4/5 md:w-80 mb-5 md:mb-14 bg-cyan-600 self-center py-3 mt-6 text-white font-semibold text-lg rounded"
-        >
-          Send Text
-        </button>
+        <div className=" flex gap-3 justify-center">
+          <button
+            onClick={handleClick}
+            className=" w-4/5 md:w-80 mb-5 md:mb-14 bg-cyan-600 self-center py-3 mt-6 text-white font-semibold text-lg rounded-sm"
+          >
+            Send Text
+          </button>
+        </div>
       </div>
     </>
   );

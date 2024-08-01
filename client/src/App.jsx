@@ -19,7 +19,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route
+          path="/home"
+          element={currentUser ? <Home /> : <Navigate to="/login" />}
+        />
         <Route
           path="/login"
           element={currentUser ? <Navigate to="/home" /> : <Login />}

@@ -2,6 +2,8 @@ const User = require("../modals/User");
 const bycrypt = require("bcrypt");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
+const verifyToken = require("../middleware/auth");
+const crypto = require("crypto");
 
 router.post("/register", async (req, res) => {
   const isEmailExist = await User.findOne({ email: req.body.email });
@@ -42,6 +44,33 @@ router.post("/login", async (req, res) => {
     res.status(200).json({ token, userObject });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.put("/add-keys", verifyToken, async (req, res) => {
+  const { keyId, keySecret, email } = req.body;
+  const key = Buffer.from(process.env.KEY_PASS, "hex");
+  const iv = Buffer.from(process.env.IV, "hex");
+  try {
+    const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+    let encryptedSec = cipher.update(keySecret, "utf8", "hex");
+    encryptedSec += cipher.final("hex");
+    let UpdatedUserInfo = await User.findOneAndUpdate(
+      { email: email },
+      {
+        keyId,
+        keySecret: encryptedSec,
+      }
+    );
+    if (!UpdatedUserInfo) {
+      res.status(400).json("space not found!");
+    }
+    UpdatedUserInfo = UpdatedUserInfo.toObject();
+    delete UpdatedUserInfo.keyId;
+    delete UpdatedUserInfo.keySecret;
+    res.status(200).json(UpdatedUserInfo);
+  } catch (err) {
+    console.log(err);
   }
 });
 module.exports = router;

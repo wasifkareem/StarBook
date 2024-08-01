@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import StarRatings from "react-star-ratings";
 import { toast } from "react-toastify";
 
@@ -8,10 +9,19 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [rating, setRating] = useState(5);
   const [ImgFile, setImgFile] = useState(null);
+  const [amount, setAmount] = useState();
+  const [isPaid, setIsPaid] = useState(false);
+  const [payDetails, setPayDetails] = useState(null);
+  console.log(payDetails);
+  const [selectedValue, setSelectedValue] = useState("");
   const [imgPreview, setImgPreview] = useState(null);
   const changeRating = (newRating) => {
     setRating(newRating);
   };
+  const { email } = useSelector(
+    (state) => state?.user?.currentUser?.userObject
+  );
+  const { isKey } = useSelector((state) => state?.pay);
   const {
     register,
     handleSubmit,
@@ -51,9 +61,49 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       alert(err);
     }
   };
+  const paymentHandler = async (e) => {
+    const API_URL = "http://localhost:3000/api/tip/";
+    e.preventDefault();
+    const orderUrl = `${API_URL}order?email=${email}&amount=${amount}&currency=${selectedValue}&label=tip_${spaceInfo?._id}`;
+    const response = await axios.get(orderUrl);
+    const { data } = response;
+    setPayDetails(data);
+    const options = {
+      key: payDetails.keyId,
+      name: spaceInfo.name,
+      image: spaceInfo.imgPath,
+      order_id: data.id,
+      handler: async (response) => {
+        try {
+          const url = `${API_URL}validate?email=${email}`;
+          const captureResponse = await axios.post(url, response);
+          console.log(captureResponse);
+          if (captureResponse.status == 201) {
+            setIsPaid(true);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      theme: {
+        color: "#53546b",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+    rzp1.open();
+  };
   return (
     <div
-      className=" overflow-y-auto fixed top-0 bottom-0 left-0 right-0 flex flex-col "
+      className="overflow-y-auto fixed top-0 bottom-0 left-0 right-0 flex flex-col "
       style={{ backgroundColor: "#0000007f" }}
     >
       <div className="md:flex md:flex-col bg-white rounded-lg m-5 p-3 md:w-fit md:self-center">
@@ -158,6 +208,44 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
             onChange={handleImage}
             accept=".jpg,.jpeg,.png"
           />
+          {isPaid && isKey ? (
+            <span className=" bg-green-500 px-4 py-2 rounded-3xl text-white text-center ">
+              Your Tip of {payDetails?.currency} {payDetails?.amount / 100} has
+              been recieved by the seller
+            </span>
+          ) : (
+            isKey && (
+              <div className=" bg-cyan-600 rounded-lg py-3 px-2">
+                <label className=" text-white">
+                  This seller is accepting tips, show them some love
+                </label>
+                <div className=" flex">
+                  <select
+                    value={selectedValue}
+                    onChange={(e) => setSelectedValue(e.target.value)}
+                    className=" rounded-l-sm outline-none bg-gray-300 border-r border-slate-500"
+                    name=""
+                    id=""
+                  >
+                    <option className="" value="INR">
+                      INR
+                    </option>
+                  </select>
+                  <input
+                    className="h-10 w-3/5  pl-3 bg-gray-300 outline-none "
+                    type="number"
+                    onChange={(e) => setAmount(e.target.value)}
+                  />
+                  <button
+                    onClick={paymentHandler}
+                    className="w=1/5 bg-green-500 text-white px-3 py-1"
+                  >
+                    Pay
+                  </button>
+                </div>
+              </div>
+            )
+          )}
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-3">
             <button

@@ -3,24 +3,64 @@ import Navbar from "../components/Navbar";
 import Testimonials from "../components/Testimonials";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Wall from "../components/Wall";
 import DashoardCard from "../components/DashoardCard";
 import EditSpace from "../components/EditSpace";
 import AddSpace from "../components/AddSpace";
+import Razorpaykeys from "../components/Razorpaykeys";
+import { SiRazorpay } from "react-icons/si";
+import { MdVpnKey } from "react-icons/md";
+import RPDash from "../components/RPDash";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [keyToggle, setKeyToggle] = useState(false);
   const location = useLocation();
   const { ReloadSpaceInfo } = useSelector((state) => state?.info);
   const spaceId = location.pathname.split("/")[2];
   const { token } = useSelector((state) => state?.user?.currentUser);
   const { ReloadCards } = useSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState(null);
+  const [isKeyCleared, setIsKeyCleared] = useState(true);
+  const { email } = useSelector(
+    (state) => state?.user?.currentUser?.userObject
+  );
+  const { isKey } = useSelector((state) => state?.pay);
+  console.log(isKey);
+  const [RPInfo, setRPInfo] = useState();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isKey) {
+      const getData = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/api/tip/fetch-payments?email=${email}&label=${spaceInfo?._id}`,
+            {
+              headers: {
+                token: `Bearer ${token}`,
+              },
+            }
+          );
+          setRPInfo(res.data); // Update state with successful response
+        } catch (error) {
+          if (error.response.status === 401) {
+            toast.error(
+              "Authentication failed, please check the keys and Re-enter!"
+            );
+          }
+        }
+      };
 
+      getData();
+    }
+
+    return () => {};
+  }, [email, isKey]);
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
@@ -73,7 +113,7 @@ const Dashboard = () => {
       ) : null}
       <Navbar />
       <hr />
-      <div className=" flex w-full justify-between py-4 px-5 ">
+      <div className=" flex flex-col md:flex-row w-full justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
           <img
             className=" hidden md:block w-20 object-cover rounded-lg h-20"
@@ -101,6 +141,20 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
+        {isKey ? (
+          <RPDash RPInfo={RPInfo} spaceInfo={spaceInfo} />
+        ) : (
+          <div className=" border border-slate-300 flex flex-col justify-center px-5 rounded text-slate-800">
+            <p> Add Razorpay keys to enable tip jar</p>
+            <button
+              onClick={() => setKeyToggle(true)}
+              className=" bg-blue-900 text-white font-semibold rounded self-end mt-2 px-2 py-1"
+            >
+              Enable
+            </button>
+          </div>
+        )}
+        {keyToggle ? <Razorpaykeys setKeyToggle={setKeyToggle} /> : null}
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
