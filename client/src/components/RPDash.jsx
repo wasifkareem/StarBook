@@ -25,7 +25,7 @@ const RPDash = ({ RPInfo, spaceInfo }) => {
   };
 
   return (
-    <div className=" border md:w-[430px] relative bg-blue-400 text-white px-6 py-3 rounded flex flex-col gap-2">
+    <div className=" shadow-blue-300 shadow-md  md:w-[430px] relative bg-blue-500 text-white px-6 py-3 rounded flex flex-col gap-2">
       <button
         onClick={deleteKeys}
         className="absolute right-0 top-0 bg-slate-800 text-sm rounded-sm px-2 py-1 m-1"
@@ -38,7 +38,10 @@ const RPDash = ({ RPInfo, spaceInfo }) => {
         since last 30 days
       </p>
 
-      <p className=" text-2xl">₹ {(RPInfo / 100).toFixed(2)}</p>
+      <p className=" text-2xl font-mono bg-blue-400 w-fit px-2 rounded-lg py-1">
+        <span className=" text-gray-600 font-semibold">₹</span>{" "}
+        {(RPInfo / 100).toFixed(2)}
+      </p>
     </div>
   );
 };

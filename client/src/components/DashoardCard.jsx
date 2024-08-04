@@ -7,7 +7,10 @@ import { ReloadCards } from "../redux/InfoRedux";
 import { MdDelete } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { IoMdHeart } from "react-icons/io";
+import { IoIosCheckbox, IoMdHeart } from "react-icons/io";
+import { RiMoneyRupeeCircleFill } from "react-icons/ri";
+import { Tooltip } from "react-tooltip";
+import { FaSquareCheck } from "react-icons/fa6";
 
 const DashoardCard = ({
   token,
@@ -15,6 +18,7 @@ const DashoardCard = ({
   WOF,
   email,
   imgPath,
+  tip,
   name,
   starRating,
   testimonial,
@@ -74,7 +78,7 @@ const DashoardCard = ({
     }
   };
   return (
-    <div className=" transition-all relative flex flex-col gap-2 border border-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
+    <div className=" transition-all relative flex flex-col gap-2 shadow border border-slate-200 shadow-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
       {overlay ? (
         <div className=" rounded-lg flex flex-col justify-center items-center absolute top-0 bottom-0 right-0 left-0 bg-white z-50 gap-7">
           <p className="  text-xl text-slate-600">
@@ -100,7 +104,23 @@ const DashoardCard = ({
       <div className=" flex justify-between">
         <div>
           <div className=" flex justify-between items-center">
-            <label className=" bg-teal-800 text-white text-sm font-semibold px-5 py-1 rounded-3xl">
+            <label className=" relative bg-teal-800 text-white text-sm font-semibold px-5 py-1 rounded-3xl">
+              {tip && (
+                <>
+                  <RiMoneyRupeeCircleFill
+                    data-tooltip-id="tip-tooltip"
+                    data-tooltip-content="This is a tipped review, the tip amount might take some time to get reflected in razorpay dashboard."
+                    className=" bg-slate-800 rounded-full text-yellow-500 text-xl z-1 absolute top-[-3px] left-[-4px]"
+                  />
+                  <Tooltip style={{ width: "180px" }} id="tip-tooltip" />
+                </>
+              )}
+              <FaSquareCheck
+                data-tooltip-id="tick-tip"
+                data-tooltip-content="The reviewer has given permission to share this review for marketing efforts"
+                className="absolute top-[-3px] right-[-4px] text-xl text-white bg-green-500  rounded"
+              />
+              <Tooltip id="tick-tip" style={{ width: "180px" }} />
               Text
             </label>
           </div>
@@ -116,21 +136,28 @@ const DashoardCard = ({
         <div>
           <div className=" flex flex-col gap-2 items-cente&WOF=falser justify-center">
             {WOF ? (
-              <button
-                title=""
-                className=" cursor-pointer"
-                onClick={removeFromWall}
-              >
-                <IoMdHeart className=" text-red-600 hover:text-red-500 transition-all text-3xl " />
-              </button>
+              <>
+                <button
+                  title=""
+                  className=" cursor-pointer"
+                  onClick={removeFromWall}
+                >
+                  <IoMdHeart className=" text-red-600 hover:text-red-500 transition-all text-3xl " />
+                </button>
+              </>
             ) : (
-              <button
-                title="Add to Wall of Fame"
-                className="  cursor-pointer"
-                onClick={addToWall}
-              >
-                <CiHeart className="text-3xl fill-slate-700" />
-              </button>
+              <>
+                <Tooltip style={{ width: "180px" }} id="WOF-tooltip" />
+
+                <button
+                  data-tooltip-content="Add to Wall of fame"
+                  data-tooltip-id="WOF-tooltip"
+                  className="  cursor-pointer"
+                  onClick={addToWall}
+                >
+                  <CiHeart className="text-3xl fill-slate-700" />
+                </button>
+              </>
             )}
             <button>
               <MdDelete
@@ -148,15 +175,19 @@ const DashoardCard = ({
           <p className=" font-semibold text-slate-800 text-sm">Name</p>
           <div className=" flex gap-2  items-center">
             <img className=" h-8 rounded-full w-8" src={imgPath} alt="" />
-            <p className=" text-sm text-slate-900">{name}</p>
+            <p className=" text-sm text-slate-900 first-letter:uppercase">
+              {name}
+            </p>
           </div>
         </div>
-        <div>
-          <p className=" font-semibold text-slate-800 text-sm">Title</p>
-          <div className=" flex items-center ">
-            <p className=" text-sm text-slate-900">Company Name</p>
+        {tip && (
+          <div>
+            <p className=" font-semibold text-slate-800 text-sm">Tip Amount</p>
+            <div className=" flex items-center ">
+              <p className=" text-sm text-slate-900">INR {tip / 100}</p>
+            </div>
           </div>
-        </div>
+        )}
         <div>
           <p className=" font-semibold text-slate-800 text-sm">Email</p>
           <div className=" flex gap-2  items-center">

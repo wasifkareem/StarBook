@@ -4,7 +4,7 @@ const Space = require("../modals/Space");
 const router = require("express").Router();
 
 router.post("/create", async (req, res) => {
-  const { imgPath, starRating, name, spaceId, email, WOF, testimonial } =
+  const { imgPath, starRating, name, spaceId, email, WOF, testimonial, tip } =
     req.body;
   try {
     let mySpace = await Space.findById({ _id: spaceId });
@@ -17,6 +17,7 @@ router.post("/create", async (req, res) => {
       spaceId,
       email,
       WOF,
+      tip,
     });
     const updatedSpace = await mySpace.save();
     res.status(200).json(updatedSpace);

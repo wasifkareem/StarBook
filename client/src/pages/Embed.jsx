@@ -36,6 +36,7 @@ const Embed = () => {
             testimonial={testimonial.testimonial}
             createdAt={testimonial.createdAt}
             theme={theme}
+            tip={testimonial.tip}
           />
         ))}
       </div>

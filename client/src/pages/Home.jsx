@@ -40,7 +40,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className=" mx-3 md:mx-28 mt-16">
+      <div className=" mx-3 md:mx-28 mt-16 bg-dotted-net">
         <div className=" flex justify-between items-center">
           <p className=" text-lg md:text-3xl font-semibold text-slate-800">
             Spaces

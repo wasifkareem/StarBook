@@ -28,7 +28,9 @@ const Razorpaykeys = ({ setKeyToggle }) => {
         }
       );
       if (res.status === 200) {
-        toast.success("Keys added successfully");
+        toast.success(
+          "Keys added successfully, This key will enable razorpay analytics for all the spaces"
+        );
         dispatch(isKeyAvailable(true));
         setKeyToggle(false);
       }
@@ -46,7 +48,7 @@ const Razorpaykeys = ({ setKeyToggle }) => {
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className=" flex flex-col gap-2 bg-white px-4 py-3 mt-10 md:mt-2 rounded text-slate-800">
+        <div className=" transition-all flex flex-col gap-2 bg-white px-4 py-3 mt-10 md:mt-2 rounded text-slate-800">
           <p className=" mb-4 bg-gray-200 px-2 py-2 ">
             Enable your Tip Collector by putting you Razorpay keys here
           </p>

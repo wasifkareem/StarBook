@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import Dashboard from "./pages/Dashboard";
 import ReviewPage from "./pages/ReviewPage";
 import Embed from "./pages/Embed";
+import "react-loading-skeleton/dist/skeleton.css";
+import "react-tooltip/dist/react-tooltip.css";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);

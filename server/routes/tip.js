@@ -77,10 +77,8 @@ router.post("/validate", async (req, res) => {
 router.get("/fetch-payments", verifyToken, async (req, res) => {
   const { email, label } = req.query;
   const today = new Date();
-
   const pastDate = new Date();
   pastDate.setDate(today.getDate() - 30);
-
   const pastTimestamp = pastDate.getTime();
   const key = Buffer.from(process.env.KEY_PASS, "hex");
   const iv = Buffer.from(process.env.IV, "hex");
@@ -107,7 +105,6 @@ router.get("/fetch-payments", verifyToken, async (req, res) => {
     });
 
     const payments = await instance.payments.all(options);
-
     let total = 0;
     const filteredItems = payments?.items.filter(
       (item) => item.notes.key1 == `tip_${label}`

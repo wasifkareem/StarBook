@@ -10,10 +10,10 @@ import DashoardCard from "../components/DashoardCard";
 import EditSpace from "../components/EditSpace";
 import AddSpace from "../components/AddSpace";
 import Razorpaykeys from "../components/Razorpaykeys";
-import { SiRazorpay } from "react-icons/si";
-import { MdVpnKey } from "react-icons/md";
 import RPDash from "../components/RPDash";
 import { toast } from "react-toastify";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
@@ -26,41 +26,12 @@ const Dashboard = () => {
   const { token } = useSelector((state) => state?.user?.currentUser);
   const { ReloadCards } = useSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState(null);
-  const [isKeyCleared, setIsKeyCleared] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const { email } = useSelector(
     (state) => state?.user?.currentUser?.userObject
   );
   const { isKey } = useSelector((state) => state?.pay);
-  console.log(isKey);
   const [RPInfo, setRPInfo] = useState();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (isKey) {
-      const getData = async () => {
-        try {
-          const res = await axios.get(
-            `http://localhost:3000/api/tip/fetch-payments?email=${email}&label=${spaceInfo?._id}`,
-            {
-              headers: {
-                token: `Bearer ${token}`,
-              },
-            }
-          );
-          setRPInfo(res.data); // Update state with successful response
-        } catch (error) {
-          if (error.response.status === 401) {
-            toast.error(
-              "Authentication failed, please check the keys and Re-enter!"
-            );
-          }
-        }
-      };
-
-      getData();
-    }
-
-    return () => {};
-  }, [email, isKey]);
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
@@ -76,6 +47,35 @@ const Dashboard = () => {
     };
     getSpace();
   }, [ReloadSpaceInfo]);
+
+  useEffect(() => {
+    if (isKey) {
+      const getData = async () => {
+        try {
+          setIsFetching(true);
+          const res = await axios.get(
+            `http://localhost:3000/api/tip/fetch-payments?email=${email}&label=${spaceId}`,
+            {
+              headers: {
+                token: `Bearer ${token}`,
+              },
+            }
+          );
+          setRPInfo(res.data);
+          setIsFetching(false);
+        } catch (error) {
+          if (error.response.status === 401) {
+            setIsFetching(false);
+            toast.error(
+              "Authentication failed, please check the keys and Re-enter!"
+            );
+          }
+        }
+      };
+
+      getData();
+    }
+  }, [email, isKey, spaceInfo]);
 
   useEffect(() => {
     const getTestimonials = async () => {
@@ -95,7 +95,7 @@ const Dashboard = () => {
   const publicTestimonials = testimonials?.filter(
     (testimonial) => testimonial.WOF === true
   );
-  if (!spaceInfo || !testimonials) {
+  if (!spaceInfo) {
     return <Loader />;
   }
 
@@ -113,7 +113,7 @@ const Dashboard = () => {
       ) : null}
       <Navbar />
       <hr />
-      <div className=" flex flex-col md:flex-row w-full justify-between py-4 px-5 ">
+      <div className=" flex flex-col md:flex-row w-full md:h-40 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
           <img
             className=" hidden md:block w-20 object-cover rounded-lg h-20"
@@ -126,7 +126,7 @@ const Dashboard = () => {
             <h1 className=" text-4xl font-semibold text-slate-800 font-sans ">
               {spaceInfo?.spaceName}
             </h1>
-            <p className=" text-slate-500">
+            <p className=" text-slate-500 md:mt-1">
               Space public url :
               <Link
                 style={{ overflowWrap: "anywhere" }}
@@ -142,13 +142,23 @@ const Dashboard = () => {
           </div>
         </div>
         {isKey ? (
-          <RPDash RPInfo={RPInfo} spaceInfo={spaceInfo} />
+          isFetching ? (
+            <div className=" border md:w-[430px] border-slate-200 text-white px-6 py-3 rounded">
+              <Skeleton count={2} className=" w-5/6 h-6 " />
+              <Skeleton count={1} className=" w-2/6 h-8 " />
+            </div>
+          ) : (
+            <RPDash RPInfo={RPInfo} spaceInfo={spaceInfo} />
+          )
         ) : (
-          <div className=" border border-slate-300 flex flex-col justify-center px-5 rounded text-slate-800">
-            <p> Add Razorpay keys to enable tip jar</p>
+          <div className=" md:w-[430px] border border-slate-300 flex flex-col  justify-between px-3 py-6 rounded text-slate-800">
+            <p className=" text-center text font-mono">
+              {" "}
+              Add Razorpay keys to enable tip jar
+            </p>
             <button
               onClick={() => setKeyToggle(true)}
-              className=" bg-blue-900 text-white font-semibold rounded self-end mt-2 px-2 py-1"
+              className=" font-mono w-3/5 self-center bg-blue-900 text-white font-semibold rounded   px-2 py-2"
             >
               Enable
             </button>
@@ -190,6 +200,31 @@ const Dashboard = () => {
               No Testimonials! Send the public URL to your best customers and
               ask them for feedback.{" "}
             </p>
+          ) : !testimonials ? (
+            <>
+              <div className=" transition-all relative flex flex-col gap-2 border border-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
+                <Skeleton className=" w-16 h-6 rounded-xl" />
+                <Skeleton wrapper={starWrapper} count={5} className=" h-full" />
+                <Skeleton count={2} className=" w-4/5 h-6 " />
+                <div className="grid grid-cols-2 gap-3 w-4/5 mt-4">
+                  <Skeleton className=" h-7 " />
+                  <Skeleton className=" h-7 " />
+                  <Skeleton className=" h-7 " />
+                  <Skeleton className=" h-7 " />
+                </div>
+              </div>
+              <div className=" transition-all relative flex flex-col gap-2 border border-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
+                <Skeleton className=" w-16 h-6 rounded-xl" />
+                <Skeleton wrapper={starWrapper} count={5} className=" h-full" />
+                <Skeleton count={2} className=" w-4/5 h-6 " />
+                <div className="grid grid-cols-2 gap-3 w-4/5 mt-4">
+                  <Skeleton className=" h-7 " />
+                  <Skeleton className=" h-7 " />
+                  <Skeleton className=" h-7 " />
+                  <Skeleton className=" h-7 " />
+                </div>
+              </div>
+            </>
           ) : (
             <div className=" transition-all flex flex-col gap-3">
               {testimonials?.map((testimonial) => (
@@ -205,6 +240,7 @@ const Dashboard = () => {
                   testimonial={testimonial.testimonial}
                   createdAt={testimonial.createdAt}
                   WOF={testimonial.WOF}
+                  tip={testimonial.tip}
                 />
               ))}
             </div>
@@ -214,5 +250,19 @@ const Dashboard = () => {
     </>
   );
 };
-
+const starWrapper = ({ children }) => {
+  return (
+    <div
+      style={{
+        display: "inline-block",
+        clipPath:
+          "polygon(50% 4%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+        width: "32px",
+        height: "32px",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 export default Dashboard;

@@ -9,6 +9,7 @@ const testimonialSchema = new mongoose.Schema(
     spaceId: { type: String, required: true },
     email: { type: String, required: true },
     WOF: { type: Boolean, default: false },
+    tip: { type: Number, default: null },
   },
   { timestamps: true }
 );

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaCheck } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import StarRatings from "react-star-ratings";
 import { toast } from "react-toastify";
@@ -15,6 +16,8 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
   console.log(payDetails);
   const [selectedValue, setSelectedValue] = useState("");
   const [imgPreview, setImgPreview] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
+
   const changeRating = (newRating) => {
     setRating(newRating);
   };
@@ -35,22 +38,32 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
   };
   const onSubmit = async (data) => {
     try {
-      setIsFetching(true);
-      if (ImgFile) {
-        const imgFile = new FormData();
-        imgFile.append("my_file", ImgFile);
-        const assetInfo = await axios.post(
-          "http://localhost:3000/upload",
-          imgFile
-        );
-        data.imgPath = assetInfo.data.url;
-        data.spaceId = spaceInfo?._id;
-        data.starRating = rating;
-        const response = await axios.post(
-          "http://localhost:3000/api/testimonials/create",
-          data
-        );
+      if (!ImgFile) {
+        toast.warning("Please upload a photo of yours");
+        return;
       }
+      if (!isChecked) {
+        toast.warning(
+          "Please give permission to share your testimonials on our socials!"
+        );
+        return;
+      }
+
+      setIsFetching(true);
+      const imgFile = new FormData();
+      imgFile.append("my_file", ImgFile);
+      const assetInfo = await axios.post(
+        "http://localhost:3000/upload",
+        imgFile
+      );
+      data.imgPath = assetInfo.data.url;
+      data.spaceId = spaceInfo?._id;
+      data.starRating = rating;
+      data.tip = payDetails?.amount;
+      const response = await axios.post(
+        "http://localhost:3000/api/testimonials/create",
+        data
+      );
       setImgPreview(null);
       reset();
       setIsFetching(false);
@@ -58,7 +71,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       toast.success("Thanks for the shoutout, it means a lot to Us!🤗");
     } catch (err) {
       setIsFetching(false);
-      alert(err);
+      toast.error("Something went wrong at our end! try again later.");
     }
   };
   const paymentHandler = async (e) => {
@@ -69,7 +82,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
     const { data } = response;
     setPayDetails(data);
     const options = {
-      key: payDetails.keyId,
+      key: data.keyId,
       name: spaceInfo.name,
       image: spaceInfo.imgPath,
       order_id: data.id,
@@ -161,7 +174,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
           <label className=" text-slate-500">Your Name</label>
           <input
             placeholder="Name"
-            className="h-14  focus:outline-blue-600  border pl-3 border-slate-400 rounded"
+            className="h-10 focus:outline-blue-600  border pl-3 border-slate-400 "
             {...register("name", {
               required: true,
             })}
@@ -173,7 +186,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
           <input
             type="email"
             placeholder="Email"
-            className="h-14  focus:outline-blue-600  border pl-3 border-slate-400 rounded"
+            className="h-10  focus:outline-blue-600  border pl-3 border-slate-400 "
             {...register("email", {
               required: true,
             })}
@@ -215,30 +228,32 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
             </span>
           ) : (
             isKey && (
-              <div className=" bg-cyan-600 rounded-lg py-3 px-2">
-                <label className=" text-white">
-                  This seller is accepting tips, show them some love
+              <div className=" bg-blue-700 rounded py-3 px-2 mt-4">
+                <label className=" text-white font-mono text-sm">
+                  This seller is accepting tips, show them some love(Optional)*
                 </label>
-                <div className=" flex">
-                  <select
-                    value={selectedValue}
-                    onChange={(e) => setSelectedValue(e.target.value)}
-                    className=" rounded-l-sm outline-none bg-gray-300 border-r border-slate-500"
-                    name=""
-                    id=""
-                  >
-                    <option className="" value="INR">
-                      INR
-                    </option>
-                  </select>
-                  <input
-                    className="h-10 w-3/5  pl-3 bg-gray-300 outline-none "
-                    type="number"
-                    onChange={(e) => setAmount(e.target.value)}
-                  />
+                <div className=" flex gap-3 mt-3">
+                  <div className=" flex w-44 shadow shadow-slate-800">
+                    <select
+                      value={selectedValue}
+                      onChange={(e) => setSelectedValue(e.target.value)}
+                      className=" rounded-l-sm outline-none bg-gray-800 text-gray-300 text-sm font-semibold border-r border-slate-500"
+                      name=""
+                      id=""
+                    >
+                      <option className="" value="INR">
+                        INR
+                      </option>
+                    </select>
+                    <input
+                      className="h-10 w-fit overflow-hidden  rounded-r-sm  pl-3 bg-gray-800 text-white outline-none "
+                      type="number"
+                      onChange={(e) => setAmount(e.target.value)}
+                    />
+                  </div>
                   <button
                     onClick={paymentHandler}
-                    className="w=1/5 bg-green-500 text-white px-3 py-1"
+                    className="  bg-white rounded  shadow shadow-white border-slate-700 text-slate-800 font-semibold px-3 py-1"
                   >
                     Pay
                   </button>
@@ -246,6 +261,13 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
               </div>
             )
           )}
+          <div className=" flex gap-2 mt-3 ">
+            <Checkbox
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
+              label="I give permission to use this testimonial across social channels and other marketing efforts"
+            />
+          </div>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-3">
             <button
@@ -274,5 +296,28 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
     </div>
   );
 };
+function Checkbox({ label, isChecked, setIsChecked }) {
+  const handleChange = () => {
+    setIsChecked(!isChecked);
+  };
 
+  return (
+    <label className="flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        checked={isChecked}
+        onChange={handleChange}
+        className="hidden"
+      />
+      <div
+        className={`w-6 p-1 h-6 border-2 flex justify-center self-start items-center border-blue-400 rounded-md ${
+          isChecked ? "bg-blue-500" : "bg-gray-200"
+        }`}
+      >
+        <FaCheck className="text-white" />
+      </div>
+      <span className="ml-2 text-slate-700">{label}</span>
+    </label>
+  );
+}
 export default ReviewBox;
