@@ -56,7 +56,7 @@ router.put("/update-space", verifyToken, async (req, res) => {
   }
 });
 
-router.get("/fetch-spaces", verifyToken, async (req, res) => {
+router.get("/fetch-spaces", async (req, res) => {
   const email = req.query.email;
   try {
     let spaces = await Space.find({ ownerEmail: email });
