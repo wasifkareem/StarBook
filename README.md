@@ -1,5 +1,6 @@
 # StarBook
-
+  Collecting testimonials is tough, StarBook is all-In-One solution for collecting testimonials and you can embed the testimonials directly on your website.
+  
 ## Creating Spaces
    Admin have to create a space and along with that a dedicated public page will be created that has to be send to customers/users for collecting testimonials.
    
