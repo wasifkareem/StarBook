@@ -9,10 +9,12 @@
   ### 2) Public page
    ![Screenshot from 2024-08-19 17-52-33](https://github.com/user-attachments/assets/0bf4e7c5-6129-4fa1-a6d1-7d4eee02d8ce)
 
+
     
 ## Dashboard
   All the collected testimonials will appear on the dashboard along with the tips that are collected in razorpay account(if you have attached one).
-![Screenshot from 2024-08-19 17-41-15](https://github.com/user-attachments/assets/998680e3-399e-4ca2-8a69-d13aaac8fe64)
+   ![Screenshot from 2024-08-19 17-57-42](https://github.com/user-attachments/assets/358fca08-a704-4608-9f7b-30ba8e1c7b76)
+
 
 ## Embed page
    User can copy the embed code and put it in any website to showcase the selected testimonials
