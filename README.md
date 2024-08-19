@@ -18,5 +18,5 @@
 
 
 ## Embed page
-   User can copy the embed code and put it in any website to showcase the selected testimonials
+   User can copy the embed code and paste it in any website to showcase the selected testimonials.(StarBook support almost every framework and even no-code tools)
 ![Screenshot from 2024-08-19 17-41-27](https://github.com/user-attachments/assets/ca56ec6b-6080-4a2b-a62c-0b376f41f16d)
