@@ -7,7 +7,7 @@
    ![Screenshot from 2024-08-19 17-46-46](https://github.com/user-attachments/assets/c2533fd1-9bbf-4233-8f39-74793ef7616e)
 
   ### 2) Public page
-    ![Screenshot from 2024-08-19 17-52-33](https://github.com/user-attachments/assets/0bf4e7c5-6129-4fa1-a6d1-7d4eee02d8ce)
+   ![Screenshot from 2024-08-19 17-52-33](https://github.com/user-attachments/assets/0bf4e7c5-6129-4fa1-a6d1-7d4eee02d8ce)
 
     
 ## Dashboard
