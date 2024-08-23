@@ -12,10 +12,7 @@ const ReviewPage = () => {
   console.log(spaceInfo);
   const [toggle, setToggle] = useState(false);
   const location = useLocation();
-  const spaceId = location.pathname.split("/")[1];
-  const { email } = useSelector(
-    (state) => state?.user?.currentUser?.userObject
-  );
+  const spaceId = location.pathname.split("/")[2];
 
   useEffect(() => {
     const getSpace = async () => {

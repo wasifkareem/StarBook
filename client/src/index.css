@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cl-internal-1j7ahlv {
+  width: 40px;
+  height: 40px;
+}
+.cl-internal-wd8woj {
+  border-radius: 4px;
+  border: none;
+}

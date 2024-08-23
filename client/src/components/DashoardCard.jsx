@@ -35,12 +35,7 @@ const DashoardCard = ({
   const addToWall = async () => {
     const res = await axios.put(
       `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
-      {},
-      {
-        headers: {
-          token: `Bearer ${token}`,
-        },
-      }
+      {}
     );
     if (res.status == 200) {
       dispatch(ReloadCards());
@@ -50,12 +45,7 @@ const DashoardCard = ({
   const removeFromWall = async () => {
     const res = await axios.put(
       `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
-      {},
-      {
-        headers: {
-          token: `Bearer ${token}`,
-        },
-      }
+      {}
     );
     if (res.status == 200) {
       dispatch(ReloadCards());
@@ -169,7 +159,7 @@ const DashoardCard = ({
         </div>
       </div>
 
-      <div className=" text-slate-900">{testimonial}</div>
+      <div className=" text-slate-900 max-w-[720px]">{testimonial}</div>
       <div className=" grid grid-cols-2 gap-3 mt-3">
         <div>
           <p className=" font-semibold text-slate-800 text-sm">Name</p>

@@ -3,20 +3,24 @@ const User = require("../modals/User");
 const crypto = require("crypto");
 const verifyToken = require("../middleware/auth");
 const router = require("express").Router();
+const { createClerkClient } = require("@clerk/clerk-sdk-node");
+const clerkClient = createClerkClient({
+  secretKey: process.env.CLERK_SECRET_KEY,
+});
 
 router.get("/order", async (req, res) => {
-  const { currency, amount, label } = req.query;
-  const user = await User.findOne({ email: req.query.email });
-  const key = Buffer.from(process.env.KEY_PASS, "hex");
-  const iv = Buffer.from(process.env.IV, "hex");
+  const { currency, amount, label, userId } = req.query;
+
+  const user = await clerkClient.users.getUser(userId);
+
+  if (!user.privateMetadata) {
+    res.status(200).json("Keys not found!");
+  }
 
   try {
-    const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
-    let decryptedSec = decipher.update(user.keySecret, "hex", "utf8");
-    decryptedSec += decipher.final("utf8");
     let instance = new Razorpay({
-      key_id: user.keyId,
-      key_secret: decryptedSec,
+      key_id: user?.privateMetadata?.keyId,
+      key_secret: user?.privateMetadata?.keySecret,
     });
 
     const options = {
@@ -47,17 +51,17 @@ router.get("/order", async (req, res) => {
 });
 
 router.post("/validate", async (req, res) => {
-  const { email } = req.query;
+  const { userId } = req.query;
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
-  const user = await User.findOne({ email });
-  const key = Buffer.from(process.env.KEY_PASS, "hex");
-  const iv = Buffer.from(process.env.IV, "hex");
-  const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
-  let decryptedSec = decipher.update(user.keySecret, "hex", "utf8");
-  decryptedSec += decipher.final("utf8");
+  const user = await clerkClient.users.getUser(userId);
+
+  if (!user.privateMetadata) {
+    res.status(200).json("Keys not found!");
+  }
+
   const generatedSignature = crypto
-    .createHmac("sha256", decryptedSec)
+    .createHmac("sha256", user?.privateMetadata?.keySecret)
     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest("hex");
   // console.log(generatedSignature, razorpay_signature);
@@ -74,14 +78,12 @@ router.post("/validate", async (req, res) => {
   });
 });
 
-router.get("/fetch-payments", verifyToken, async (req, res) => {
-  const { email, label } = req.query;
+router.get("/fetch-payments", async (req, res) => {
+  const { userId, label } = req.query;
   const today = new Date();
   const pastDate = new Date();
   pastDate.setDate(today.getDate() - 30);
   const pastTimestamp = pastDate.getTime();
-  const key = Buffer.from(process.env.KEY_PASS, "hex");
-  const iv = Buffer.from(process.env.IV, "hex");
 
   try {
     const options = {
@@ -89,19 +91,14 @@ router.get("/fetch-payments", verifyToken, async (req, res) => {
       from: Math.floor(pastDate.getTime() / 1000),
       to: Math.floor(today.getTime() / 1000),
     };
-    const user = await User.findOne({ email });
-    const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
-    let decryptedSec = decipher.update(user.keySecret, "hex", "utf8");
-    decryptedSec += decipher.final("utf8");
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    if (!user.keyId || !decryptedSec) {
-      return res.status(404).json("keys not found");
+    const user = await clerkClient.users.getUser(userId);
+
+    if (!user.privateMetadata) {
+      res.status(200).json("Keys not found!");
     }
     const instance = new Razorpay({
-      key_id: user.keyId,
-      key_secret: decryptedSec,
+      key_id: user.privateMetadata?.keyId,
+      key_secret: user.privateMetadata?.keySecret,
     });
 
     const payments = await instance.payments.all(options);
@@ -117,17 +114,16 @@ router.get("/fetch-payments", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/delete-keys", verifyToken, async (req, res) => {
-  const { email } = req.query;
+router.put("/delete-keys", async (req, res) => {
+  const { userId } = req.query;
   try {
-    const updatedUser = await User.findOneAndUpdate(
-      { email: email },
-      {
+    const updatedUser = await clerkClient.users.updateUserMetadata(userId, {
+      privateMetadata: {
         keyId: null,
         keySecret: null,
       },
-      { new: true }
-    );
+    });
+
     res.status(200).json(updatedUser);
   } catch (err) {
     res.status(400).json(err);

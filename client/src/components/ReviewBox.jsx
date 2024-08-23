@@ -1,3 +1,4 @@
+import { useAuth, useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,13 +18,10 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
   const [selectedValue, setSelectedValue] = useState("");
   const [imgPreview, setImgPreview] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
-
+  const { userId } = useAuth();
   const changeRating = (newRating) => {
     setRating(newRating);
   };
-  const { email } = useSelector(
-    (state) => state?.user?.currentUser?.userObject
-  );
   const { isKey } = useSelector((state) => state?.pay);
   const {
     register,
@@ -77,7 +75,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
   const paymentHandler = async (e) => {
     const API_URL = "http://localhost:3000/api/tip/";
     e.preventDefault();
-    const orderUrl = `${API_URL}order?email=${email}&amount=${amount}&currency=${selectedValue}&label=tip_${spaceInfo?._id}`;
+    const orderUrl = `${API_URL}order?userId=${userId}&amount=${amount}&currency=${selectedValue}&label=tip_${spaceInfo?._id}`;
     const response = await axios.get(orderUrl);
     const { data } = response;
     setPayDetails(data);
@@ -88,7 +86,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       order_id: data.id,
       handler: async (response) => {
         try {
-          const url = `${API_URL}validate?email=${email}`;
+          const url = `${API_URL}validate?userId=${userId}`;
           const captureResponse = await axios.post(url, response);
           console.log(captureResponse);
           if (captureResponse.status == 201) {

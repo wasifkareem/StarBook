@@ -5,15 +5,13 @@ import SpaceCard from "../components/SpaceCard";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Loader from "../components/Loader";
+import { useUser } from "@clerk/clerk-react";
 
 const Home = () => {
   const [toggle, setToggle] = useState(false);
-  const { email } = useSelector(
-    (state) => state?.user?.currentUser?.userObject
-  );
+  const { user } = useUser();
   const { ReloadSpaces } = useSelector((state) => state?.info);
 
-  const { token } = useSelector((state) => state?.user?.currentUser);
   const [cardData, setCardData] = useState(null);
   const handleClick = () => {
     setToggle(true);
@@ -22,12 +20,7 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `http://localhost:3000/api/space/fetch-spaces?email=${email}`,
-        {
-          headers: {
-            token: `Bearer ${token}`,
-          },
-        }
+        `http://localhost:3000/api/space/fetch-spaces?email=${user?.primaryEmailAddress.emailAddress}`
       );
       setCardData(response.data);
     };
@@ -39,7 +32,6 @@ const Home = () => {
   }
   return (
     <>
-      <Navbar />
       <div className=" mx-3 md:mx-28 mt-16 bg-dotted-net">
         <div className=" flex justify-between items-center">
           <p className=" text-lg md:text-3xl font-semibold text-slate-800">

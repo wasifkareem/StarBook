@@ -1,16 +1,47 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import "./index.css";
-import { Provider } from "react-redux";
-import { persistor, store } from "./redux/store.js";
-import { PersistGate } from "redux-persist/integration/react";
-import { ToastContainer } from "react-toastify";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+// Import the layouts
+import RootLayout from "./layout/root-layout";
+import AppLayout from "./layout/app-layout";
+import LandingPage from "./pages/LandingPage";
+
+//Pages
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import Embed from "./pages/Embed";
+import ReviewPage from "./pages/ReviewPage";
+import SignInPage from "./pages/Login";
+import Billing from "./pages/Billing";
+import SignUpPage from "./pages/Signup";
+
+const router = createBrowserRouter([
+  {
+    element: <RootLayout />,
+    children: [
+      { path: "/", element: <LandingPage /> },
+      { path: "/sign-in/*", element: <SignInPage /> },
+      { path: "/sign-up/*", element: <SignUpPage /> },
+      { path: "/public/:id", element: <ReviewPage /> },
+      { path: "/embed/:id", element: <Embed /> },
+
+      {
+        element: <AppLayout />,
+        path: "app",
+        children: [
+          { path: "/app", element: <Home /> },
+          { path: "/app/products/:id", element: <Dashboard /> },
+          { path: "/app/billing", element: <Billing /> },
+        ],
+      },
+    ],
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-      <ToastContainer />
-    </PersistGate>
-  </Provider>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );

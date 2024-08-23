@@ -14,39 +14,34 @@ import RPDash from "../components/RPDash";
 import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import Switch from "react-switch";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [checked, setChecked] = useState(false);
   const [keyToggle, setKeyToggle] = useState(false);
   const location = useLocation();
   const { ReloadSpaceInfo } = useSelector((state) => state?.info);
-  const spaceId = location.pathname.split("/")[2];
-  const { token } = useSelector((state) => state?.user?.currentUser);
+  const spaceId = location.pathname.split("/")[3];
   const { ReloadCards } = useSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const { email } = useSelector(
-    (state) => state?.user?.currentUser?.userObject
-  );
+  const { userId } = useAuth();
   const { isKey } = useSelector((state) => state?.pay);
   const [RPInfo, setRPInfo] = useState();
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/space/fetch-space?spaceId=${spaceId}`,
-
-        {
-          headers: {
-            token: `Bearer ${token}`,
-          },
-        }
+        `http://localhost:3000/api/space/fetch-space?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
+      setTestimonials(res.data.testimonials);
     };
     getSpace();
-  }, [ReloadSpaceInfo]);
+  }, [ReloadSpaceInfo, ReloadCards]);
 
   useEffect(() => {
     if (isKey) {
@@ -54,12 +49,7 @@ const Dashboard = () => {
         try {
           setIsFetching(true);
           const res = await axios.get(
-            `http://localhost:3000/api/tip/fetch-payments?email=${email}&label=${spaceId}`,
-            {
-              headers: {
-                token: `Bearer ${token}`,
-              },
-            }
+            `http://localhost:3000/api/tip/fetch-payments?userId=${userId}&label=${spaceId}`
           );
           setRPInfo(res.data);
           setIsFetching(false);
@@ -75,22 +65,11 @@ const Dashboard = () => {
 
       getData();
     }
-  }, [email, isKey, spaceInfo]);
+  }, [userId, isKey, spaceInfo]);
 
-  useEffect(() => {
-    const getTestimonials = async () => {
-      const res = await axios.get(
-        `http://localhost:3000/api/testimonials/fetch-all?spaceId=${spaceId}`,
-        {
-          headers: {
-            token: `Bearer ${token}`,
-          },
-        }
-      );
-      setTestimonials(res?.data);
-    };
-    getTestimonials();
-  }, [ReloadCards]);
+  const handleChange = (nextChecked) => {
+    setChecked(nextChecked);
+  };
 
   const publicTestimonials = testimonials?.filter(
     (testimonial) => testimonial.WOF === true
@@ -111,7 +90,6 @@ const Dashboard = () => {
           setWallPageToggle={setWallPageToggle}
         />
       ) : null}
-      <Navbar />
       <hr />
       <div className=" flex flex-col md:flex-row w-full md:h-40 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
@@ -133,7 +111,7 @@ const Dashboard = () => {
                 className=" underline"
                 target="_blank"
                 rel="noopener noreferrer"
-                to={`/${spaceInfo?._id}`}
+                to={`/public/${spaceInfo?._id}`}
               >
                 {" "}
                 {window.location.origin}/{spaceInfo?._id}
@@ -156,15 +134,13 @@ const Dashboard = () => {
               {" "}
               Add Razorpay keys to enable tip jar
             </p>
-            <button
-              onClick={() => setKeyToggle(true)}
-              className=" font-mono w-3/5 self-center bg-blue-900 text-white font-semibold rounded   px-2 py-2"
-            >
-              Enable
-            </button>
+            <Switch
+              className=" self-center"
+              onChange={handleChange}
+              checked={checked}
+            />
           </div>
         )}
-        {keyToggle ? <Razorpaykeys setKeyToggle={setKeyToggle} /> : null}
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
@@ -227,9 +203,8 @@ const Dashboard = () => {
             </>
           ) : (
             <div className=" transition-all flex flex-col gap-3">
-              {testimonials?.map((testimonial) => (
+              {testimonials?.toReversed().map((testimonial) => (
                 <DashoardCard
-                  token={token}
                   spaceId={spaceId}
                   email={testimonial.email}
                   key={testimonial._id}

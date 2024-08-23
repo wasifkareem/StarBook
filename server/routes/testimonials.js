@@ -26,7 +26,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.get("/fetch-all", verifyToken, async (req, res) => {
+router.get("/fetch-all", async (req, res) => {
   const { spaceId } = req.query;
   try {
     const mySpace = await Space.findById(spaceId);
@@ -38,7 +38,7 @@ router.get("/fetch-all", verifyToken, async (req, res) => {
   }
 });
 
-router.delete("/delete", verifyToken, async (req, res) => {
+router.delete("/delete", async (req, res) => {
   const { spaceId, testimonialId } = req.query;
   try {
     const deleteTestimonial = await Space.updateOne(

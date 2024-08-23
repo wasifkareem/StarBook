@@ -20,7 +20,7 @@ const SpaceCard = ({ imgPath, spaceName, spaceId, testimonials }) => {
           setToggle={setToggle}
         />
       ) : null}
-      <Link to={`/products/${spaceId}`}>
+      <Link to={`/app/products/${spaceId}`}>
         <div className=" border relative border-slate-300 text-slate-800 md:w-[350px]  cursor-pointer rounded-md flex gap-3  overflow-hidden">
           <button
             onClick={(e) => handleDel(e)}

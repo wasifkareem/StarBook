@@ -4,6 +4,11 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middleware/auth");
 const crypto = require("crypto");
+const { createClerkClient } = require("@clerk/clerk-sdk-node");
+require("dotenv").config();
+const clerkClient = createClerkClient({
+  secretKey: process.env.CLERK_SECRET_KEY,
+});
 
 router.post("/register", async (req, res) => {
   const isEmailExist = await User.findOne({ email: req.body.email });
@@ -47,30 +52,18 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.put("/add-keys", verifyToken, async (req, res) => {
-  const { keyId, keySecret, email } = req.body;
-  const key = Buffer.from(process.env.KEY_PASS, "hex");
-  const iv = Buffer.from(process.env.IV, "hex");
+router.put("/add-keys", async (req, res) => {
+  const { keyId, keySecret, userId } = req.body;
   try {
-    const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
-    let encryptedSec = cipher.update(keySecret, "utf8", "hex");
-    encryptedSec += cipher.final("hex");
-    let UpdatedUserInfo = await User.findOneAndUpdate(
-      { email: email },
-      {
-        keyId,
-        keySecret: encryptedSec,
-      }
-    );
-    if (!UpdatedUserInfo) {
-      res.status(400).json("space not found!");
-    }
-    UpdatedUserInfo = UpdatedUserInfo.toObject();
-    delete UpdatedUserInfo.keyId;
-    delete UpdatedUserInfo.keySecret;
-    res.status(200).json(UpdatedUserInfo);
+    const updatedUser = await clerkClient.users.updateUserMetadata(userId, {
+      privateMetadata: {
+        keyId: keyId,
+        keySecret: keySecret,
+      },
+    });
+    res.status(200).json(updatedUser);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 });
 module.exports = router;

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { ReloadSpaceInfo } from "../redux/InfoRedux";
+import { useUser } from "@clerk/clerk-react";
 
 const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
   const dispatch = useDispatch();
@@ -21,10 +22,8 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
   const [imgPreview, setImgPreview] = useState(
     isEdit ? spaceInfo?.imgPath : null
   );
-  const { token } = useSelector((state) => state?.user?.currentUser);
-  const { email } = useSelector(
-    (state) => state?.user?.currentUser?.userObject
-  );
+  const { user } = useUser();
+  const { emailAddress } = user.primaryEmailAddress;
   const {
     register,
     handleSubmit,
@@ -53,7 +52,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
   const onSubmit = async (data) => {
     try {
       setIsFetching(true);
-      if (email) {
+      if (emailAddress) {
         if (ImgFile) {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
@@ -63,16 +62,11 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
           );
           data.imgPath = assetInfo.data.url;
         }
-        data.ownerEmail = email;
+        data.ownerEmail = emailAddress;
         if (isEdit === true) {
           const response = await axios.put(
             `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo._id}`,
-            data,
-            {
-              headers: {
-                token: `Bearer ${token}`,
-              },
-            }
+            data
           );
           if (response.status == 200) {
             dispatch(ReloadSpaceInfo());
@@ -84,12 +78,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
         } else {
           const response = await axios.post(
             "http://localhost:3000/api/space/create-space",
-            data,
-            {
-              headers: {
-                token: `Bearer ${token}`,
-              },
-            }
+            data
           );
           if (response.status == 200) {
             reset();

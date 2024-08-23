@@ -13,7 +13,7 @@ router.get("/fetch-wall", async (req, res) => {
   }
 });
 
-router.put("/update-wall", verifyToken, async (req, res) => {
+router.put("/update-wall", async (req, res) => {
   const { spaceId, testimonialId, WOF } = req.query;
   const isActiveBoolean = WOF === "true";
   try {

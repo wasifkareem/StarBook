@@ -4,7 +4,7 @@ const bycrypt = require("bcrypt");
 
 const router = require("express").Router();
 
-router.post("/create-space", verifyToken, async (req, res) => {
+router.post("/create-space", async (req, res) => {
   const newSpace = new Space({
     ownerEmail: req.body.ownerEmail,
     spaceName: req.body.spaceName,
@@ -23,7 +23,7 @@ router.post("/create-space", verifyToken, async (req, res) => {
   }
 });
 
-router.delete("/delete-space", verifyToken, async (req, res) => {
+router.delete("/delete-space", async (req, res) => {
   const { spaceId } = req.query;
   try {
     const spaceStatus = await Space.findByIdAndDelete(spaceId);
@@ -34,7 +34,7 @@ router.delete("/delete-space", verifyToken, async (req, res) => {
     console.error(err);
   }
 });
-router.put("/update-space", verifyToken, async (req, res) => {
+router.put("/update-space", async (req, res) => {
   const { spaceId } = req.query;
   try {
     const updatedSpace = await Space.findByIdAndUpdate(spaceId, {
@@ -65,7 +65,7 @@ router.get("/fetch-spaces", async (req, res) => {
     console.error(err);
   }
 });
-router.get("/fetch-space", verifyToken, async (req, res) => {
+router.get("/fetch-space", async (req, res) => {
   const spaceId = req.query.spaceId;
   try {
     let spaces = await Space.findById({ _id: spaceId });
