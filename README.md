@@ -23,7 +23,9 @@ Admin have to create a space and along with that a dedicated public page will be
 ## Dashboard
 
 All the collected testimonials will appear on the dashboard along with the tips that are collected in razorpay account(if you have attached one).
-![Screenshot from 2024-08-19 17-57-42](https://github.com/user-attachments/assets/358fca08-a704-4608-9f7b-30ba8e1c7b76)
+
+- Now You can select the best oes and add them to wall of fame to showcase them onyour website
+  ![Screenshot from 2024-08-19 17-57-42](https://github.com/user-attachments/assets/358fca08-a704-4608-9f7b-30ba8e1c7b76)
 
 ## Wall of Fame page
 
