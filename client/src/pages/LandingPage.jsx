@@ -28,13 +28,13 @@ const LandingPage = () => {
             </Link>
           </div>
         </div>
-        <div className=" border rounded-lg">
+        {/* <div className=" border rounded-lg">
           <video
             controls
             className=" rounded-lg h-[310px]"
             src="http://res.cloudinary.com/domd44kuh/video/upload/v1698722170/ynmhor7ijlh4s7vxlhsj.mp4"
           ></video>
-        </div>
+        </div> */}
       </div>
     </div>
   );
