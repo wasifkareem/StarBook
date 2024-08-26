@@ -16,6 +16,7 @@ import ReviewPage from "./pages/ReviewPage";
 import SignInPage from "./pages/Login";
 import Billing from "./pages/Billing";
 import SignUpPage from "./pages/Signup";
+import "@iframe-resizer/child";
 
 const router = createBrowserRouter([
   {

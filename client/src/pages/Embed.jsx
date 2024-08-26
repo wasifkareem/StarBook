@@ -33,11 +33,6 @@ const Embed = () => {
   return (
     <div className=" flex justify-center">
       <div className=" w-fit  grid sm:grid-cols-2 lg:grid-cols-3 p-5 md:p-10   gap-3  m-3">
-        <script
-          src="/node_modules/@iframe-resizer/child/index.umd.js"
-          type="text/javascript"
-          async
-        ></script>
         {testimonials?.map((testimonial) => (
           <Testimonials
             email={testimonial.email}
