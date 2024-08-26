@@ -40,11 +40,7 @@ const Navbar = () => {
     <div className="  top-0 bg-white right-0 left-0 z-[999] shadow-lg shadow-slate-100 h-20 px-2 py-5 flex justify-between">
       <Link to={`${isSignedIn ? "/app" : "/"}`}>
         <div className=" flex gap-2 text-2xl font-bold italic ">
-          <img
-            className=" w-6 "
-            src="/public/assets/star-logo.svg"
-            alt="star-logo"
-          />
+          <img className=" w-6 " src="/assets/star-logo.svg" alt="star-logo" />
           <p style={{ textShadow: "2px 2px 1px rgba(255, 208, 0, 0.856)" }}>
             StarBook
           </p>

@@ -64,11 +64,7 @@ const Dashboard = () => {
         <div className=" w-fit flex gap-3 items-center">
           <img
             className=" hidden md:block w-20 object-cover rounded-lg h-20"
-            src={
-              spaceInfo?.imgPath
-                ? spaceInfo?.imgPath
-                : "/public/assets/review.png"
-            }
+            src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
             alt=""
           />
           <div>

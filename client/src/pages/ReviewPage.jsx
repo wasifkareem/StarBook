@@ -43,11 +43,7 @@ const ReviewPage = () => {
       <div className=" overflow-y-auto flex flex-col justify-center w-full">
         <img
           className=" h-32 w-32 object-cover self-center mt-20 rounded-lg"
-          src={
-            spaceInfo?.imgPath
-              ? spaceInfo?.imgPath
-              : "/public/assets/review.png"
-          }
+          src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
           alt=""
         />
 
