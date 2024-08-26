@@ -4,13 +4,7 @@ Collecting testimonials is tough, StarBook is all-In-One solution for collecting
 
 Tech Stack- Reactjs, Redux, Clerk(for auth), Iframe-Resizer, Expressjs,MongoDB,Cloudinary,Razorpay API
 
-## Follow these steps and embed some testimonials by yourself(or check our live demo above)
-
-<a href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"
-rel="noopener noreferrer"
-target="_blank">
-<img src="https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=appveyor" alt="Live Demo">
-</a>
+## Follow these steps and embed some testimonials by yourself(or check our live demo above<a href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"rel="noopener noreferrer"target="\_blank"><img src="https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=appveyor" alt="Live Demo"></a>)
 
 Admin have to create a space and along with that a dedicated public page will be created that has to be send to customers/users for collecting testimonials.
 
