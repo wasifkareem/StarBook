@@ -15,61 +15,30 @@ import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import Switch from "react-switch";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [checked, setChecked] = useState(false);
   const [keyToggle, setKeyToggle] = useState(false);
   const location = useLocation();
   const { ReloadSpaceInfo } = useSelector((state) => state?.info);
   const spaceId = location.pathname.split("/")[3];
   const { ReloadCards } = useSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState(null);
-  const [isFetching, setIsFetching] = useState(false);
+  console.log(testimonials);
   const { userId } = useAuth();
   const { isKey } = useSelector((state) => state?.pay);
-  const [RPInfo, setRPInfo] = useState();
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/space/fetch-space?spaceId=${spaceId}`
+        `https://starbook.onrender.com/api/space/fetch-space?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);
     };
     getSpace();
   }, [ReloadSpaceInfo, ReloadCards]);
-
-  useEffect(() => {
-    if (isKey) {
-      const getData = async () => {
-        try {
-          setIsFetching(true);
-          const res = await axios.get(
-            `http://localhost:3000/api/tip/fetch-payments?userId=${userId}&label=${spaceId}`
-          );
-          setRPInfo(res.data);
-          setIsFetching(false);
-        } catch (error) {
-          if (error.response.status === 401) {
-            setIsFetching(false);
-            toast.error(
-              "Authentication failed, please check the keys and Re-enter!"
-            );
-          }
-        }
-      };
-
-      getData();
-    }
-  }, [userId, isKey, spaceInfo]);
-
-  const handleChange = (nextChecked) => {
-    setChecked(nextChecked);
-  };
 
   const publicTestimonials = testimonials?.filter(
     (testimonial) => testimonial.WOF === true
@@ -120,25 +89,17 @@ const Dashboard = () => {
           </div>
         </div>
         {isKey ? (
-          isFetching ? (
-            <div className=" border md:w-[430px] border-slate-200 text-white px-6 py-3 rounded">
-              <Skeleton count={2} className=" w-5/6 h-6 " />
-              <Skeleton count={1} className=" w-2/6 h-8 " />
-            </div>
-          ) : (
-            <RPDash RPInfo={RPInfo} spaceInfo={spaceInfo} />
-          )
+          <RPDash spaceInfo={spaceInfo} spaceId={spaceId} />
         ) : (
-          <div className=" md:w-[430px] border border-slate-300 flex flex-col  justify-between px-3 py-6 rounded text-slate-800">
-            <p className=" text-center text font-mono">
+          <div className=" md:w-[430px] border border-slate-300 flex flex-col  justify-between  items-center py-6 rounded text-slate-800">
+            <p className="  text-sm font-mono md:w-96 text-center">
               {" "}
-              Add Razorpay keys to enable tip jar
+              Add your Razorpay account by navigating to{" "}
+              <span className=" font-semibold ">
+                Manage Account &gt; Razorpay Details
+              </span>{" "}
+              and allow your happy customers to tip you while leaving reviews.
             </p>
-            <Switch
-              className=" self-center"
-              onChange={handleChange}
-              checked={checked}
-            />
           </div>
         )}
       </div>
@@ -216,6 +177,7 @@ const Dashboard = () => {
                   createdAt={testimonial.createdAt}
                   WOF={testimonial.WOF}
                   tip={testimonial.tip}
+                  title={testimonial?.title}
                 />
               ))}
             </div>

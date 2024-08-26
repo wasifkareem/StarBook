@@ -16,6 +16,7 @@ const Testimonials = ({
   createdAt,
   theme,
   tip,
+  title,
 }) => {
   console.log(tip);
   console.log(starRating);
@@ -40,14 +41,27 @@ const Testimonials = ({
       <div className=" flex justify-between items-center">
         <div className=" flex gap-2  items-center">
           <img className=" h-12 rounded-full w-12" src={imgPath} alt="" />
-          <p
-            style={{
-              color: theme == "true" || theme == true ? "white" : "#0f172a",
-            }}
-            className=" first-letter:uppercase font-semibold text-slate-900"
-          >
-            {name}
-          </p>
+          <div>
+            <p
+              style={{
+                color: theme == "true" || theme == true ? "white" : "#0f172a",
+              }}
+              className=" first-letter:uppercase font-semibold text-slate-900"
+            >
+              {name}
+            </p>
+            {title && (
+              <p
+                className={` text-sm ${
+                  theme == "true" || theme == true
+                    ? "text-white"
+                    : " text-gray-800"
+                }`}
+              >
+                {title}
+              </p>
+            )}
+          </div>
         </div>
         {tip && (
           <>
@@ -88,9 +102,9 @@ const Testimonials = ({
       </div>
       <p
         style={{
-          color: theme == "true" || theme == true ? "white" : "#334155",
+          color: theme == "true" || theme == true ? "#b1afafda" : "#434d5acc",
         }}
-        className=" text-slate-700 absolute bottom-3 left-4"
+        className=" text-sm text-slate-700 absolute bottom-3 left-4"
       >
         {formattedDate}
       </p>

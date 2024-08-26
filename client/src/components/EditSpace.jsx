@@ -32,14 +32,14 @@ const EditSpace = () => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "http://localhost:3000/upload",
+            "https://starbook.onrender.com/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
         }
         data.ownerEmail = email;
         const response = await axios.post(
-          "http://localhost:3000/api/space/create-space",
+          "https://starbook.onrender.com/api/space/create-space",
           data,
           {
             headers: {
@@ -83,6 +83,7 @@ const EditSpace = () => {
           <label className=" text-slate-500">Space name</label>
           <input
             placeholder="Space name"
+            maxLength={5}
             className="h-10   focus:outline-cyan-600  border rounded pl-3 border-slate-400"
             {...register("spaceName", {
               required: true,

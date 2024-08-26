@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `http://localhost:3000/api/space/fetch-spaces?email=${user?.primaryEmailAddress.emailAddress}`
+        `https://starbook.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress.emailAddress}`
       );
       setCardData(response.data);
     };
@@ -39,7 +39,7 @@ const Home = () => {
           </p>
           <button
             onClick={handleClick}
-            className=" flex items-center gap-1 md:gap-3 bg-slate-800 text-white font-semibold py-1 md:py-3  rounded-sm px-2 md:px-8"
+            className=" flex items-center gap-1 md:gap-3 bg-slate-700 text-white font-semibold py-1 md:py-3  rounded px-2 md:px-8"
           >
             <span className=" text-xl md:text-3xl font-normal"> &#43;</span>{" "}
             Create Space

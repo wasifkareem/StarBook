@@ -57,7 +57,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "http://localhost:3000/upload",
+            "https://starbook.onrender.com/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
@@ -65,7 +65,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
         data.ownerEmail = emailAddress;
         if (isEdit === true) {
           const response = await axios.put(
-            `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo._id}`,
+            `https://starbook.onrender.com/api/space/update-space?spaceId=${spaceInfo._id}`,
             data
           );
           if (response.status == 200) {
@@ -77,7 +77,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
           }
         } else {
           const response = await axios.post(
-            "http://localhost:3000/api/space/create-space",
+            "https://starbook.onrender.com/api/space/create-space",
             data
           );
           if (response.status == 200) {
@@ -175,6 +175,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
               <label className=" text-slate-500">Space name</label>
               <input
                 defaultValue={isEdit ? spaceInfo.spaceName : null}
+                maxLength={40}
                 placeholder="Space name"
                 className="h-10   focus:outline-cyan-600  border rounded pl-3 border-slate-300"
                 {...register("spaceName", {
@@ -182,7 +183,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
                 })}
               />
               {errors?.spaceName?.type === "required" && (
-                <p>This field is required</p>
+                <p className=" text-red-700">This field is required</p>
               )}
               <label className=" text-slate-500">Space logo</label>
 
@@ -278,12 +279,12 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
                 onChange={handleThree}
               />
               <button
-                className=" cursor-pointer bg-slate-800 min-w-42 h-10 flex justify-center items-center self-end px-4 font-semibold mt-3  text-white"
+                className=" cursor-pointer rounded bg-slate-700 w-52 h-10 flex justify-center items-center self-end px-4 mt-3  text-white"
                 type="submit"
               >
                 {isFetching ? (
                   <img
-                    className=" h-10"
+                    className=" m-2 h-7"
                     src="/src/assets/Spinner@1x-1.0s-200px-200px.svg"
                     alt=""
                   />

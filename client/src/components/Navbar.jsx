@@ -10,6 +10,7 @@ import {
 } from "@clerk/clerk-react";
 import { useState } from "react";
 import Razorpaykeys from "./Razorpaykeys";
+import { GrDashboard } from "react-icons/gr";
 
 const Navbar = () => {
   const { isSignedIn } = useUser();
@@ -34,14 +35,7 @@ const Navbar = () => {
       </svg>
     );
   };
-  const Razorpay = () => {
-    return (
-      <div>
-        <h1>Custom Profile Page</h1>
-        <p>This is the custom profile page</p>
-      </div>
-    );
-  };
+
   return (
     <div className="  top-0 bg-white right-0 left-0 z-[999] shadow-lg shadow-slate-100 h-20 px-2 py-5 flex justify-between">
       <Link to={`${isSignedIn ? "/app" : "/"}`}>
@@ -59,32 +53,19 @@ const Navbar = () => {
       <div>
         <SignedIn>
           <div className=" flex gap-4">
-            <div className=" relative flex flex-row">
-              <button
-                onClick={handleClick}
-                className=" flex gap-1 items-center  shadow shadow-blue-500 text-slate-600 font-sans font-semibold text-sm  rounded px-2"
-              >
-                Razorpay Account
-                <div
-                  className={` w-2 h-2 rounded-full ${
-                    isKey ? "bg-green-500" : "bg-red-500"
-                  } shadow-2xl shadow-red-600`}
-                ></div>
-              </button>
-            </div>
             {toggle && (
               <div className=" transition-all absolute top-[73px] right-4 ">
                 <Razorpaykeys setToggle={setToggle} />
               </div>
             )}
             <UserButton>
-              <UserButton.UserProfilePage
-                label="Razorpay Details"
-                url="custom"
-                labelIcon={<DotIcon />}
-              >
-                <Razorpay />
-              </UserButton.UserProfilePage>
+              <UserButton.MenuItems>
+                <UserButton.Link
+                  labelIcon={<GrDashboard />}
+                  label="Dashboard"
+                  href="/app"
+                />
+              </UserButton.MenuItems>
               <UserButton.MenuItems>
                 <UserButton.Link
                   labelIcon={<DotIcon />}
@@ -92,6 +73,14 @@ const Navbar = () => {
                   href="/app/billing"
                 />
               </UserButton.MenuItems>
+
+              <UserButton.UserProfilePage
+                label="Razorpay Details"
+                url="custom"
+                labelIcon={<DotIcon />}
+              >
+                <Razorpaykeys />
+              </UserButton.UserProfilePage>
             </UserButton>
           </div>
         </SignedIn>

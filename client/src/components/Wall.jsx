@@ -14,10 +14,10 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   };
   return (
     <div
-      className=" z-40 overflow-y-auto  fixed top-0 bottom-0 left-0 right-0 flex flex-col md:justify-center md:items-center "
+      className="  z-40 overflow-y-auto  fixed top-0 bottom-0 left-0 right-0 flex flex-col md:justify-center md:items-center "
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     >
-      <div className="  md:mt-80 h-fit   bg-white z-50 md:w-[90%] flex flex-col ">
+      <div className=" absolute top-16 md:min-h-[700px] h-fit rounded-lg   bg-white z-50 md:w-[90%] flex flex-col ">
         <button
           onClick={() => setWallPageToggle(false)}
           className=" self-end text-3xl mr-3 mt-1 "
@@ -56,21 +56,27 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
             Wall of fame is empty, add some testimonials
           </p>
         ) : (
-          <div className="   grid md:grid-cols-3 p-5 md:p-10 grid-cols-1 md:flex-row flex-col gap-3  m-3">
-            {publicTestimonials.map((testimonial) => (
-              <Testimonials
-                email={testimonial.email}
-                key={testimonial._id}
-                imgPath={testimonial.imgPath}
-                name={testimonial.name}
-                starRating={testimonial.starRating}
-                testimonial={testimonial.testimonial}
-                createdAt={testimonial.createdAt}
-                theme={theme}
-                tip={testimonial.tip}
-              />
-            ))}
-          </div>
+          <>
+            <p className=" text-center font-semibold text-xl mt-6 md:mt-16 text-gray-700">
+              Live Preview ⮟
+            </p>
+            <div className="   grid md:grid-cols-3 p-5 md:p-10 grid-cols-1 md:flex-row flex-col gap-3  m-3">
+              {publicTestimonials.map((testimonial) => (
+                <Testimonials
+                  email={testimonial.email}
+                  key={testimonial._id}
+                  imgPath={testimonial.imgPath}
+                  name={testimonial.name}
+                  starRating={testimonial.starRating}
+                  testimonial={testimonial.testimonial}
+                  createdAt={testimonial.createdAt}
+                  theme={theme}
+                  tip={testimonial.tip}
+                  title={testimonial.title}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

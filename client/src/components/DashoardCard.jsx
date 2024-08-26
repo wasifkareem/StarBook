@@ -24,6 +24,7 @@ const DashoardCard = ({
   testimonial,
   Id,
   createdAt,
+  title,
 }) => {
   const [overlay, setOverlay] = useState(false);
   const dateObj = new Date(createdAt);
@@ -34,7 +35,7 @@ const DashoardCard = ({
   const dispatch = useDispatch();
   const addToWall = async () => {
     const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
+      `https://starbook.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
       {}
     );
     if (res.status == 200) {
@@ -44,7 +45,7 @@ const DashoardCard = ({
   };
   const removeFromWall = async () => {
     const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
+      `https://starbook.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
       {}
     );
     if (res.status == 200) {
@@ -54,7 +55,7 @@ const DashoardCard = ({
 
   const handleDelete = async () => {
     const res = await axios.delete(
-      `http://localhost:3000/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`,
+      `https://starbook.onrender.com/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`,
 
       {
         headers: {
@@ -170,6 +171,14 @@ const DashoardCard = ({
             </p>
           </div>
         </div>
+        {title && (
+          <div>
+            <p className=" font-semibold text-slate-800 text-sm">Title</p>
+            <div className=" flex items-center ">
+              <p className=" text-sm text-slate-900">{title}</p>
+            </div>
+          </div>
+        )}
         {tip && (
           <div>
             <p className=" font-semibold text-slate-800 text-sm">Tip Amount</p>

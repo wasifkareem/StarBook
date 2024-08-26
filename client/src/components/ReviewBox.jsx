@@ -51,7 +51,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       const imgFile = new FormData();
       imgFile.append("my_file", ImgFile);
       const assetInfo = await axios.post(
-        "http://localhost:3000/upload",
+        "https://starbook.onrender.com/upload",
         imgFile
       );
       data.imgPath = assetInfo.data.url;
@@ -59,7 +59,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       data.starRating = rating;
       data.tip = payDetails?.amount;
       const response = await axios.post(
-        "http://localhost:3000/api/testimonials/create",
+        "https://starbook.onrender.com/api/testimonials/create",
         data
       );
       setImgPreview(null);
@@ -73,7 +73,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
     }
   };
   const paymentHandler = async (e) => {
-    const API_URL = "http://localhost:3000/api/tip/";
+    const API_URL = "https://starbook.onrender.com/api/tip/";
     e.preventDefault();
     const orderUrl = `${API_URL}order?userId=${userId}&amount=${amount}&currency=${selectedValue}&label=tip_${spaceInfo?._id}`;
     const response = await axios.get(orderUrl);
@@ -161,6 +161,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
                 ? "What issues did you face? How can we make it better?"
                 : null
             }
+            maxLength={280}
             className=" h-24 md:h-36 p-2 focus:outline-blue-600  pl-3 border border-slate-400 rounded"
             {...register("testimonial", {
               required: true,
@@ -169,18 +170,23 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
           {errors?.testimonial?.type === "required" && (
             <p className=" text-red-800">This field is required</p>
           )}
-          <label className=" text-slate-500">Your Name</label>
+          <label className=" text-slate-500">
+            Your Name<span className=" text-red-500 text-sm">*</span>
+          </label>
           <input
             placeholder="Name"
             className="h-10 focus:outline-blue-600  border pl-3 border-slate-400 "
             {...register("name", {
               required: true,
             })}
+            maxLength={30}
           />
           {errors?.name?.type === "required" && (
             <p className=" text-red-800">This field is required</p>
           )}
-          <label className=" text-slate-500">Your Email</label>
+          <label className=" text-slate-500">
+            Your Email<span className=" text-red-500 text-sm">*</span>
+          </label>
           <input
             type="email"
             placeholder="Email"
@@ -192,7 +198,18 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
           {errors?.email?.type === "required" && (
             <p className=" text-red-800">This field is required</p>
           )}
-          <label className=" text-slate-600 mt-4">Upload Your Photo</label>
+          <label className=" text-slate-500">Your Title and Company</label>
+          <input
+            type="text"
+            maxLength={40}
+            placeholder="Content Marketing head at Adobe"
+            className="h-10  focus:outline-blue-600  border pl-3 border-slate-400 "
+            {...register("title")}
+          />
+
+          <label className=" text-slate-600 mt-4">
+            Upload Your Photo<span className=" text-red-500 text-sm">*</span>
+          </label>
           <div className=" flex gap-8 items-center ">
             <label
               className=" border focus:outline-blue-600  rounded-lg w-fit h-fit px-2 py-1 cursor-pointer text-slate-600 border-slate-600"
@@ -225,10 +242,11 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
               been recieved by the seller
             </span>
           ) : (
-            isKey && (
+            isKey &&
+            spaceInfo?.tipBox && (
               <div className=" bg-blue-700 rounded py-3 px-2 mt-4">
                 <label className=" text-white font-mono text-sm">
-                  This seller is accepting tips, show them some love(Optional)*
+                  This seller is accepting tips, show them some love(Optional)
                 </label>
                 <div className=" flex gap-3 mt-3">
                   <div className=" flex w-44 shadow shadow-slate-800">

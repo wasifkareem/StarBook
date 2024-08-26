@@ -7,8 +7,6 @@ export default function AppLayout() {
   const { isSignedIn, isLoaded } = useUser();
   const navigate = useNavigate();
 
-  console.log("isloaded", isLoaded);
-
   React.useEffect(() => {
     if (isLoaded && !isSignedIn) {
       navigate("/sign-in");
