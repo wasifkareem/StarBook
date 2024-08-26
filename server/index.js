@@ -28,12 +28,7 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
-app.use(
-  cors({
-    origin: "https://starbook2762.vercel.app",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 //IMAGE HANDLING
 cloudinary.config({
