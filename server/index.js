@@ -30,7 +30,7 @@ db.once("open", () => {
 });
 app.use(
   cors({
-    origin: "https://starbook2762.vercel.app/",
+    origin: "https://starbook2762.vercel.app",
     credentials: true,
   })
 );
