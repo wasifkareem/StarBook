@@ -4,11 +4,11 @@ import { useState } from "react";
 
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   const [theme, setTheme] = useState(false);
-  const code = ` <iframe id='starbook-id=${spaceId}' src="${window.location.origin}/embed/${spaceId}?
-   dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
-  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
+  const code = `  <iframe id="starbook-${spaceId}" src="https://starbook2762.vercel.app/embed/${spaceId}?dark=true" frameborder="0" scrolling="no" width="100%"></iframe>
+		<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
 		<script>
-			iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-id=${spaceId}');
+			iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-${spaceId}');
+		</script>
 `;
   const handleClick = () => {
     setTheme(!theme);
