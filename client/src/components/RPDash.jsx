@@ -71,7 +71,7 @@ const RPDash = ({ spaceInfo, spaceId }) => {
       >
         <img
           className=" h-6 shadow shadow-white rounded-full"
-          src="/src/assets/rp-icon.jpg"
+          src="/public/assets/rp-icon.jpg"
           alt=""
         />
         <label htmlFor="" className="text-white mb-1  text-sm">

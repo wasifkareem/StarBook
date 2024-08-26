@@ -65,7 +65,9 @@ const Dashboard = () => {
           <img
             className=" hidden md:block w-20 object-cover rounded-lg h-20"
             src={
-              spaceInfo?.imgPath ? spaceInfo?.imgPath : "/src/assets/review.png"
+              spaceInfo?.imgPath
+                ? spaceInfo?.imgPath
+                : "/public/assets/review.png"
             }
             alt=""
           />

@@ -173,7 +173,7 @@ const EditSpace = () => {
             {isFetching ? (
               <img
                 className=" h-10"
-                src="/src/assets/Spinner@1x-1.0s-200px-200px.svg"
+                src="/public/assets/Spinner@1x-1.0s-200px-200px.svg"
                 alt=""
               />
             ) : (

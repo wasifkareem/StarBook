@@ -44,7 +44,9 @@ const ReviewPage = () => {
         <img
           className=" h-32 w-32 object-cover self-center mt-20 rounded-lg"
           src={
-            spaceInfo?.imgPath ? spaceInfo?.imgPath : "/src/assets/review.png"
+            spaceInfo?.imgPath
+              ? spaceInfo?.imgPath
+              : "/public/assets/review.png"
           }
           alt=""
         />

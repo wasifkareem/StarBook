@@ -122,7 +122,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
               </label>
               <img
                 className=" h-20 rounded w-fit self-center"
-                src={imgPreview ? imgPreview : "/src/assets/review.png"}
+                src={imgPreview ? imgPreview : "/public/assets/review.png"}
                 alt=""
               />
               <h2 className="  w-[24rem] text-center break-words whitespace-normal self-center text-3xl font-semibold text-slate-700 mt-9">
@@ -285,7 +285,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
                 {isFetching ? (
                   <img
                     className=" m-2 h-7"
-                    src="/src/assets/Spinner@1x-1.0s-200px-200px.svg"
+                    src="/public/assets/Spinner@1x-1.0s-200px-200px.svg"
                     alt=""
                   />
                 ) : isEdit ? (

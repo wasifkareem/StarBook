@@ -24,7 +24,7 @@ const Embed = () => {
       <div className=" flex justify-center items-center  h-screen w-screen">
         <img
           className=" h-16"
-          src="/src/assets/Spinner@1x-1.0s-200px-200px.svg"
+          src="/public/assets/Spinner@1x-1.0s-200px-200px.svg"
           alt=""
         />
       </div>

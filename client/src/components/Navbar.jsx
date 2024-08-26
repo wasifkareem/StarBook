@@ -42,7 +42,7 @@ const Navbar = () => {
         <div className=" flex gap-2 text-2xl font-bold italic ">
           <img
             className=" w-6 "
-            src="/src/assets/star-logo.svg"
+            src="/public/assets/star-logo.svg"
             alt="star-logo"
           />
           <p style={{ textShadow: "2px 2px 1px rgba(255, 208, 0, 0.856)" }}>
