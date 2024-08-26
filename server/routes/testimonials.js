@@ -4,8 +4,17 @@ const Space = require("../modals/Space");
 const router = require("express").Router();
 
 router.post("/create", async (req, res) => {
-  const { imgPath, starRating, name, spaceId, email, WOF, testimonial, tip } =
-    req.body;
+  const {
+    imgPath,
+    starRating,
+    name,
+    spaceId,
+    email,
+    WOF,
+    testimonial,
+    tip,
+    title,
+  } = req.body;
   try {
     let mySpace = await Space.findById({ _id: spaceId });
     if (!mySpace) return res.status(400).json("No Space found!");
@@ -18,6 +27,7 @@ router.post("/create", async (req, res) => {
       email,
       WOF,
       tip,
+      title,
     });
     const updatedSpace = await mySpace.save();
     res.status(200).json(updatedSpace);

@@ -10,6 +10,7 @@ const testimonialSchema = new mongoose.Schema(
     email: { type: String, required: true },
     WOF: { type: Boolean, default: false },
     tip: { type: Number, default: null },
+    title: { type: String, default: null },
   },
   { timestamps: true }
 );
@@ -24,6 +25,7 @@ const itemSchema = new mongoose.Schema(
     headerTitle: { type: String, required: true },
     message: { type: String, required: true },
     testimonials: [testimonialSchema],
+    tipBox: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

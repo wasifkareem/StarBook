@@ -35,7 +35,7 @@ router.get("/order", async (req, res) => {
       // 1 for automatic capture // 0 for manual capture
     };
     instance.orders.create(options, async (err, order) => {
-      order.key = user.keyId;
+      order.key = user?.keyId;
       if (err) {
         return res.status(500).json({
           message: err,

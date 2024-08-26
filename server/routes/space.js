@@ -45,6 +45,7 @@ router.put("/update-space", async (req, res) => {
       qOne: req.body.qOne,
       qTwo: req.body.qTwo,
       qThree: req.body.qThree,
+      tipBox: req.body.tipBox,
     });
 
     if (!updatedSpace) {

@@ -61,9 +61,20 @@ router.put("/add-keys", async (req, res) => {
         keySecret: keySecret,
       },
     });
-    res.status(200).json(updatedUser);
+    res.status(200).json(updatedUser?.privateMetadata);
   } catch (err) {
     console.error(err);
   }
 });
+
+router.get("get-keyId", async (req, res) => {
+  const { userId } = req.query;
+  const user = await clerkClient.users.getUser(userId);
+
+  if (!user.privateMetadata) {
+    res.status(200).json(null);
+  }
+  res.status(200).json(user?.privateMetadata);
+});
+
 module.exports = router;
