@@ -14,6 +14,7 @@ import ReviewPage from "./pages/ReviewPage";
 import Embed from "./pages/Embed";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-tooltip/dist/react-tooltip.css";
+import "@iframe-resizer/child";
 import LandingPage from "./pages/LandingPage";
 
 function App() {}
