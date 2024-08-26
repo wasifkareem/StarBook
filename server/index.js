@@ -30,7 +30,7 @@ db.once("open", () => {
 });
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://starbook2762.vercel.app/",
     credentials: true,
   })
 );
