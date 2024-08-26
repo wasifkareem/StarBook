@@ -4,10 +4,11 @@ import { useState } from "react";
 
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   const [theme, setTheme] = useState(false);
-  const code = `  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.10/iframeResizer.min.js"></script> 
-  <iframe id='testimonialto-portfolio-space-tag-all-light' src="http://localhost:5173/embed/${spaceId}?
+  const code = ` <iframe id='starbook-id=${spaceId}' src="${window.location.origin}/embed/${spaceId}?
    dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
-  <script type="text/javascript">iFrameResize({log: false, checkOrigin: false}, '#testimonialto-portfolio-space-tag-all-light');</script>
+  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
+		<script>
+			iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-id=${spaceId}');
 `;
   const handleClick = () => {
     setTheme(!theme);
