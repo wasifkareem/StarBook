@@ -2,8 +2,10 @@
 
 Collecting testimonials is tough, StarBook is all-In-One solution for collecting testimonials and you can embed the testimonials directly on your website.
 
-<a href="https://your-live-demo-link.com" target="_blank">
-  <img src="https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=appveyor" alt="Live Demo">
+<a href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"
+rel="noopener noreferrer"
+target="_blank">
+<img src="https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=appveyor" alt="Live Demo">
 </a>
 
 ## Follow these steps and embed some testimonials by yourself(or check our live demo above)
