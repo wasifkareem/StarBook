@@ -79,7 +79,7 @@ const Testimonials = ({
                 zIndex: "1",
                 backgroundColor:
                   theme == "true" || theme == true ? "#e6e6e6" : "#0f172a",
-                // color: theme == "true" || (theme == true && "#0f172a"),
+                color: theme == "true" || (theme == true && "#0f172a"),
               }}
               id="tip-tooltip"
             />

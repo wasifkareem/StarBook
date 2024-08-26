@@ -12,17 +12,12 @@ const app = express();
 const cloudinary = require("cloudinary").v2;
 const cors = require("cors");
 const Multer = require("multer");
-const helmet = require("helmet");
 
 const port = 3000;
 
 app.use(express.json());
 dotenv.config();
-app.use(
-  helmet({
-    frameguard: false, // disables the X-Frame-Options header
-  })
-);
+
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
