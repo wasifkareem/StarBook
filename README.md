@@ -2,6 +2,8 @@
 
 Collecting testimonials is tough, StarBook is all-In-One solution for collecting testimonials and you can embed the testimonials directly on your website.
 
+Tech Stack- Reactjs, Redux, Clerk(for auth), Iframe-Resizer, Expressjs,MongoDB,Cloudinary,Razorpay API
+
 <a href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"
 rel="noopener noreferrer"
 target="_blank">
