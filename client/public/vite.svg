@@ -1,8 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="150" viewBox="0 0 100 100">
+  <!-- Background square -->
+  <rect width="100" height="100" fill="#dadadf" />
+  
+  <!-- Stars -->
+  <circle cx="20" cy="20" r="1" fill="#9c4d4d" />
+  <circle cx="80" cy="30" r="1" fill="#9c4d4d" />
+  <circle cx="50" cy="10" r="1" fill="#9c4d4d" />
+  <circle cx="70" cy="80" r="1" fill="#9c4d4d" />
+  <circle cx="30" cy="70" r="1" fill="#725b5b" />
+  <circle cx="60" cy="50" r="1" fill="#ffffff" />
+
+  <!-- Text with shadow -->
   <text x="5" y="60" font-family="'Arial', sans-serif" font-size="130" font-weight="bold" fill="#f7b336" text-anchor="start" dominant-baseline="middle">
     S
   </text>
-  <text x="10" y="60" font-family="'Arial', sans-serif" font-size="110" font-weight="bold" fill="#ececeb" text-anchor="start" dominant-baseline="middle" dx="-2" dy="-2">
+  <text x="10" y="60" font-family="'Arial', sans-serif" font-size="110" font-weight="bold" fill="#2c2c2b" text-anchor="start" dominant-baseline="middle" dx="-2" dy="-2">
     S
   </text>
 </svg>
