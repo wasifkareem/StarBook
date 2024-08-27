@@ -11,7 +11,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [rating, setRating] = useState(5);
   const [ImgFile, setImgFile] = useState(null);
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const [payDetails, setPayDetails] = useState(null);
   console.log(payDetails);
@@ -73,6 +73,10 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
     }
   };
   const paymentHandler = async (e) => {
+    if (amount === null) {
+      toast.warning("First Add some amount they click the Pay Button.");
+      return;
+    }
     const API_URL = "https://starbook.onrender.com/api/tip/";
     e.preventDefault();
     const orderUrl = `${API_URL}order?userId=${userId}&amount=${amount}&currency=${selectedValue}&label=tip_${spaceInfo?._id}`;
@@ -249,7 +253,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
                   This seller is accepting tips, show them some love(Optional)
                 </label>
                 <div className=" flex gap-3 mt-3">
-                  <div className=" flex w-44 shadow shadow-slate-800">
+                  <div className=" flex w-fit shadow shadow-slate-800">
                     <select
                       value={selectedValue}
                       onChange={(e) => setSelectedValue(e.target.value)}
@@ -264,6 +268,8 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
                     <input
                       className="h-10 w-fit overflow-hidden  rounded-r-sm  pl-3 bg-gray-800 text-white outline-none "
                       type="number"
+                      placeholder="2000"
+                      pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
                       onChange={(e) => setAmount(e.target.value)}
                     />
                   </div>

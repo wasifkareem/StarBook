@@ -15,15 +15,8 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
   const [secretVal, setSecretVal] = useState(null);
   const [isEmpty, setIsEmpty] = useState(false);
   const { keyId } = useSelector((state) => state?.pay);
+  const [isFetching, setIsFetching] = useState(false);
   console.log(keyId);
-
-  // useEffect(() => {
-  //   const getKeyId = async()=>{
-  //    const res = await axios.get(`https://starbook.onrender.com/api/auth/get-keyId?userId=${userId}`)
-
-  //   }
-
-  // }, [])
 
   const onSubmit = async () => {
     if (!secretVal || !idVal) {
@@ -33,6 +26,7 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
       }, 4000);
     } else {
       try {
+        setIsFetching(true);
         const data = {
           keyId: idVal,
           keySecret: secretVal,
@@ -48,21 +42,26 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
           );
           dispatch(isKeyAvailable(true));
           dispatch(keyIdInfo(res?.data?.keyId));
+          setIsFetching(false);
         }
       } catch (err) {
+        setIsFetching(false);
         toast.error("Something went wrong!");
       }
     }
   };
 
   const deleteKeys = async () => {
+    setIsFetching(true);
     const res = await axios.put(
       `https://starbook.onrender.com/api/tip/delete-keys?userId=${userId}`,
       {}
     );
     if (res.status === 200) {
+      setIsFetching(false);
       dispatch(clearKeys());
     } else {
+      setIsFetching(false);
       toast.error("Something went wrong!");
     }
   };
@@ -95,7 +94,7 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
                 </label>
                 <input
                   value={isKey ? keyId : null}
-                  className=" text-sm text-gray-700 md:w-56 border border-gray-400 rounded px-2 outline-1 outline-gray-400"
+                  className=" text-sm text-gray-600 md:w-56 border border-gray-300 rounded px-2 outline-1 outline-gray-300"
                   type="text"
                   disabled={isKey}
                   onChange={(e) => setIdVal(e.target.value)}
@@ -106,7 +105,7 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
                   Key Secret:
                 </label>
                 <input
-                  className=" text-sm text-gray-700 md:w-56 border border-gray-400 rounded px-2 outline-1 outline-gray-400"
+                  className=" text-sm text-gray-600 md:w-56 border border-gray-300 rounded px-2 outline-1 outline-gray-300"
                   type="password"
                   onChange={(e) => setSecretVal(e.target.value)}
                 />
@@ -120,17 +119,33 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
           )}
           {isKey ? (
             <button
-              className=" border border-gray-400 w-fit px-2 py-1 text-sm rounded self-end"
+              className="flex justify-center border border-gray-400 w-32 px-2 py-1 text-sm rounded self-end"
               onClick={deleteKeys}
             >
-              Remove Account
+              {isFetching ? (
+                <img
+                  className=" h-5"
+                  src="/assets/Spinner@1x-1.0s-200px-200px.svg"
+                  alt=""
+                />
+              ) : (
+                " Remove Account"
+              )}
             </button>
           ) : (
             <button
               onClick={onSubmit}
-              className=" border border-gray-400 w-fit px-2 py-1 text-sm rounded self-end"
+              className="  flex justify-center border border-gray-400 w-24 px-2 py-1 text-sm rounded self-end"
             >
-              Add Keys
+              {isFetching ? (
+                <img
+                  className=" h-5"
+                  src="/assets/Spinner@1x-1.0s-200px-200px.svg"
+                  alt=""
+                />
+              ) : (
+                " Add Keys"
+              )}
             </button>
           )}
         </div>

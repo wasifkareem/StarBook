@@ -1,9 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { HiCurrencyRupee } from "react-icons/hi";
-import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-import { TbReceiptRupee } from "react-icons/tb";
 import StarRatings from "react-star-ratings";
 import { Tooltip } from "react-tooltip";
 
