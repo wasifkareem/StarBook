@@ -27,7 +27,7 @@ const Testimonials = ({
       }}
       className={`relative flex flex-col gap-2 border ${
         theme == "true" || theme == true ? "bg-[#25282c]" : "bg-white"
-      } rounded-lg w-full px-5 py-4 pb-12 md:min-w-72 md:max-w-[400px] md:min-h-64 ${
+      } rounded-lg  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
         theme == "true" || theme == true
           ? "hover:bg-[#34383b]"
           : "hover:bg-gray-100"

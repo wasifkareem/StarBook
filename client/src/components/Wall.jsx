@@ -1,8 +1,10 @@
 import { CopyBlock, irBlack } from "react-code-blocks";
 import Testimonials from "./Testimonials";
 import { useState } from "react";
+import { useWindowDimensions } from "../utils/windowDimensions";
 
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
+  const { width } = useWindowDimensions();
   const [theme, setTheme] = useState(false);
   const code = ` <iframe id="starbook-${spaceId}" src="https://starbook2762.vercel.app/embed/${spaceId}?dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
@@ -12,6 +14,19 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
 `;
   const handleClick = () => {
     setTheme(!theme);
+  };
+  const arrayCount = () => {
+    if (width > 1900) {
+      return 5;
+    } else if (width > 1536) {
+      return 4;
+    } else if (width > 1150) {
+      return 3;
+    } else if (width > 782) {
+      return 2;
+    } else {
+      return 1;
+    }
   };
   return (
     <div
@@ -60,22 +75,32 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
             <p className=" text-center font-semibold text-xl mt-6 md:mt-16 text-gray-700">
               Live Preview ⮟
             </p>
-            <div className="   grid md:grid-cols-3 p-5 md:p-10 grid-cols-1 md:flex-row flex-col gap-3  m-3">
-              {publicTestimonials.map((testimonial) => (
-                <Testimonials
-                  email={testimonial.email}
-                  key={testimonial._id}
-                  imgPath={testimonial.imgPath}
-                  name={testimonial.name}
-                  starRating={testimonial.starRating}
-                  testimonial={testimonial.testimonial}
-                  createdAt={testimonial.createdAt}
-                  theme={theme}
-                  tip={testimonial.tip}
-                  title={testimonial.title}
-                />
-              ))}
-            </div>
+            <div className=" flex justify-center">
+              <div className="grid grid-cols-1 w-fit lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5  my-10 gap-3 items-start mx-10">
+                {Array(arrayCount())
+                  .fill()
+                  .map((_, colIndex) => (
+                    <div className="grid gap-3 justify-center" key={colIndex}>
+                      {publicTestimonials
+                        .filter((_, index) => index % arrayCount() === colIndex)
+                        .map((testimonial) => (
+                          <Testimonials
+                            email={testimonial.email}
+                            key={testimonial._id}
+                            imgPath={testimonial.imgPath}
+                            name={testimonial.name}
+                            starRating={testimonial.starRating}
+                            testimonial={testimonial.testimonial}
+                            createdAt={testimonial.createdAt}
+                            theme={theme}
+                            tip={testimonial.tip}
+                            title={testimonial?.title}
+                          />
+                        ))}
+                    </div>
+                  ))}
+              </div>
+            </div>{" "}
           </>
         )}
       </div>
