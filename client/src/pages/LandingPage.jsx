@@ -6,36 +6,36 @@ const LandingPage = () => {
   const [isVideo, setIsVideo] = useState(false);
   return (
     <div className=" md:mt-5  ">
-      <div className="  flex  flex-col md:flex-row justify-center items-end md:h-[500px] md:mb-10  p-10 gap-5">
-        <div className="  md:text-2xl font-mono bg-red-500 md:w-2/5 px-8 h-fit flex flex-col gap-32 p-4 py-6 rounded-xl  ">
+      <div className="  flex  flex-col md:flex-row justify-center md:items-end md:h-[500px] md:mb-10  p-10 gap-5">
+        <div className="  text-lg md:text-2xl font-mono bg-red-500 md:w-2/5 px-8 h-fit flex flex-col gap-4 md:gap-32 p-4 py-6 rounded-xl  ">
           {" "}
-          <p className=" text-xl text-white  font-mono ">
+          <p className=" text-lg md:text-xl text-white  font-mono ">
             Welcome to <strong>StarBook</strong>, manage all Your <br />
             testimonials and Tips in one place, and use our embed to showcase
             them on your website
           </p>
-          <div className=" flex gap-3 justify-center items-center">
+          <div className=" flex flex-wrap gap-3 justify-center items-center">
             <Link
               to="/sign-up"
-              className=" rounded-3xl md:text-2xl px-2 py-2  underline text-white"
+              className=" rounded-3xl text-base md:text-2xl px-2 py-2  underline text-white"
             >
               Signup
             </Link>
             <Link
               to="/sign-in"
-              className="  rounded-3xl md:text-2xl px-2 py-2  underline text-white"
+              className="  rounded-3xl text-base md:text-2xl px-2 py-2  underline text-white"
             >
               Login
             </Link>
             <a
               href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"
               target="_blank"
-              className=" rounded-3xl md:text-2xl px-4 shadow shadow-white py-2 border-solid text-slate-800 border bg-white"
+              className=" rounded-3xl text-base md:text-2xl px-4 shadow shadow-white py-2 border-solid text-slate-800 border bg-white"
             >
               Live Demo
             </a>
             <a href="https://github.com/wasifkareem/StarBook" target="_blank">
-              <FaGithub className=" opacity-35 md:text-5xl transition-all hover:opacity-55" />
+              <FaGithub className=" opacity-35 text-5xl transition-all hover:opacity-55" />
             </a>
           </div>
         </div>
