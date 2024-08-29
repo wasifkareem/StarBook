@@ -4,7 +4,7 @@ Collecting testimonials is tough, StarBook is all-In-One solution for collecting
 
 Tech Stack- Reactjs, Redux, Clerk(for auth), Iframe-Resizer, Expressjs,MongoDB,Cloudinary,Razorpay API
 
-## Follow these steps and embed some testimonials by yourself(or check our live demo)
+## Add this Code to a HTML compiler(or check our live demo)
 
 ```<iframe id="starbook-66cc1fc4e29b3e5fff22d1a9" src="https://starbook2762.vercel.app/embed/66d06d140005066118db08df?dark=false" frameborder="0" scrolling="no" width="100%"></iframe>
 <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
@@ -22,6 +22,8 @@ rel="noopener noreferrer"
 target="_blank">
 <img src="https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=appveyor" alt="Live Demo">
 </a>
+
+## How it works?
 
 Admin have to create a space and along with that a dedicated public page will be created that has to be send to customers/users for collecting testimonials.
 
