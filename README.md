@@ -4,7 +4,7 @@ Collecting testimonials is tough, StarBook is all-In-One solution for collecting
 
 Tech Stack- Reactjs, Redux, Clerk(for auth), Iframe-Resizer, Expressjs,MongoDB,Cloudinary,Razorpay API
 
-## Add this Code to a HTML compiler(or check our live demo)
+## Add this Code to a replit template website(or check our live demo)
 
 ```<iframe id="starbook-66cc1fc4e29b3e5fff22d1a9" src="https://starbook2762.vercel.app/embed/66d06d140005066118db08df?dark=false" frameborder="0" scrolling="no" width="100%"></iframe>
 <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
