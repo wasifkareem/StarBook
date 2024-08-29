@@ -11,8 +11,8 @@ const LandingPage = () => {
           {" "}
           <p className=" text-xl text-white  font-mono ">
             Welcome to <strong>StarBook</strong>, manage all Your <br />
-            testimonials in one place, and use our <br /> embed to showcase them
-            on your website
+            testimonials and Tips in one place, and use our embed to showcase
+            them on your website
           </p>
           <div className=" flex gap-3 justify-center items-center">
             <Link
