@@ -41,7 +41,7 @@ const RPDash = ({ spaceInfo, spaceId }) => {
 
       getData();
     }
-  }, [userId, spaceInfo?.tipBox, spaceInfo]);
+  }, [userId]);
   const handleChange = (nextChecked) => {
     const updateSpace = async () => {
       const res = await axios.put(

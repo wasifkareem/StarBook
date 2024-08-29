@@ -25,6 +25,7 @@ const itemSchema = new mongoose.Schema(
     headerTitle: { type: String, required: true },
     message: { type: String, required: true },
     testimonials: [testimonialSchema],
+    WOF: [testimonialSchema],
     tipBox: { type: Boolean, default: false },
   },
   { timestamps: true }

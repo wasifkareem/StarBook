@@ -246,7 +246,6 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
               been recieved by the seller
             </span>
           ) : (
-            isKey &&
             spaceInfo?.tipBox && (
               <div className=" bg-blue-700 rounded py-3 px-2 mt-4">
                 <label className=" text-white font-mono text-sm">

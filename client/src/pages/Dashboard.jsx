@@ -26,6 +26,7 @@ const Dashboard = () => {
   const spaceId = location.pathname.split("/")[3];
   const { ReloadCards } = useSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState(null);
+  const [publicTestimonials, setPublicTestimonials] = useState([]);
   console.log(testimonials);
   const { userId } = useAuth();
   const { isKey } = useSelector((state) => state?.pay);
@@ -36,13 +37,11 @@ const Dashboard = () => {
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);
+      setPublicTestimonials(res.data.WOF);
     };
     getSpace();
   }, [ReloadSpaceInfo, ReloadCards]);
 
-  const publicTestimonials = testimonials?.filter(
-    (testimonial) => testimonial.WOF === true
-  );
   if (!spaceInfo) {
     return <Loader />;
   }
