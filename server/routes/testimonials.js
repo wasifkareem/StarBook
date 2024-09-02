@@ -14,6 +14,8 @@ router.post("/create", async (req, res) => {
     testimonial,
     tip,
     title,
+    xId,
+    tweet,
   } = req.body;
   try {
     let mySpace = await Space.findById({ _id: spaceId });
@@ -28,6 +30,8 @@ router.post("/create", async (req, res) => {
       WOF,
       tip,
       title,
+      xId,
+      tweet,
     });
     const updatedSpace = await mySpace.save();
     res.status(200).json(updatedSpace);
@@ -53,7 +57,12 @@ router.delete("/delete", async (req, res) => {
   try {
     const deleteTestimonial = await Space.updateOne(
       { _id: spaceId },
-      { $pull: { testimonials: { _id: testimonialId } } }
+      {
+        $pull: {
+          testimonials: { _id: testimonialId },
+          WOF: { _id: testimonialId },
+        },
+      }
     );
     if (deleteTestimonial.modifiedCount === 1) {
       res.status(200).json("testimonial deleted successfully");

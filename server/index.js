@@ -8,6 +8,7 @@ const spaceRoute = require("./routes/space");
 const testimonialRoute = require("./routes/testimonials");
 const wallRoute = require("./routes/wall");
 const tipRoute = require("./routes/tip");
+const twitterRoute = require("./routes/twitter");
 const app = express();
 const cloudinary = require("cloudinary").v2;
 const cors = require("cors");
@@ -66,6 +67,7 @@ app.use("/api/space", spaceRoute);
 app.use("/api/testimonials", testimonialRoute);
 app.use("/api/wall", wallRoute);
 app.use("/api/tip", tipRoute);
+app.use("/api/twitter", twitterRoute);
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

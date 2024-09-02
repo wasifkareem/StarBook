@@ -67,6 +67,8 @@ const Embed = () => {
                     theme={theme}
                     tip={testimonial.tip}
                     title={testimonial?.title}
+                    xId={testimonial.xId}
+                    tweet={testimonial.tweet}
                   />
                 ))}
             </div>

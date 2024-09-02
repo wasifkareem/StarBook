@@ -15,19 +15,20 @@ import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useAuth, useUser } from "@clerk/clerk-react";
+import TwitterCard from "../components/TwitterCard";
+import { Tweet } from "react-tweet";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [keyToggle, setKeyToggle] = useState(false);
+  const [isBtn, setIsBtn] = useState("All");
   const location = useLocation();
   const { ReloadSpaceInfo } = useSelector((state) => state?.info);
   const spaceId = location.pathname.split("/")[3];
   const { ReloadCards } = useSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState(null);
   const [publicTestimonials, setPublicTestimonials] = useState([]);
-  console.log(testimonials);
   const { userId } = useAuth();
   const { isKey } = useSelector((state) => state?.pay);
   useEffect(() => {
@@ -103,8 +104,21 @@ const Dashboard = () => {
       <hr />
       <div className=" flex flex-col md:flex-row">
         <div className=" md:w-2/6 flex flex-col gap-1 md:mt-7 md:ml-3 md:mx-2 ">
-          <button className=" w-full hover:bg-slate-200 transition-colors  bg-slate-100 font-semibold text-slate-800 text-start px-4 py-2 rounded-md ">
+          <button
+            onClick={() => setIsBtn("All")}
+            className={` w-full hover:bg-slate-200 transition-colors  ${
+              isBtn === "All" && "bg-slate-100"
+            } font-semibold text-slate-800 text-start px-4 py-2 rounded-md `}
+          >
             All
+          </button>
+          <button
+            onClick={() => setIsBtn("Twitter")}
+            className={` w-full hover:bg-slate-200 transition-colors  ${
+              isBtn === "Twitter" && "bg-slate-100"
+            } font-semibold text-slate-800 text-start px-4 py-2 rounded-md `}
+          >
+            Twitter
           </button>
           <button
             onClick={() => setWallPageToggle(true)}
@@ -161,22 +175,29 @@ const Dashboard = () => {
             </>
           ) : (
             <div className=" transition-all flex flex-col gap-3">
-              {testimonials?.toReversed().map((testimonial) => (
-                <DashoardCard
-                  spaceId={spaceId}
-                  email={testimonial.email}
-                  key={testimonial._id}
-                  Id={testimonial._id}
-                  imgPath={testimonial.imgPath}
-                  name={testimonial.name}
-                  starRating={testimonial.starRating}
-                  testimonial={testimonial.testimonial}
-                  createdAt={testimonial.createdAt}
-                  WOF={testimonial.WOF}
-                  tip={testimonial.tip}
-                  title={testimonial?.title}
-                />
-              ))}
+              {isBtn === "All" &&
+                testimonials
+                  ?.filter((t) => !t.tweet)
+                  ?.toReversed()
+                  .map((testimonial) => (
+                    <DashoardCard
+                      spaceId={spaceId}
+                      email={testimonial.email}
+                      key={testimonial._id}
+                      Id={testimonial._id}
+                      imgPath={testimonial.imgPath}
+                      name={testimonial.name}
+                      starRating={testimonial.starRating}
+                      testimonial={testimonial.testimonial}
+                      createdAt={testimonial.createdAt}
+                      WOF={testimonial.WOF}
+                      tip={testimonial.tip}
+                      title={testimonial?.title}
+                    />
+                  ))}
+              {isBtn === "Twitter" && (
+                <TwitterCard spaceId={spaceId} testimonials={testimonials} />
+              )}
             </div>
           )}
         </div>

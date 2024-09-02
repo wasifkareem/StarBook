@@ -10,3 +10,52 @@
   border-radius: 4px;
   border: none;
 }
+._follow_nqq4j_74 {
+  display: none;
+}
+._replies_1cutb_1 {
+  display: none;
+}
+._article_98iqw_21 p {
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+._root_1ec15_1 {
+  display: none;
+}
+.react-tweet-theme._root_98iqw_1 {
+  margin: 0 !important;
+  border: 1px;
+}
+div.box {
+  display: inline-block;
+  padding: 1em;
+  margin: 6px;
+  outline: 2px solid #000;
+  width: 12em;
+  height: 2em;
+  vertical-align: middle;
+}
+
+.theme-a {
+  background: #dca;
+  color: #731;
+}
+@media (prefers-color-scheme: dark) {
+  .theme-a.adaptive {
+    background-color: rgb(173, 158, 143);
+  }
+}
+
+.theme-b {
+  background: #447;
+  color: #bbd;
+}
+@media (prefers-color-scheme: light) {
+  .theme-b.adaptive {
+    background: #bcd;
+    color: #334;
+    outline: 5px dotted #000;
+  }
+}

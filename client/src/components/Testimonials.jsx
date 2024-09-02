@@ -1,6 +1,7 @@
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import StarRatings from "react-star-ratings";
 import { Tooltip } from "react-tooltip";
+import { Tweet } from "react-tweet";
 
 const Testimonials = ({
   email,
@@ -12,6 +13,8 @@ const Testimonials = ({
   theme,
   tip,
   title,
+  xId,
+  tweet,
 }) => {
   console.log(tip);
   console.log(starRating);
@@ -20,16 +23,28 @@ const Testimonials = ({
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
+
+  if (tweet) {
+    return (
+      <div
+        className={` w-[354px] border  ${
+          theme == "true" || theme == true ? "dark" : "light"
+        } rounded-xl`}
+      >
+        <Tweet id={xId} />
+      </div>
+    );
+  }
   return (
     <div
       style={{
         border: theme == "true" ? "none" : "",
       }}
-      className={`relative flex flex-col gap-2 border ${
-        theme == "true" || theme == true ? "bg-[#25282c]" : "bg-white"
-      } rounded-lg  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
+      className={`relative flex transition-all flex-col gap-2 border ${
+        theme == "true" || theme == true ? "bg-[#15202b]" : "bg-white"
+      } rounded-xl  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
         theme == "true" || theme == true
-          ? "hover:bg-[#34383b]"
+          ? "hover:bg-[#1c3442]"
           : "hover:bg-gray-100"
       }`}
     >
