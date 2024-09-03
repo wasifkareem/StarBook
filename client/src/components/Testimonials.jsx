@@ -1,3 +1,4 @@
+import IframeResizer from "@iframe-resizer/react";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import StarRatings from "react-star-ratings";
 import { Tooltip } from "react-tooltip";
@@ -16,8 +17,6 @@ const Testimonials = ({
   xId,
   tweet,
 }) => {
-  console.log(tip);
-  console.log(starRating);
   const dateObj = new Date(createdAt);
   const options = { year: "numeric", month: "short", day: "2-digit" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(

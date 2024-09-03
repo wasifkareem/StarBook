@@ -28,34 +28,18 @@
   margin: 0 !important;
   border: 1px;
 }
-div.box {
-  display: inline-block;
-  padding: 1em;
-  margin: 6px;
-  outline: 2px solid #000;
-  width: 12em;
-  height: 2em;
-  vertical-align: middle;
+.react-tweet-theme button {
+  display: none;
 }
 
-.theme-a {
-  background: #dca;
-  color: #731;
+a._reply_n2anf_14 {
+  display: none;
 }
-@media (prefers-color-scheme: dark) {
-  .theme-a.adaptive {
-    background-color: rgb(173, 158, 143);
-  }
+a._infoLink_19qcj_10 {
+  display: none;
 }
-
-.theme-b {
-  background: #447;
-  color: #bbd;
-}
-@media (prefers-color-scheme: light) {
-  .theme-b.adaptive {
-    background: #bcd;
-    color: #334;
-    outline: 5px dotted #000;
-  }
+div._actions_n2anf_1 {
+  display: flex;
+  justify-content: start;
+  border: none;
 }
