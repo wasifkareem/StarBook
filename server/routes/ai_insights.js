@@ -26,7 +26,6 @@ router.post("/get-insights", async (req, res) => {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
-    console.log(text);
     text = text
       .replace(/```json\n/, "")
       .replace(/\n``` \n/, "")
