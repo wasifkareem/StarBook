@@ -17,13 +17,18 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import TwitterCard from "../components/TwitterCard";
 import { Tweet } from "react-tweet";
+import Insights from "../components/Insights";
+import { GiArtificialHive } from "react-icons/gi";
+import { FaPenFancy } from "react-icons/fa";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [insightsToggle, setInsightsToggle] = useState(false);
   const [isBtn, setIsBtn] = useState("All");
   const location = useLocation();
+
   const { ReloadSpaceInfo } = useSelector((state) => state?.info);
   const spaceId = location.pathname.split("/")[3];
   const { ReloadCards } = useSelector((state) => state?.info);
@@ -49,6 +54,13 @@ const Dashboard = () => {
 
   return (
     <>
+      {insightsToggle ? (
+        <Insights
+          insightsToggle={insightsToggle}
+          spaceInfo={spaceInfo}
+          setInsightsToggle={setInsightsToggle}
+        />
+      ) : null}
       {toggle ? (
         <AddSpace spaceInfo={spaceInfo} setToggle={setToggle} isEdit={true} />
       ) : null}
@@ -68,9 +80,17 @@ const Dashboard = () => {
             alt=""
           />
           <div>
-            <h1 className=" text-4xl font-semibold text-slate-800 font-sans ">
-              {spaceInfo?.spaceName}
-            </h1>
+            <div className=" flex gap-2">
+              <h1 className=" text-4xl font-semibold text-slate-800 font-sans ">
+                {spaceInfo?.spaceName}
+              </h1>
+              <button
+                onClick={() => setInsightsToggle(true)}
+                className=" flex gap-2 items-center bg-slate-900 text-xs font-mono text-white px-3 rounded"
+              >
+                Generate Insights <FaPenFancy className=" " />
+              </button>
+            </div>
             <p className=" text-slate-500 md:mt-1">
               Space public url :
               <Link
@@ -103,7 +123,7 @@ const Dashboard = () => {
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
-        <div className=" md:w-2/6 flex flex-col gap-1 md:mt-7 md:ml-3 md:mx-2 ">
+        <div className=" md:w-2/6  flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
           <button
             onClick={() => setIsBtn("All")}
             className={` w-full hover:bg-slate-200 transition-colors  ${
@@ -142,6 +162,7 @@ const Dashboard = () => {
             Edit Space
           </button>
         </div>
+        {/* <hr className=" w-[1px] h-[500px] bg-gray-200 mt-10 mx-10" /> */}
         <div className=" md:w-4/6 grid md:grid-cols-1 grid-cols-1 md:flex-row flex-col gap-3  m-3 ">
           {testimonials?.length === 0 ? (
             <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200 md:mt-40 mt-12">

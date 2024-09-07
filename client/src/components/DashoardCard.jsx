@@ -69,7 +69,7 @@ const DashoardCard = ({
     }
   };
   return (
-    <div className=" transition-all relative flex flex-col gap-2 shadow border border-slate-200 shadow-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
+    <div className=" transition-all relative flex flex-col gap-2 shadow border bg-white border-slate-200 shadow-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
       {overlay ? (
         <div className=" rounded-lg flex flex-col justify-center items-center absolute top-0 bottom-0 right-0 left-0 bg-white z-50 gap-7">
           <p className="  text-xl text-slate-600">

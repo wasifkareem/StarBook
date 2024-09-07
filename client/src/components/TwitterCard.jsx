@@ -1,17 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import { BsHeartFill } from "react-icons/bs";
-import {
-  TweetContainer,
-  TweetHeader,
-  TweetInReplyTo,
-  TweetBody,
-  TweetMedia,
-  TweetInfo,
-  TweetActions,
-  QuotedTweet,
-  enrichTweet,
-} from "react-tweet";
 import TweetCard from "./TweetCard";
 import { useDispatch } from "react-redux";
 import { ReloadCards } from "../redux/InfoRedux";
@@ -24,18 +12,25 @@ const TwitterCard = ({ spaceId, testimonials }) => {
   const dispatch = useDispatch();
   const handleClick = async () => {
     try {
+      const getTweetData = await axios.get(
+        `https://react-tweet.vercel.app/api/tweet/${id}`
+      );
+
       const data = {
         xId: id,
         tweet: true,
         spaceId: spaceId,
+        testimonial: getTweetData?.data?.data?.text,
       };
       const res = await axios.post(
         `https://starbook.onrender.com/api/testimonials/create`,
         data
       );
+      console.log(res);
       if (res.status == 200) {
         dispatch(ReloadCards());
         toast.success("🎊 Testimonial Created");
+        setUrl("");
       }
     } catch (err) {
       console.error(err);
@@ -50,6 +45,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
             Tweet URL :{" "}
           </label>
           <input
+            value={url}
             className="  outline-cyan-700 w-[450px] rounded border border-slate-300 px-2 py-1"
             type="text"
             placeholder="https://x.com/elonmusk/status/1830650370336473253"
