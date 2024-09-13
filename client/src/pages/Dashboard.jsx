@@ -164,7 +164,7 @@ const Dashboard = () => {
         </div>
         {/* <hr className=" w-[1px] h-[500px] bg-gray-200 mt-10 mx-10" /> */}
         <div className=" md:w-4/6 grid md:grid-cols-1 grid-cols-1 md:flex-row flex-col gap-3  m-3 ">
-          {testimonials?.length === 0 ? (
+          {testimonials?.length === 0 && isBtn !== "Twitter" ? (
             <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200 md:mt-40 mt-12">
               No Testimonials! Send the public URL to your best customers and
               ask them for feedback.{" "}

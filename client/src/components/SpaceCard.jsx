@@ -29,8 +29,8 @@ const SpaceCard = ({ imgPath, spaceName, spaceId, testimonials }) => {
             <MdDeleteForever className="text-2xl text-slate-400 hover:text-red-900 transition-colors" />
           </button>
           <img
-            className=" h-24 w-24 object-cover"
-            src={imgPath ? imgPath : "src/assets/review.png"}
+            className=" h-24 w-24 object-cover border"
+            src={imgPath ? imgPath : "/assets/review.png"}
             alt=""
           />
           <div className="xl px-5 py-3">

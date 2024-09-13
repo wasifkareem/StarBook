@@ -17,6 +17,10 @@ const Insights = ({ setInsightsToggle, spaceInfo, insightsToggle }) => {
         const InsightsRes = await axios.post(
           `https://starbook.onrender.com/api/AI/get-insights?spaceId=${spaceInfo?._id}`
         );
+        if (spaceInfo?.testimonials?.length === 0) {
+          toast.error("No Testimonails found to create Insights");
+          return;
+        }
         if (InsightsRes.status !== 200) {
           toast.error("Something went wrong, Can't generate insights");
           setInsightsToggle(false);

@@ -204,7 +204,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
                 />
                 <img
                   className=" h-20 rounded-full border w-20"
-                  src={imgPreview ? imgPreview : "src/assets/review.png"}
+                  src={imgPreview ? imgPreview : "/assets/review.png"}
                   alt=""
                 />
               </div>
