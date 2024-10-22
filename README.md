@@ -26,4 +26,5 @@ target="_blank">
 
 ## How it works?
 
+Check out the 3-minute demo video below.
 [![My Awesome Video](client/public/assets/thumbnail.png)](https://www.youtube.com/watch?v=gaiyO3RZB6E)
