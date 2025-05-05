@@ -23,7 +23,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
         testimonial: getTweetData?.data?.data?.text,
       };
       const res = await axios.post(
-        `https://starbook.onrender.com/api/testimonials/create`,
+        `http://localhost:3000/api/testimonials/create`,
         data
       );
       console.log(res);

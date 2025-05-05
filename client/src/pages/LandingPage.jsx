@@ -3,56 +3,78 @@ import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 
 const LandingPage = () => {
-  const [isVideo, setIsVideo] = useState(false);
   return (
-    <div className=" md:mt-5  ">
-      <div className="  flex  flex-col md:flex-row justify-center md:items-end md:h-[500px] md:mb-10  p-10 gap-5">
-        <div className="  text-lg md:text-2xl font-mono bg-red-500 md:w-2/5 px-8 h-fit flex flex-col gap-4 md:gap-32 p-4 py-6 rounded-xl  ">
-          {" "}
-          <p className=" text-lg md:text-xl text-white  font-mono ">
-            Welcome to <strong>StarBook</strong>, manage all Your <br />
-            testimonials and Tips in one place, and use our embed to showcase
-            them on your website
-          </p>
-          <div className=" flex flex-wrap gap-3 justify-center items-center">
+    <>
+      <div className="relative">
+        <img
+          className="absolute -z-10 -top-80 opacity-10"
+          src="/assets/matrix.svg"
+          style={{
+            maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+          }}
+        />
+      </div>
+      <div className="md:mt-44 z-10">
+        <div className="flex flex-col items-center md:mb-10 p-10 gap-5">
+          <div className="text-lg md:text-2xl font-mono">
+            <p className="text-2xl md:text-6xl font-semibold text-center font-mono">
+              Welcome to{" "}
+              <span
+                style={{
+                  textShadow: "2px 2px 1px rgba(255, 208, 0, 0.856)",
+                }}
+              >
+                StarBook
+              </span>
+            </p>
+            <p className="text-lg my-10">
+              Manage all Your testimonials and Tips in one place, and use our
+              embed to showcase them on your website
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3 justify-center">
             <Link
               to="/sign-up"
-              className=" rounded-3xl text-base md:text-2xl px-2 py-2  underline text-white"
+              className="rounded-3xl text-base md:text-2xl px-2 py-2 underline"
             >
               Signup
             </Link>
             <Link
               to="/sign-in"
-              className="  rounded-3xl text-base md:text-2xl px-2 py-2  underline text-white"
+              className="rounded-3xl text-base md:text-2xl px-2 py-2 underline"
             >
               Login
             </Link>
             <a
               href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"
               target="_blank"
-              className=" rounded-3xl text-base md:text-2xl px-4 shadow shadow-white py-2 border-solid text-slate-800 border bg-white"
+              className="rounded-3xl text-base md:text-2xl px-4 shadow shadow-white py-2 border-solid text-slate-800 border bg-white"
             >
               Live Demo
             </a>
-            <a href="https://github.com/wasifkareem/StarBook" target="_blank">
-              <FaGithub className=" opacity-35 text-5xl transition-all hover:opacity-55" />
+            <a
+              href="https://github.com/wasifkareem/StarBook"
+              target="_blank"
+            >
+              <FaGithub className="opacity-35 text-5xl transition-all hover:opacity-55" />
             </a>
           </div>
-        </div>
-        <div className="  md:w-[58%] border-4 border-white rounded-lg overflow-hidden">
-          <iframe
-            className=" md:h-[450px] "
-            width="100%"
-            src="https://www.youtube.com/embed/gaiyO3RZB6E?si=405LXf0p57uxZ9n2"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
+          <div className="md:w-[80%] border-1 border-gray-700 shadow-xl shadow-gray-300 rounded-lg overflow-hidden">
+            <iframe
+              className="md:h-[750px]"
+              width="100%"
+              src="https://www.youtube.com/embed/gaiyO3RZB6E?si=405LXf0p57uxZ9n2"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
