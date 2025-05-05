@@ -15,7 +15,6 @@ router.post("/get-insights", async (req, res) => {
     const testi_arr = spaceData?.testimonials.map((obj) => ({
       testimonial: obj.testimonial,
     }));
-
     if (testi_arr.length === 0) {
       res.status(400).json("No testimonials found, can't generate Insights");
     }
@@ -32,7 +31,8 @@ router.post("/get-insights", async (req, res) => {
       .trim();
 
     text = JSON.parse(text);
-
+    
+console.log(testi_arr)
     res.status(200).json(text);
   } catch (err) {
     console.error(err);
