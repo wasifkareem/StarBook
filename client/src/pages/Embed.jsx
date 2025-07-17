@@ -14,7 +14,7 @@ const Embed = () => {
   useEffect(() => {
     const getTestimonials = async () => {
       const res = await axios.get(
-        `https://starbook.onrender.com/api/wall/fetch-wall?spaceId=${spaceId}`
+        `http://localhost:3001/api/wall/fetch-wall?spaceId=${spaceId}`
       );
       setTestimonials(res?.data);
     };
@@ -57,19 +57,20 @@ const Embed = () => {
                 .filter((_, index) => index % arrayCount() === colIndex)
                 .map((testimonial) => (
                   <Testimonials
-                    email={testimonial.email}
-                    key={testimonial._id}
-                    imgPath={testimonial.imgPath}
-                    name={testimonial.name}
-                    starRating={testimonial.starRating}
-                    testimonial={testimonial.testimonial}
-                    createdAt={testimonial.createdAt}
-                    theme={theme}
-                    tip={testimonial.tip}
-                    title={testimonial?.title}
-                    xId={testimonial.xId}
-                    tweet={testimonial.tweet}
-                  />
+                  email={testimonial.email}
+                  key={testimonial._id}
+                  imgPath={testimonial.imgPath}
+                  name={testimonial.name}
+                  starRating={testimonial.starRating}
+                  text={testimonial.testimonial}
+                  testimonial={testimonial}
+                  createdAt={testimonial.createdAt}
+                  theme={theme}
+                  tip={testimonial.tip}
+                  title={testimonial?.title}
+                  xId={testimonial.xId}
+                  tweet={testimonial.tweet}
+                />
                 ))}
             </div>
           ))}

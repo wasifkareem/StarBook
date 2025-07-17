@@ -4,38 +4,56 @@ import TweetCard from "./TweetCard";
 import { useDispatch } from "react-redux";
 import { ReloadCards } from "../redux/InfoRedux";
 import { toast } from "react-toastify";
+import { FaXTwitter } from "react-icons/fa6";
 
 const TwitterCard = ({ spaceId, testimonials }) => {
   const [url, setUrl] = useState("");
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
+  const [isFetching, setIsFetching] = useState(false);
+  console.log(tweetData);
+
   const dispatch = useDispatch();
   const handleClick = async () => {
+    setIsFetching(true)
     try {
-      const getTweetData = await axios.get(
-        `https://react-tweet.vercel.app/api/tweet/${id}`
-      );
+      const getTweetData = await axios.get('http://localhost:3001/api/testimonials/fetch-tweet', {
+        params: { xId: id }
+      });
 
+      let tweet = getTweetData?.data;
       const data = {
-        xId: id,
         tweet: true,
         spaceId: spaceId,
-        testimonial: getTweetData?.data?.data?.text,
+        testimonial: tweet.text,
+        imgPath: tweet.user.profile_image_url_https,
+        name: tweet.user.name,
+        twitterHandle: tweet.user.screen_name,
+        imgMedia:tweet?.photos?.[0]?.url,
+        entities:tweet.entities,
+        poster:tweet?.video?.poster,
+        likes:tweet.favorite_count,
+        video:tweet?.video?.variants[tweet?.video.variants.length-1]?.src,
+        date:tweet.created_at,
+        xId:tweet.id_str
+        
       };
       const res = await axios.post(
-        `https://starbook.onrender.com/api/testimonials/create`,
+        `http://localhost:3001/api/testimonials/create`,
         data
       );
-      console.log(res);
       if (res.status == 200) {
         dispatch(ReloadCards());
         toast.success("🎊 Testimonial Created");
+        setIsFetching(false)
         setUrl("");
       }
     } catch (err) {
       console.error(err);
     }
   };
+
+  
 
   return (
     <>
@@ -46,7 +64,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
           </label>
           <input
             value={url}
-            className="  outline-cyan-700 w-[450px] rounded border border-slate-300 px-2 py-1"
+            className="  outline-cyan-700 w-[450px] rounded-lg border border-gray-300 px-2 py-1"
             type="text"
             placeholder="https://x.com/elonmusk/status/1830650370336473253"
             onChange={(e) => setUrl(e.target.value)}
@@ -54,10 +72,10 @@ const TwitterCard = ({ spaceId, testimonials }) => {
         </div>
         <div className=" bg-white"></div>
         <button
-          className=" bg-slate-600 text-white font-semibold px-2 rounded mx-2 py-1"
+          className=" flex items-center gap-2 border font-semibold font-quicksand shadow-gray-300 shadow-sm hover:border-gray-300 hover:shadow-none transition-all text-[#171717]  px-4 rounded-lg mx-2 py-1"
           onClick={handleClick}
         >
-          Get tweet
+          Get tweet <FaXTwitter  className={`text-lg p-1 rounded-sm ${isFetching && 'animate-spin'} text-white bg-[#171717] `}/>
         </button>
       </div>
       <div className=" w-full flex justify-center">
@@ -71,11 +89,22 @@ const TwitterCard = ({ spaceId, testimonials }) => {
                   ?.filter((_, index) => index % 2 === colIndex)
                   .map((testimonial) => (
                     <TweetCard
+                      isAdmin={true}
+                      imgPath={testimonial.imgPath}
                       spaceId={spaceId}
                       xId={testimonial.xId}
                       Id={testimonial._id}
                       key={testimonial._id}
                       WOF={testimonial.WOF}
+                      name={testimonial.name}
+                      testimonial={testimonial?.testimonial}
+                      twitterHandle={testimonial?.twitterHandle}
+                      entities={testimonial?.entities}
+                      likes={testimonial?.likes}
+                      date={testimonial?.date}
+                      imgMedia={testimonial?.imgMedia}
+                      poster={testimonial?.poster}
+                      video={testimonial?.video}
                     />
                   ))}
               </div>

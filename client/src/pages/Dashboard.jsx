@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Testimonials from "../components/Testimonials";
-import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader";
-import Wall from "../components/Wall";
-import DashoardCard from "../components/DashoardCard";
-import EditSpace from "../components/EditSpace";
-import AddSpace from "../components/AddSpace";
-import Razorpaykeys from "../components/Razorpaykeys";
-import RPDash from "../components/RPDash";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { FaPenFancy } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useAuth, useUser } from "@clerk/clerk-react";
-import TwitterCard from "../components/TwitterCard";
-import { Tweet } from "react-tweet";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import AddSpace from "../components/AddSpace";
 import Insights from "../components/Insights";
-import { GiArtificialHive } from "react-icons/gi";
-import { FaPenFancy } from "react-icons/fa";
+import Loader from "../components/Loader";
+import TwitterCard from "../components/TwitterCard";
+import Wall from "../components/Wall";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [insightsToggle, setInsightsToggle] = useState(false);
-  const [isBtn, setIsBtn] = useState("All");
+  const [isBtn, setIsBtn] = useState("Twitter");
   const location = useLocation();
 
   const { ReloadSpaceInfo } = useSelector((state) => state?.info);
@@ -39,7 +30,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
-        `https://starbook.onrender.com/api/space/fetch-space?spaceId=${spaceId}`
+        `http://localhost:3001/api/space/fetch-space?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);
@@ -51,7 +42,6 @@ const Dashboard = () => {
   if (!spaceInfo) {
     return <Loader />;
   }
-
   return (
     <>
       {insightsToggle ? (
@@ -91,22 +81,10 @@ const Dashboard = () => {
                 Generate Insights <FaPenFancy className=" " />
               </button>
             </div>
-            <p className=" text-slate-500 md:mt-1">
-              Space public url :
-              <Link
-                style={{ overflowWrap: "anywhere" }}
-                className=" underline"
-                target="_blank"
-                rel="noopener noreferrer"
-                to={`/public/${spaceInfo?._id}`}
-              >
-                {" "}
-                {window.location.origin}/{spaceInfo?._id}
-              </Link>
-            </p>
+
           </div>
         </div>
-        {isKey ? (
+        {/* {isKey ? (
           <RPDash spaceInfo={spaceInfo} spaceId={spaceId} />
         ) : (
           <div className=" md:w-[430px] border border-slate-300 flex flex-col  justify-between  items-center py-6 rounded text-slate-800">
@@ -119,19 +97,11 @@ const Dashboard = () => {
               and allow your happy customers to tip you while leaving reviews.
             </p>
           </div>
-        )}
+        )} */}
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
-        <div className=" md:w-2/6  flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
-          <button
-            onClick={() => setIsBtn("All")}
-            className={` w-full hover:bg-slate-200 transition-colors  ${
-              isBtn === "All" && "bg-slate-100"
-            } font-semibold text-slate-800 text-start px-4 py-2 rounded-md `}
-          >
-            All
-          </button>
+        <div className=" md:w-2/6  font-quicksand flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
           <button
             onClick={() => setIsBtn("Twitter")}
             className={` w-full hover:bg-slate-200 transition-colors  ${
@@ -146,15 +116,7 @@ const Dashboard = () => {
           >
             Wall of Fame
           </button>
-          <Link
-            target="_blank"
-            rel="noopener noreferrer"
-            to={`/${spaceInfo?._id}`}
-          >
-            <button className=" w-full hover:bg-slate-200  transition-colors font-semibold text-slate-800 text-start px-4 py-2 rounded-md ">
-              Public landing page
-            </button>
-          </Link>
+         
           <button
             onClick={() => setToggle(true)}
             className=" w-full hover:bg-slate-200 transition-colors  font-semibold text-slate-800 text-start px-4 py-2 rounded-md "
@@ -196,26 +158,7 @@ const Dashboard = () => {
             </>
           ) : (
             <div className=" transition-all flex flex-col gap-3">
-              {isBtn === "All" &&
-                testimonials
-                  ?.filter((t) => !t.tweet)
-                  ?.toReversed()
-                  .map((testimonial) => (
-                    <DashoardCard
-                      spaceId={spaceId}
-                      email={testimonial.email}
-                      key={testimonial._id}
-                      Id={testimonial._id}
-                      imgPath={testimonial.imgPath}
-                      name={testimonial.name}
-                      starRating={testimonial.starRating}
-                      testimonial={testimonial.testimonial}
-                      createdAt={testimonial.createdAt}
-                      WOF={testimonial.WOF}
-                      tip={testimonial.tip}
-                      title={testimonial?.title}
-                    />
-                  ))}
+             
               {isBtn === "Twitter" && (
                 <TwitterCard spaceId={spaceId} testimonials={testimonials} />
               )}

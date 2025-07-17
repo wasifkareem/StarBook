@@ -57,7 +57,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "https://starbook.onrender.com/upload",
+            "http://localhost:3001/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
@@ -65,7 +65,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
         data.ownerEmail = emailAddress;
         if (isEdit === true) {
           const response = await axios.put(
-            `https://starbook.onrender.com/api/space/update-space?spaceId=${spaceInfo._id}`,
+            `http://localhost:3001/api/space/update-space?spaceId=${spaceInfo._id}`,
             data
           );
           if (response.status == 200) {
@@ -77,7 +77,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
           }
         } else {
           const response = await axios.post(
-            "https://starbook.onrender.com/api/space/create-space",
+            "http://localhost:3001/api/space/create-space",
             data
           );
           if (response.status == 200) {
@@ -114,47 +114,8 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
         </button>
 
         <div className=" md:flex flex-row md:justify-center px-10 gap-4">
-          <div className="hidden md:block w-2/5">
-            <div className=" relative mx-auto w-[28rem] flex  flex-col justify-center rounded-md border border-slate-300 shadow-slate-400 shadow-lg py-3 pt-10">
-              <label className=" flex items-center gap-1 absolute top-[-14px] left-2 bg-green-200 text-green-800 font-semibold rounded-xl px-4 py-1 text-sm">
-                Space public page - Live Preview
-                <div className=" text-red-500 shadow-2xl shadow-red-700  m-0 p-0 animate-pulse h-2 w-2 rounded-full bg-red-700"></div>
-              </label>
-              <img
-                className=" h-20 rounded w-fit self-center"
-                src={imgPreview ? imgPreview : "/assets/review.png"}
-                alt=""
-              />
-              <h2 className="  w-[24rem] text-center break-words whitespace-normal self-center text-3xl font-semibold text-slate-700 mt-9">
-                {headerPreview ? headerPreview : "Header goes here..."}
-              </h2>
-              <p className=" w-[24rem] text-center break-words whitespace-normal text-slate-600 self-center mt-4">
-                {msgPreview ? msgPreview : " Your custom message goes here..."}
-              </p>
-              <div className=" mx-12 flex flex-col md:self-center">
-                <p className=" font-semibold text-lg mt-10 md:mt-16 md:text-lg ">
-                  {" "}
-                  QUESTIONS
-                </p>
-                <hr className=" w-8 h-1 bg-cyan-700 mt-2" />
-                <ul className=" w-[22rem] break-words whitespace-normal  text-slate-700 mt-5 list-disc md:text-md">
-                  <li>
-                    {one ? one : "Who are you / what are you working on?"}
-                  </li>
-                  <li>
-                    {two ? two : "How has [our product / service] helped you?"}
-                  </li>
-                  <li>
-                    {three
-                      ? three
-                      : "What is the best thing about [our product / service]"}
-                  </li>
-                </ul>
-              </div>
-              <button className=" w-3/5 md:w-60 mb-5 md:mb-14 bg-cyan-600 self-center py-3 mt-10 text-white font-semibold text-lg rounded">
-                Send Text
-              </button>
-            </div>
+          <div className="hidden md:block">
+           
           </div>
           <div className=" md:w-3/5 flex flex-col justify-center">
             <div className=" text-center flex flex-col gap-3">

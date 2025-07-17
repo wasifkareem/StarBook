@@ -3,16 +3,21 @@ const { default: mongoose } = require("mongoose");
 const testimonialSchema = new mongoose.Schema(
   {
     imgPath: { type: String, required: false },
-    starRating: { type: Number, required: false },
     testimonial: { type: String, required: false },
     name: { type: String, required: false },
+    twitterHandle: { type: String, required: false },
+    entities:{type:Object, required:false},
+    likes:{type:String,required:false},
+    imgMedia: { type: String, required: false },
     spaceId: { type: String, required: false },
     email: { type: String, required: false },
     WOF: { type: Boolean, default: false },
     tweet: { type: Boolean, default: false },
     xId: { type: String, default: false },
-    tip: { type: Number, default: null },
     title: { type: String, default: null },
+    date:{type:String, required:false},
+    poster:{type:String, required:false},
+    video:{type:String, required:false}
   },
   { timestamps: true }
 );

@@ -32,7 +32,7 @@ router.post("/get-insights", async (req, res) => {
 
     text = JSON.parse(text);
     
-console.log(testi_arr)
+// console.log(testi_arr)
     res.status(200).json(text);
   } catch (err) {
     console.error(err);
