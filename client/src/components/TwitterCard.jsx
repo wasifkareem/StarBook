@@ -17,7 +17,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
   const handleClick = async () => {
     setIsFetching(true)
     try {
-      const getTweetData = await axios.get('http://localhost:3001/api/testimonials/fetch-tweet', {
+      const getTweetData = await axios.get('https://starbook.onrender.com/api/testimonials/fetch-tweet', {
         params: { xId: id }
       });
 
@@ -39,7 +39,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
         
       };
       const res = await axios.post(
-        `http://localhost:3001/api/testimonials/create`,
+        `https://starbook.onrender.com/api/testimonials/create`,
         data
       );
       if (res.status == 200) {

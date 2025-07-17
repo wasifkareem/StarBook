@@ -30,7 +30,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
-        `http://localhost:3001/api/space/fetch-space?spaceId=${spaceId}`
+        `https://starbook.onrender.com/api/space/fetch-space?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);
