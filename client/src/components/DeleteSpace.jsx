@@ -16,7 +16,7 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }) => {
   const handleClick = async () => {
     if (input == spaceName) {
       const res = await axios.delete(
-        `http://localhost:3000/api/space/delete-space?spaceId=${spaceId}`
+        `https://starbook.onrender.com/api/space/delete-space?spaceId=${spaceId}`
       );
       if (res.status == 200) {
         dispatch(ReloadSpaces());
