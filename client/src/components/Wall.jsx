@@ -85,12 +85,13 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
                         .filter((_, index) => index % arrayCount() === colIndex)
                         .map((testimonial) => (
                           <Testimonials
-                            email={testimonial.email}
+                           email={testimonial.email}
                             key={testimonial._id}
                             imgPath={testimonial.imgPath}
                             name={testimonial.name}
                             starRating={testimonial.starRating}
-                            testimonial={testimonial.testimonial}
+                            text={testimonial.testimonial}
+                            testimonial={testimonial}
                             createdAt={testimonial.createdAt}
                             theme={theme}
                             tip={testimonial.tip}

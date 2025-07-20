@@ -39,7 +39,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
-        `https://starbook.onrender.com/api/space/fetch-space?spaceId=${spaceId}`
+        `http://localhost:3000/api/space/fetch-space?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);
@@ -149,7 +149,7 @@ const Dashboard = () => {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            to={`/${spaceInfo?._id}`}
+            to={`/public/${spaceInfo?._id}`}
           >
             <button className=" w-full hover:bg-slate-200  transition-colors font-semibold text-slate-800 text-start px-4 py-2 rounded-md ">
               Public landing page

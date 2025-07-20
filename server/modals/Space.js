@@ -13,6 +13,13 @@ const testimonialSchema = new mongoose.Schema(
     xId: { type: String, default: false },
     tip: { type: Number, default: null },
     title: { type: String, default: null },
+    twitterHandle: { type: String, required: false },
+    entities:{type:Object, required:false},
+    likes:{type:String,required:false},
+    imgMedia: { type: String, required: false },
+    date:{type:String, required:false},
+    poster:{type:String, required:false},
+    video:{type:String, required:false}
   },
   { timestamps: true }
 );

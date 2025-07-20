@@ -3,12 +3,14 @@ import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import StarRatings from "react-star-ratings";
 import { Tooltip } from "react-tooltip";
 import { Tweet } from "react-tweet";
+import TweetCard from "./TweetCard";
 
 const Testimonials = ({
   email,
   imgPath,
   name,
   starRating,
+  text,
   testimonial,
   createdAt,
   theme,
@@ -30,7 +32,23 @@ const Testimonials = ({
           theme == "true" || theme == true ? "dark" : "light"
         } rounded-xl`}
       >
-        <Tweet id={xId} />
+          <TweetCard
+                    isAdmin={false}
+                    imgPath={testimonial.imgPath}
+                    xId={testimonial.xId}
+                    Id={testimonial._id}
+                    key={testimonial._id}
+                    WOF={testimonial.WOF}
+                    name={testimonial.name}
+                    testimonial={testimonial?.testimonial}
+                    twitterHandle={testimonial?.twitterHandle}
+                    entities={testimonial?.entities}
+                    likes={testimonial?.likes}
+                    date={testimonial?.date}
+                    imgMedia={testimonial?.imgMedia}
+                    poster={testimonial?.poster}
+                    video={testimonial?.video}
+                    />
       </div>
     );
   }
@@ -107,7 +125,7 @@ const Testimonials = ({
         }}
         className=" first-letter:uppercase"
       >
-        {testimonial}
+        {text}
       </div>
       <p
         style={{

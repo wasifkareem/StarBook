@@ -9,6 +9,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
   const [url, setUrl] = useState("");
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
+  console.log(tweetData)
   const dispatch = useDispatch();
   const handleClick = async () => {
     try {
@@ -23,7 +24,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
         testimonial: getTweetData?.data?.data?.text,
       };
       const res = await axios.post(
-        `https://starbook.onrender.com/api/testimonials/create`,
+        `http://localhost:3000/api/testimonials/create`,
         data
       );
       console.log(res);
@@ -71,11 +72,22 @@ const TwitterCard = ({ spaceId, testimonials }) => {
                   ?.filter((_, index) => index % 2 === colIndex)
                   .map((testimonial) => (
                     <TweetCard
-                      spaceId={spaceId}
-                      xId={testimonial.xId}
-                      Id={testimonial._id}
-                      key={testimonial._id}
-                      WOF={testimonial.WOF}
+                    isAdmin={true}
+                    imgPath={testimonial.imgPath}
+                    spaceId={spaceId}
+                    xId={testimonial.xId}
+                    Id={testimonial._id}
+                    key={testimonial._id}
+                    WOF={testimonial.WOF}
+                    name={testimonial.name}
+                    testimonial={testimonial?.testimonial}
+                    twitterHandle={testimonial?.twitterHandle}
+                    entities={testimonial?.entities}
+                    likes={testimonial?.likes}
+                    date={testimonial?.date}
+                    imgMedia={testimonial?.imgMedia}
+                    poster={testimonial?.poster}
+                    video={testimonial?.video}
                     />
                   ))}
               </div>

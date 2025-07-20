@@ -32,14 +32,14 @@ const EditSpace = () => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "https://starbook.onrender.com/upload",
+            "http://localhost:3000/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
         }
         data.ownerEmail = email;
         const response = await axios.post(
-          "https://starbook.onrender.com/api/space/create-space",
+          "http://localhost:3000/api/space/create-space",
           data,
           {
             headers: {
