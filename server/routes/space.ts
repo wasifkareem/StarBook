@@ -2,10 +2,12 @@ import Space from "../modals/Space.js";
 import verifyToken from "../middleware/auth.js";
 import bcrypt from "bcrypt";
 import express from "express";
+import { validate } from "../middleware/validate.ts";
+import {createSpaceSchema} from "../src/schemas/user.schema.ts"
 
 const router = express.Router();
 
-router.post("/create-space", async (req, res) => {
+router.post("/create-space",validate(createSpaceSchema), async (req, res) => {
   const newSpace = new Space({
     ownerEmail: req.body.ownerEmail,
     spaceName: req.body.spaceName,

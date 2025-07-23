@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import User from "./modals/User.js";
 import authRoute from "./routes/auth.js";
-import spaceRoute from "./routes/space.js";
+import spaceRoute from "./routes/space.ts";
 import testimonialRoute from "./routes/testimonials.js";
 import wallRoute from "./routes/wall.js";
 import tipRoute from "./routes/tip.js";
