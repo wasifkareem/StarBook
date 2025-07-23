@@ -1,8 +1,9 @@
-const Space = require("../modals/Space");
-const verifyToken = require("../middleware/auth");
-const bycrypt = require("bcrypt");
+import Space from "../modals/Space.js";
+import verifyToken from "../middleware/auth.js";
+import bcrypt from "bcrypt";
+import express from "express";
 
-const router = require("express").Router();
+const router = express.Router();
 
 router.post("/create-space", async (req, res) => {
   const newSpace = new Space({
@@ -27,13 +28,14 @@ router.delete("/delete-space", async (req, res) => {
   const { spaceId } = req.query;
   try {
     const spaceStatus = await Space.findByIdAndDelete(spaceId);
-    if (!res) return res.status(400).json("Space not found!");
+    if (!spaceStatus) return res.status(400).json("Space not found!");
 
     res.status(200).json(spaceStatus);
   } catch (err) {
     console.error(err);
   }
 });
+
 router.put("/update-space", async (req, res) => {
   const { spaceId } = req.query;
   try {
@@ -49,7 +51,7 @@ router.put("/update-space", async (req, res) => {
     });
 
     if (!updatedSpace) {
-      res.status(400).json("Space not found!");
+      return res.status(400).json("Space not found!");
     }
     res.status(200).json(updatedSpace);
   } catch (err) {
@@ -66,6 +68,7 @@ router.get("/fetch-spaces", async (req, res) => {
     console.error(err);
   }
 });
+
 router.get("/fetch-space", async (req, res) => {
   const spaceId = req.query.spaceId;
   try {
@@ -75,6 +78,7 @@ router.get("/fetch-space", async (req, res) => {
     console.error(err);
   }
 });
+
 router.get("/fetch-reviewInfo", async (req, res) => {
   const spaceId = req.query.spaceId;
   try {
@@ -85,4 +89,4 @@ router.get("/fetch-reviewInfo", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

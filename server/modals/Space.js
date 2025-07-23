@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+import mongoose from "mongoose";
 
 const testimonialSchema = new mongoose.Schema(
   {
@@ -14,15 +14,16 @@ const testimonialSchema = new mongoose.Schema(
     tip: { type: Number, default: null },
     title: { type: String, default: null },
     twitterHandle: { type: String, required: false },
-    entities:{type:Object, required:false},
-    likes:{type:String,required:false},
+    entities: { type: Object, required: false },
+    likes: { type: String, required: false },
     imgMedia: { type: String, required: false },
-    date:{type:String, required:false},
-    poster:{type:String, required:false},
-    video:{type:String, required:false}
+    date: { type: String, required: false },
+    poster: { type: String, required: false },
+    video: { type: String, required: false }
   },
   { timestamps: true }
 );
+
 const itemSchema = new mongoose.Schema(
   {
     ownerEmail: { type: String, required: true },
@@ -40,4 +41,6 @@ const itemSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Space", itemSchema);
+const Space = mongoose.model("Space", itemSchema);
+
+export default Space;

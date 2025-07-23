@@ -23,7 +23,7 @@ const RPDash = ({ spaceInfo, spaceId }) => {
         try {
           setIsFetching(true);
           const res = await axios.get(
-            `https://starbook.onrender.com/api/tip/fetch-payments?userId=${userId}&label=${spaceId}`
+            `http://localhost:3000/api/tip/fetch-payments?userId=${userId}&label=${spaceId}`
           );
           setRPInfo(res.data);
           setIsFetching(false);
@@ -45,7 +45,7 @@ const RPDash = ({ spaceInfo, spaceId }) => {
   const handleChange = (nextChecked) => {
     const updateSpace = async () => {
       const res = await axios.put(
-        `https://starbook.onrender.com/api/space/update-space?spaceId=${spaceId}`,
+        `http://localhost:3000/api/space/update-space?spaceId=${spaceId}`,
         { tipBox: nextChecked }
       );
       if (res.status === 200) {

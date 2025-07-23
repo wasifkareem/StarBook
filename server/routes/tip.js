@@ -1,9 +1,12 @@
-const Razorpay = require("razorpay");
-const User = require("../modals/User");
-const crypto = require("crypto");
-const verifyToken = require("../middleware/auth");
-const router = require("express").Router();
-const { createClerkClient } = require("@clerk/clerk-sdk-node");
+import Razorpay from "razorpay";
+import User from "../modals/User.js";
+import crypto from "crypto";
+import verifyToken from "../middleware/auth.js";
+import express from "express";
+import { createClerkClient } from "@clerk/clerk-sdk-node";
+
+const router = express.Router();
+
 const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,
 });
@@ -14,7 +17,7 @@ router.get("/order", async (req, res) => {
   const user = await clerkClient.users.getUser(userId);
 
   if (!user.privateMetadata) {
-    res.status(200).json("Keys not found!");
+    return res.status(200).json("Keys not found!");
   }
 
   try {
@@ -31,7 +34,6 @@ router.get("/order", async (req, res) => {
       notes: {
         key1: label,
       },
-
       // 1 for automatic capture // 0 for manual capture
     };
     instance.orders.create(options, async (err, order) => {
@@ -57,7 +59,7 @@ router.post("/validate", async (req, res) => {
   const user = await clerkClient.users.getUser(userId);
 
   if (!user.privateMetadata) {
-    res.status(200).json("Keys not found!");
+    return res.status(200).json("Keys not found!");
   }
 
   const generatedSignature = crypto
@@ -83,7 +85,6 @@ router.get("/fetch-payments", async (req, res) => {
   const today = new Date();
   const pastDate = new Date();
   pastDate.setDate(today.getDate() - 30);
-  const pastTimestamp = pastDate.getTime();
 
   try {
     const options = {
@@ -94,7 +95,7 @@ router.get("/fetch-payments", async (req, res) => {
     const user = await clerkClient.users.getUser(userId);
 
     if (!user.privateMetadata) {
-      res.status(200).json("Keys not found!");
+      return res.status(200).json("Keys not found!");
     }
     const instance = new Razorpay({
       key_id: user.privateMetadata?.keyId,
@@ -129,4 +130,5 @@ router.put("/delete-keys", async (req, res) => {
     res.status(400).json(err);
   }
 });
-module.exports = router;
+
+export default router;

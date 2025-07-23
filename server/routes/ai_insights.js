@@ -1,7 +1,8 @@
-const Space = require("../modals/Space");
-const router = require("express").Router();
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const fs = require("fs");
+import Space from "../modals/Space.js";
+import express from "express";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import fs from "fs";
+const router = express.Router();
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 router.post("/get-insights", async (req, res) => {
@@ -17,6 +18,7 @@ router.post("/get-insights", async (req, res) => {
     }));
     if (testi_arr.length === 0) {
       res.status(400).json("No testimonials found, can't generate Insights");
+      return;
     }
     const prompt = `Analyse the testimonial in this array : ${JSON.stringify(
       testi_arr
@@ -31,12 +33,12 @@ router.post("/get-insights", async (req, res) => {
       .trim();
 
     text = JSON.parse(text);
-    
-console.log(testi_arr)
+
+    console.log(testi_arr);
     res.status(200).json(text);
   } catch (err) {
     console.error(err);
   }
 });
 
-module.exports = router;
+export default router;

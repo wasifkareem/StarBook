@@ -1,0 +1,84 @@
+// index.js
+import express from "express";
+import type { Request, Response } from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import User from "./modals/User.js";
+import authRoute from "./routes/auth.js";
+import spaceRoute from "./routes/space.js";
+import testimonialRoute from "./routes/testimonials.js";
+import wallRoute from "./routes/wall.js";
+import tipRoute from "./routes/tip.js";
+import insightsRoute from "./routes/ai_insights.js";
+import { v2 as cloudinary } from "cloudinary";
+import cors from "cors";
+import Multer from "multer";
+
+type ConnectOptions = Parameters<typeof mongoose.connect>[1];
+
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+dotenv.config();
+
+const mongoUrl = process.env.MONGO_URL;
+if (!mongoUrl) {
+  throw new Error("MONGO_URL environment variable is not set");
+}
+mongoose.connect(mongoUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+} as ConnectOptions);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+  console.log("Connected to MongoDB");
+});
+app.use(cors());
+
+//IMAGE HANDLING
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+async function handleUpload(file:string) {
+  const res = await cloudinary.uploader.upload(file, {
+    resource_type: "auto",
+  });
+  return res;
+}
+
+const storage = Multer.memoryStorage();
+const upload = Multer({
+  storage,
+});
+
+app.post("/upload", upload.single("my_file"), async (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    const cldRes = await handleUpload(dataURI);
+    res.json(cldRes);
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+app.use("/api/auth", authRoute);
+app.use("/api/space", spaceRoute);
+app.use("/api/testimonials", testimonialRoute);
+app.use("/api/wall", wallRoute);
+app.use("/api/tip", tipRoute);
+app.use("/api/AI", insightsRoute);
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});

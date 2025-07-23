@@ -1,7 +1,8 @@
-const verifyToken = require("../middleware/auth");
-const Space = require("../modals/Space");
+import express from "express";
+import verifyToken from "../middleware/auth.js";
+import Space from "../modals/Space.js";
 
-const router = require("express").Router();
+const router = express.Router();
 
 router.post("/create", async (req, res) => {
   const {
@@ -23,9 +24,6 @@ router.post("/create", async (req, res) => {
     video,
     twitterHandle,
     imgMedia,
-
-
-
   } = req.body;
   try {
     let mySpace = await Space.findById({ _id: spaceId });
@@ -49,7 +47,6 @@ router.post("/create", async (req, res) => {
       video,
       twitterHandle,
       imgMedia,
-
     });
     const updatedSpace = await mySpace.save();
     res.status(200).json(updatedSpace);
@@ -90,34 +87,31 @@ router.delete("/delete", async (req, res) => {
   }
 });
 
-router.get('/fetch-tweet',async (req,res)=>{
-  const {xId} = req.query;
-  const SYNDICATION_URL = 'https://cdn.syndication.twimg.com'
-
-
+router.get('/fetch-tweet', async (req, res) => {
+  const { xId } = req.query;
+  const SYNDICATION_URL = 'https://cdn.syndication.twimg.com';
 
   function getToken(xId) {
     return ((Number(xId) / 1e15) * Math.PI)
       .toString(6 ** 2)
-      .replace(/(0+|\.)/g, '')
+      .replace(/(0+|\.)/g, '');
   }
   try {
-    const url = new URL(`${SYNDICATION_URL}/tweet-result`)
+    const url = new URL(`${SYNDICATION_URL}/tweet-result`);
 
-    url.searchParams.set('id', xId)
-    url.searchParams.set('lang', 'en')
- 
-    url.searchParams.set('token', getToken(xId))
-  
-    const result = await fetch(url.toString())
-    const isJson = result.headers.get('content-type')?.includes('application/json')
-    const data = isJson ? await result.json() : undefined
-    if(result){
-      res.status(200).json(data)
+    url.searchParams.set('id', xId);
+    url.searchParams.set('lang', 'en');
+    url.searchParams.set('token', getToken(xId));
+
+    const result = await fetch(url.toString());
+    const isJson = result.headers.get('content-type')?.includes('application/json');
+    const data = isJson ? await result.json() : undefined;
+    if (result) {
+      res.status(200).json(data);
     }
   } catch (error) {
     console.error("Error fetching tweet:", error);
   }
-})
+});
 
-module.exports = router;
+export default router;

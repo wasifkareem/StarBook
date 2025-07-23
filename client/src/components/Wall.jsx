@@ -1,6 +1,6 @@
 import { CopyBlock, irBlack } from "react-code-blocks";
 import Testimonials from "./Testimonials";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useWindowDimensions } from "../utils/windowDimensions";
 
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
@@ -28,6 +28,16 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
       return 1;
     }
   };
+
+  useEffect(()=>{
+    const handleEsc =(e)=>{
+      if(e.key==="Escape"){
+        setWallPageToggle(false)
+      }
+    };
+    window.addEventListener("keydown",handleEsc);
+    return ()=>window.removeEventListener("keydown",handleEsc)
+   },[])
   return (
     <div
       className="  z-40 overflow-y-auto  fixed top-0 bottom-0 left-0 right-0 flex flex-col md:justify-center md:items-center "

@@ -1,24 +1,27 @@
-const User = require("../modals/User");
-const bycrypt = require("bcrypt");
-const router = require("express").Router();
-const jwt = require("jsonwebtoken");
-const verifyToken = require("../middleware/auth");
-const crypto = require("crypto");
-const { createClerkClient } = require("@clerk/clerk-sdk-node");
-require("dotenv").config();
+import User from "../modals/User.js";
+import bcrypt from "bcrypt";
+import express from "express";
+import jwt from "jsonwebtoken";
+import verifyToken from "../middleware/auth.js";
+import crypto from "crypto";
+import { createClerkClient } from "@clerk/clerk-sdk-node";
+import dotenv from "dotenv";
+dotenv.config();
+
+const router = express.Router();
+
 const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,
 });
 
 router.post("/register", async (req, res) => {
   const isEmailExist = await User.findOne({ email: req.body.email });
-  // console.log(isEmailExist);
 
   if (isEmailExist)
     return res.status(400).json("an account with this email already exist!");
   let password = req.body.password;
-  const salt = await bycrypt.genSalt();
-  const passwordHash = await bycrypt.hash(password, salt);
+  const salt = await bcrypt.genSalt();
+  const passwordHash = await bcrypt.hash(password, salt);
   const newUser = new User({
     firstName: req.body.firstName,
     password: passwordHash,
@@ -40,7 +43,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email: email });
     if (!user) return res.status(400).json("User not found!");
 
-    const isMatch = await bycrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json("Invalid Credentials!");
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
@@ -77,4 +80,4 @@ router.get("get-keyId", async (req, res) => {
   res.status(200).json(user?.privateMetadata);
 });
 
-module.exports = router;
+export default router;

@@ -57,7 +57,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "https://starbook.onrender.com/upload",
+            "http://localhost:3000/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
@@ -65,7 +65,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
         data.ownerEmail = emailAddress;
         if (isEdit === true) {
           const response = await axios.put(
-            `https://starbook.onrender.com/api/space/update-space?spaceId=${spaceInfo._id}`,
+            `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo._id}`,
             data
           );
           if (response.status == 200) {
@@ -77,7 +77,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
           }
         } else {
           const response = await axios.post(
-            "https://starbook.onrender.com/api/space/create-space",
+            "http://localhost:3000/api/space/create-space",
             data
           );
           if (response.status == 200) {

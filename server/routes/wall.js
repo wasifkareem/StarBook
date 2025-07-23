@@ -1,6 +1,7 @@
-const verifyToken = require("../middleware/auth");
-const Space = require("../modals/Space");
-const router = require("express").Router();
+import verifyToken from "../middleware/auth.js";
+import Space from "../modals/Space.js";
+import express from "express";
+const router = express.Router();
 
 router.get("/fetch-wall", async (req, res) => {
   const { spaceId } = req.query;
@@ -49,4 +50,4 @@ router.put("/update-wall", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
