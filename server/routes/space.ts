@@ -2,12 +2,13 @@ import Space from "../modals/Space.js";
 import verifyToken from "../middleware/auth.js";
 import bcrypt from "bcrypt";
 import express from "express";
-import { validate } from "../middleware/validate.ts";
-import {createSpaceSchema} from "../src/schemas/user.schema.ts"
+import type { Request, Response } from "express"
+import { validateBody, validateQuery } from "../middleware/validate.ts";
+import {type createSpace, createSpaceSchema, type fetchSpaces, fetchSpacesSchema, type spaceQuery, spaceQuerySchema, type updateSpaces, updateSpaceSchema} from "../src/schemas/space.schema.ts"
 
 const router = express.Router();
 
-router.post("/create-space",validate(createSpaceSchema), async (req, res) => {
+router.post("/create-space",validateBody(createSpaceSchema), async (req:Request<{},{},createSpace,{}>, res:Response) => {
   const newSpace = new Space({
     ownerEmail: req.body.ownerEmail,
     spaceName: req.body.spaceName,
@@ -26,7 +27,7 @@ router.post("/create-space",validate(createSpaceSchema), async (req, res) => {
   }
 });
 
-router.delete("/delete-space", async (req, res) => {
+router.delete("/delete-space",validateQuery(spaceQuerySchema), async (req:Request<{}, {}, {}, spaceQuery>, res:Response) => {
   const { spaceId } = req.query;
   try {
     const spaceStatus = await Space.findByIdAndDelete(spaceId);
@@ -38,7 +39,7 @@ router.delete("/delete-space", async (req, res) => {
   }
 });
 
-router.put("/update-space", async (req, res) => {
+router.put("/update-space",validateQuery(spaceQuerySchema),validateBody(updateSpaceSchema), async (req:Request<{}, {}, updateSpaces, spaceQuery>, res:Response) => {
   const { spaceId } = req.query;
   try {
     const updatedSpace = await Space.findByIdAndUpdate(spaceId, {
@@ -61,7 +62,7 @@ router.put("/update-space", async (req, res) => {
   }
 });
 
-router.get("/fetch-spaces", async (req, res) => {
+router.get("/fetch-spaces",validateQuery(fetchSpacesSchema), async (req:Request<{}, {}, {}, fetchSpaces>, res:Response) => {
   const email = req.query.email;
   try {
     let spaces = await Space.find({ ownerEmail: email });
