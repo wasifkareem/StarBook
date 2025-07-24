@@ -3,10 +3,8 @@ import express from "express";
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "./modals/User.js";
-import authRoute from "./routes/auth.js";
 import spaceRoute from "./routes/space.ts";
-import testimonialRoute from "./routes/testimonials.js";
+import testimonialRoute from "./routes/testimonials.ts";
 import wallRoute from "./routes/wall.js";
 import tipRoute from "./routes/tip.js";
 import insightsRoute from "./routes/ai_insights.js";
@@ -72,7 +70,6 @@ app.post("/upload", upload.single("my_file"), async (req: Request, res: Response
     });
   }
 });
-app.use("/api/auth", authRoute);
 app.use("/api/space", spaceRoute);
 app.use("/api/testimonials", testimonialRoute);
 app.use("/api/wall", wallRoute);

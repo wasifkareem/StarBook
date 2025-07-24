@@ -1,12 +1,15 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
+import type { createTestimonial } from "../src/schemas/testimonial.schema.ts";
+import type { createSpace } from "../src/schemas/space.schema.ts";
 
-const testimonialSchema = new mongoose.Schema(
+export interface Testimonial extends createTestimonial,Document {}
+const testimonialSchema = new Schema<Testimonial>(
   {
-    imgPath: { type: String, required: false },
+    imgPath: { type: String, required: true },
     starRating: { type: Number, required: false },
-    testimonial: { type: String, required: false },
-    name: { type: String, required: false },
-    spaceId: { type: String, required: false },
+    testimonial: { type: String, required: true },
+    name: { type: String, required: true },
+    spaceId: { type: String, required: true }, 
     email: { type: String, required: false },
     WOF: { type: Boolean, default: false },
     tweet: { type: Boolean, default: false },
@@ -15,7 +18,7 @@ const testimonialSchema = new mongoose.Schema(
     title: { type: String, default: null },
     twitterHandle: { type: String, required: false },
     entities: { type: Object, required: false },
-    likes: { type: String, required: false },
+    likes: { type: Number, required: false },
     imgMedia: { type: String, required: false },
     date: { type: String, required: false },
     poster: { type: String, required: false },
@@ -23,8 +26,12 @@ const testimonialSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-const itemSchema = new mongoose.Schema(
+ export interface Space extends createSpace, Document{
+  testimonials:Testimonial[],
+  WOF:Testimonial[],
+  tipBox?:boolean
+ }
+const itemSchema = new Schema<Space>(
   {
     ownerEmail: { type: String, required: true },
     spaceName: { type: String, required: true },

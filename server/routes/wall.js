@@ -1,5 +1,5 @@
 import verifyToken from "../middleware/auth.js";
-import Space from "../modals/Space.js";
+import Space from "../modals/Space.ts";
 import express from "express";
 const router = express.Router();
 

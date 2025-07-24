@@ -1,10 +1,11 @@
-import express from "express";
-import verifyToken from "../middleware/auth.js";
-import Space from "../modals/Space.js";
+import express, {type Request, type Response } from "express";
+import Space from "../modals/Space.ts";
+import { validateBody } from "../middleware/validate.ts";
+import {type createTestimonial, createTestimonialSchema} from "../src/schemas/testimonial.schema.ts"
 
 const router = express.Router();
 
-router.post("/create", async (req, res) => {
+router.post("/create",validateBody(createTestimonialSchema), async (req:Request<{},{},createTestimonial,{}>, res:Response) => {
   const {
     imgPath,
     starRating,

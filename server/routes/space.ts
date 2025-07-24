@@ -1,4 +1,4 @@
-import Space from "../modals/Space.js";
+import Space from "../modals/Space.ts";
 import verifyToken from "../middleware/auth.js";
 import bcrypt from "bcrypt";
 import express from "express";

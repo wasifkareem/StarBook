@@ -1,4 +1,4 @@
-import Space from "../modals/Space.js";
+import Space from "../modals/Space.ts";
 import express from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs";
