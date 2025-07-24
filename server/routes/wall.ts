@@ -49,7 +49,7 @@ router.put("/update-wall",validateQuery(updateWallQuerySchema), async (req:Reque
     const FinalUpdatedSpace = await Space.findById(spaceId);
     res.status(200).json(FinalUpdatedSpace);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: (error instanceof Error) ? error.message : "An unknown error occurred" });
   }
 });
 

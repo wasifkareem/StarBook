@@ -93,7 +93,7 @@ router.get('/fetch-tweet', async (req, res) => {
   const { xId } = req.query;
   const SYNDICATION_URL = 'https://cdn.syndication.twimg.com';
 
-  function getToken(xId) {
+  function getToken(xId:string) {
     return ((Number(xId) / 1e15) * Math.PI)
       .toString(6 ** 2)
       .replace(/(0+|\.)/g, '');
