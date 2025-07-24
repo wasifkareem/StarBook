@@ -1,8 +1,8 @@
-import Space from "../modals/Space";
+import Space from "../modals/Space.js";
 import express from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { validateQuery } from "../middleware/validate";
-import { spaceQuerySchema } from "../src/schemas/space.schema";
+import { validateQuery } from "../middleware/validate.js";
+import { spaceQuerySchema } from "../src/schemas/space.schema.js";
 const router = express.Router();
 router.post("/get-insights", validateQuery(spaceQuerySchema), async (req, res) => {
     const { spaceId } = req.query;

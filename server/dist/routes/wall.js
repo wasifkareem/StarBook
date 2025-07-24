@@ -1,8 +1,8 @@
-import { validateQuery } from "../middleware/validate";
-import Space from "../modals/Space";
+import { validateQuery } from "../middleware/validate.js";
+import Space from "../modals/Space.js";
 import express from "express";
-import { spaceQuerySchema } from "../src/schemas/space.schema";
-import { updateWallQuerySchema } from "../src/schemas/wall.schema";
+import { spaceQuerySchema } from "../src/schemas/space.schema.js";
+import { updateWallQuerySchema } from "../src/schemas/wall.schema.js";
 const router = express.Router();
 router.get("/fetch-wall", validateQuery(spaceQuerySchema), async (req, res) => {
     const { spaceId } = req.query;

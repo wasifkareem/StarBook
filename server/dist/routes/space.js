@@ -1,7 +1,7 @@
-import Space from "../modals/Space";
+import Space from "../modals/Space.js";
 import express from "express";
-import { validateBody, validateQuery } from "../middleware/validate";
-import { createSpaceSchema, fetchSpacesSchema, spaceQuerySchema, updateSpaceSchema } from "../src/schemas/space.schema";
+import { validateBody, validateQuery } from "../middleware/validate.js";
+import { createSpaceSchema, fetchSpacesSchema, spaceQuerySchema, updateSpaceSchema } from "../src/schemas/space.schema.js";
 const router = express.Router();
 router.post("/create-space", validateBody(createSpaceSchema), async (req, res) => {
     const newSpace = new Space({

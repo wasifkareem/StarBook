@@ -1,8 +1,8 @@
-import Space from "../modals/Space";
+import Space from "../modals/Space.js";
 import express, {type Request,type Response } from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { validateQuery } from "../middleware/validate";
-import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema";
+import { validateQuery } from "../middleware/validate.js";
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.js";
 const router = express.Router();
 
 

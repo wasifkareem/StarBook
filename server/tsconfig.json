@@ -13,5 +13,5 @@
       "skipLibCheck": true,
       "allowJs": true // <-- The key for gradual migration
     },
-    "include": ["index.ts","src/**/*","routes/**/*","modals/**/*","middleware/**/*"]
+    "include": ["index.ts","src/**/*","routes/**/*","modals/**/*","middleware/**/*",],
   }

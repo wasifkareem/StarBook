@@ -1,8 +1,8 @@
 import express from "express";
-import Space from "../modals/Space";
-import { validateBody, validateQuery } from "../middleware/validate";
-import { createTestimonialSchema, deleteTestimonialSchema } from "../src/schemas/testimonial.schema";
-import { spaceQuerySchema } from "../src/schemas/space.schema";
+import Space from "../modals/Space.js";
+import { validateBody, validateQuery } from "../middleware/validate.js";
+import { createTestimonialSchema, deleteTestimonialSchema } from "../src/schemas/testimonial.schema.js";
+import { spaceQuerySchema } from "../src/schemas/space.schema.js";
 const router = express.Router();
 router.post("/create", validateBody(createTestimonialSchema), async (req, res) => {
     const { imgPath, starRating, name, spaceId, email, WOF, testimonial, tip, title, xId, tweet, entities, likes, date, poster, video, twitterHandle, imgMedia, } = req.body;
