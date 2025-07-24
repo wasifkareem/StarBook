@@ -1,7 +1,8 @@
 import express, {type Request, type Response } from "express";
 import Space from "../modals/Space.ts";
-import { validateBody } from "../middleware/validate.ts";
-import {type createTestimonial, createTestimonialSchema} from "../src/schemas/testimonial.schema.ts"
+import { validateBody, validateQuery } from "../middleware/validate.ts";
+import {type createTestimonial, createTestimonialSchema, type deleteTestimonail, deleteTestimonialSchema} from "../src/schemas/testimonial.schema.ts"
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.ts";
 
 const router = express.Router();
 
@@ -56,7 +57,7 @@ router.post("/create",validateBody(createTestimonialSchema), async (req:Request<
   }
 });
 
-router.get("/fetch-all", async (req, res) => {
+router.get("/fetch-all",validateQuery(spaceQuerySchema), async (req:Request<{},{},{},spaceQuery>, res:Response) => {
   const { spaceId } = req.query;
   try {
     const mySpace = await Space.findById(spaceId);
@@ -68,7 +69,7 @@ router.get("/fetch-all", async (req, res) => {
   }
 });
 
-router.delete("/delete", async (req, res) => {
+router.delete("/delete",validateQuery(deleteTestimonialSchema), async (req:Request<{},{},{},deleteTestimonail>, res:Response) => {
   const { spaceId, testimonialId } = req.query;
   try {
     const deleteTestimonial = await Space.updateOne(
@@ -99,6 +100,11 @@ router.get('/fetch-tweet', async (req, res) => {
   }
   try {
     const url = new URL(`${SYNDICATION_URL}/tweet-result`);
+
+    
+    if (typeof xId !== "string") {
+      return res.status(400).json({ error: "xId is required and must be a string" });
+    }
 
     url.searchParams.set('id', xId);
     url.searchParams.set('lang', 'en');

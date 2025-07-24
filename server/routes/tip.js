@@ -1,7 +1,5 @@
 import Razorpay from "razorpay";
-import User from "../modals/User.js";
 import crypto from "crypto";
-import verifyToken from "../middleware/auth.js";
 import express from "express";
 import { createClerkClient } from "@clerk/clerk-sdk-node";
 

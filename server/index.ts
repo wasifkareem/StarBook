@@ -1,13 +1,18 @@
 // index.js
+import dotenv from "dotenv";
+dotenv.config();
+
+
 import express from "express";
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+
+
 import spaceRoute from "./routes/space.ts";
 import testimonialRoute from "./routes/testimonials.ts";
-import wallRoute from "./routes/wall.js";
+import wallRoute from "./routes/wall.ts";
 import tipRoute from "./routes/tip.js";
-import insightsRoute from "./routes/ai_insights.js";
+import insightsRoute from "./routes/ai_insights.ts";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 import Multer from "multer";
@@ -18,8 +23,7 @@ const app = express();
 const port = process.env.PORT||3000;
 
 app.use(express.json());
-dotenv.config();
-
+console.log()
 const mongoUrl = process.env.MONGO_URL;
 if (!mongoUrl) {
   throw new Error("MONGO_URL environment variable is not set");
@@ -73,7 +77,7 @@ app.post("/upload", upload.single("my_file"), async (req: Request, res: Response
 app.use("/api/space", spaceRoute);
 app.use("/api/testimonials", testimonialRoute);
 app.use("/api/wall", wallRoute);
-app.use("/api/tip", tipRoute);
+// app.use("/api/tip", tipRoute);
 app.use("/api/AI", insightsRoute);
 // Start the server
 app.listen(port, () => {

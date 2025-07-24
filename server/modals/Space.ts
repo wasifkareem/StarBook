@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 import type { createTestimonial } from "../src/schemas/testimonial.schema.ts";
 import type { createSpace } from "../src/schemas/space.schema.ts";
 
@@ -27,8 +27,8 @@ const testimonialSchema = new Schema<Testimonial>(
   { timestamps: true }
 );
  export interface Space extends createSpace, Document{
-  testimonials:Testimonial[],
-  WOF:Testimonial[],
+  testimonials:Types.DocumentArray<Testimonial>,
+  WOF:Types.DocumentArray<Testimonial>,
   tipBox?:boolean
  }
 const itemSchema = new Schema<Space>(

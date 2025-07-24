@@ -20,5 +20,11 @@ export const createTestimonialSchema = z.object({
   poster: z.string().optional(),
   video: z.string().optional(),
 })
+export const deleteTestimonialSchema  = z.object({
+    spaceId:z.string(),
+    testimonialId:z.string(),
+})
 
+
+export type deleteTestimonail = z.infer<typeof deleteTestimonialSchema>
 export type createTestimonial = z.infer< typeof createTestimonialSchema>

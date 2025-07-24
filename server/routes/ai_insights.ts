@@ -1,22 +1,24 @@
 import Space from "../modals/Space.ts";
-import express from "express";
+import express, {type Request,type Response } from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import fs from "fs";
+import { validateQuery } from "../middleware/validate.ts";
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.ts";
 const router = express.Router();
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
-router.post("/get-insights", async (req, res) => {
+
+router.post("/get-insights",validateQuery(spaceQuerySchema), async (req:Request<{},{},{},spaceQuery>, res:Response) => {
   const { spaceId } = req.query;
   if (!process.env.GOOGLE_API_KEY) {
     console.error("Gemini API key is missing. Unable to generate insights.");
     throw new Error("Gemini API key is missing");
   }
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
   try {
     const spaceData = await Space.findById({ _id: spaceId });
     const testi_arr = spaceData?.testimonials.map((obj) => ({
       testimonial: obj.testimonial,
     }));
-    if (testi_arr.length === 0) {
+    if (testi_arr?.length === 0) {
       res.status(400).json("No testimonials found, can't generate Insights");
       return;
     }

@@ -1,9 +1,12 @@
 import verifyToken from "../middleware/auth.js";
+import { validateQuery } from "../middleware/validate.ts";
 import Space from "../modals/Space.ts";
-import express from "express";
+import express, {type Request,type Response } from "express";
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.ts";
+import { updateWallQuerySchema} from "../src/schemas/wall.schema.ts"
 const router = express.Router();
 
-router.get("/fetch-wall", async (req, res) => {
+router.get("/fetch-wall",validateQuery(spaceQuerySchema), async (req:Request<{},{},{},spaceQuery>, res:Response) => {
   const { spaceId } = req.query;
   try {
     const space = await Space.findOne({ _id: spaceId });
@@ -14,7 +17,7 @@ router.get("/fetch-wall", async (req, res) => {
   }
 });
 
-router.put("/update-wall", async (req, res) => {
+router.put("/update-wall",validateQuery(updateWallQuerySchema), async (req:Request, res:Response) => {
   const { spaceId, testimonialId, WOF } = req.query;
   const isActiveBoolean = WOF === "true";
   try {
@@ -29,8 +32,8 @@ router.put("/update-wall", async (req, res) => {
         { _id: spaceId },
         {
           $push: {
-            WOF: UpdatedSpace.testimonials.find(
-              (t) => t._id.toString() === testimonialId
+            WOF: UpdatedSpace?.testimonials.find(
+              (t) => (t as {_id:string})._id.toString() === testimonialId
             ),
           },
         }
