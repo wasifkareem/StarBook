@@ -7,8 +7,6 @@
       "outDir": "./dist",
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
-      "allowImportingTsExtensions": true,
-      "noEmit": true,
       "forceConsistentCasingInFileNames": true,
       "strict": true,
       "skipLibCheck": true,
