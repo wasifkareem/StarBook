@@ -7,30 +7,43 @@ import { toast } from "react-toastify";
 
 const TwitterCard = ({ spaceId, testimonials }) => {
   const [url, setUrl] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
   console.log(tweetData)
   const dispatch = useDispatch();
   const handleClick = async () => {
+    setIsFetching(true)
     try {
-      const getTweetData = await axios.get(
-        `https://react-tweet.vercel.app/api/tweet/${id}`
-      );
+      const getTweetData = await axios.get('http://localhost:3000/api/testimonials/fetch-tweet', {
+        params: { xId: id }
+      });
 
+      let tweet = getTweetData?.data;
       const data = {
-        xId: id,
         tweet: true,
         spaceId: spaceId,
-        testimonial: getTweetData?.data?.data?.text,
+        testimonial: tweet.text,
+        imgPath: tweet.user.profile_image_url_https,
+        name: tweet.user.name,
+        twitterHandle: tweet.user.screen_name,
+        imgMedia:tweet?.photos?.[0]?.url,
+        entities:tweet.entities,
+        poster:tweet?.video?.poster,
+        likes:tweet.favorite_count,
+        video:tweet?.video?.variants[tweet?.video.variants.length-1]?.src,
+        date:tweet.created_at,
+        xId:tweet.id_str
+        
       };
       const res = await axios.post(
         `http://localhost:3000/api/testimonials/create`,
         data
       );
-      console.log(res);
       if (res.status == 200) {
         dispatch(ReloadCards());
         toast.success("🎊 Testimonial Created");
+        setIsFetching(false)
         setUrl("");
       }
     } catch (err) {
