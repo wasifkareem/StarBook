@@ -9,6 +9,7 @@
       "allowSyntheticDefaultImports": true,
       "forceConsistentCasingInFileNames": true,
       "strict": true,
+      "typeRoots": ["./node_modules/@types", "./types"],
       "skipLibCheck": true,
       "allowJs": true // <-- The key for gradual migration
     },
