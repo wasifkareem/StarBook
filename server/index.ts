@@ -8,11 +8,11 @@ import type { Request, Response } from "express";
 import mongoose from "mongoose";
 
 
-import spaceRoute from "./routes/space.ts";
-import testimonialRoute from "./routes/testimonials.ts";
-import wallRoute from "./routes/wall.ts";
+import spaceRoute from "./routes/space";
+import testimonialRoute from "./routes/testimonials";
+import wallRoute from "./routes/wall";
 import tipRoute from "./routes/tip.js";
-import insightsRoute from "./routes/ai_insights.ts";
+import insightsRoute from "./routes/ai_insights";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 import Multer from "multer";

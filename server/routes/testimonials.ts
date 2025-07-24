@@ -1,8 +1,8 @@
 import express, {type Request, type Response } from "express";
-import Space from "../modals/Space.ts";
-import { validateBody, validateQuery } from "../middleware/validate.ts";
-import {type createTestimonial, createTestimonialSchema, type deleteTestimonail, deleteTestimonialSchema} from "../src/schemas/testimonial.schema.ts"
-import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.ts";
+import Space from "../modals/Space";
+import { validateBody, validateQuery } from "../middleware/validate";
+import {type createTestimonial, createTestimonialSchema, type deleteTestimonail, deleteTestimonialSchema} from "../src/schemas/testimonial.schema"
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema";
 
 const router = express.Router();
 

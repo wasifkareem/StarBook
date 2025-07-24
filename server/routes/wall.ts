@@ -1,9 +1,9 @@
 import verifyToken from "../middleware/auth.js";
-import { validateQuery } from "../middleware/validate.ts";
-import Space from "../modals/Space.ts";
+import { validateQuery } from "../middleware/validate";
+import Space from "../modals/Space";
 import express, {type Request,type Response } from "express";
-import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.ts";
-import { updateWallQuerySchema} from "../src/schemas/wall.schema.ts"
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema";
+import { updateWallQuerySchema} from "../src/schemas/wall.schema"
 const router = express.Router();
 
 router.get("/fetch-wall",validateQuery(spaceQuerySchema), async (req:Request<{},{},{},spaceQuery>, res:Response) => {
