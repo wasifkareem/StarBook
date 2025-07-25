@@ -7,11 +7,14 @@
       "outDir": "./dist",
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
+      "allowImportingTsExtensions": true,
+      "noEmit": true,
       "forceConsistentCasingInFileNames": true,
       "strict": true,
       "typeRoots": ["./node_modules/@types", "./types"],
       "skipLibCheck": true,
       "allowJs": true // <-- The key for gradual migration
+      
     },
     "include": ["index.ts","src/**/*","routes/**/*","modals/**/*","middleware/**/*",],
   }
