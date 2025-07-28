@@ -4,11 +4,11 @@ dotenv.config();
 
 import express from "express";
 import type { Request, Response } from "express";
-import spaceRoute from "./routes/space.ts";
-import testimonialRoute from "./routes/testimonials.ts";
-import wallRoute from "./routes/wall.ts";
+import spaceRoute from "./routes/space.js";
+import testimonialRoute from "./routes/testimonials.js";
+import wallRoute from "./routes/wall.js";
 import tipRoute from "./routes/tip.js";
-import insightsRoute from "./routes/ai_insights.ts";
+import insightsRoute from "./routes/ai_insights.js";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 import Multer from "multer";

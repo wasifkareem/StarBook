@@ -1,8 +1,8 @@
-import { validateQuery } from "../middleware/validate.ts";
+import { validateQuery } from "../middleware/validate.js";
 import express, {type Request,type Response } from "express";
-import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.ts";
-import { type updateWallQuery, updateWallQuerySchema} from "../src/schemas/wall.schema.ts"
-import prisma from "../prisma/db.ts";
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.js";
+import { type updateWallQuery, updateWallQuerySchema} from "../src/schemas/wall.schema.js"
+import prisma from "../prisma/db.js";
 const router = express.Router();
 
 router.get("/fetch-wall",validateQuery(spaceQuerySchema), async (req:Request<{},{},{},spaceQuery>, res:Response) => {
