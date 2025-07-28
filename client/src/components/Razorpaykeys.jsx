@@ -33,7 +33,7 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
           userId: userId,
         };
         const res = await axios.put(
-          "http://localhost:3000/api/auth/add-keys",
+          "https://starbook-1.onrender.com/api/auth/add-keys",
           data
         );
         if (res.status === 200) {
@@ -54,7 +54,7 @@ const Razorpaykeys = ({ setKeyToggle, setToggle }) => {
   const deleteKeys = async () => {
     setIsFetching(true);
     const res = await axios.put(
-      `http://localhost:3000/api/tip/delete-keys?userId=${userId}`,
+      `https://starbook-1.onrender.com/api/tip/delete-keys?userId=${userId}`,
       {}
     );
     if (res.status === 200) {

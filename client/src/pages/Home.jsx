@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `http://localhost:3000/api/space/fetch-spaces?email=${user?.primaryEmailAddress.emailAddress}`
+        `https://starbook-1.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress.emailAddress}`
       );
       setCardData(response.data);
     };

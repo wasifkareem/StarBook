@@ -14,7 +14,7 @@ const Embed = () => {
   useEffect(() => {
     const getTestimonials = async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/wall/fetch-wall?spaceId=${spaceId}`
+        `https://starbook-1.onrender.com/api/wall/fetch-wall?spaceId=${spaceId}`
       );
       setTestimonials(res?.data.testimonials);
     };
