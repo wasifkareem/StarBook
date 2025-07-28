@@ -1,0 +1,55 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Space {
+  id            String        @id @default(cuid())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  ownerEmail    String
+  spaceName     String
+  qOne          String
+  qTwo          String
+  qThree        String
+  imgPath       String?
+  headerTitle   String
+  message       String
+  tipBox        Boolean?       @default(false)
+  testimonials  Testimonial[]
+
+  @@index([ownerEmail])
+}
+
+model Testimonial {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  imgPath       String
+  starRating    Int?
+  testimonial   String
+  name          String
+  email         String?
+  WOF           Boolean  @default(false)
+  tweet         Boolean  @default(false)
+  xId           String?
+  tip           Int?
+  title         String?
+  twitterHandle String?
+  entities      Json?
+  likes         Int?
+  imgMedia      String?
+  date          String?
+  poster        String?
+  video         String?
+
+  // Relation to Space
+  spaceId String
+  space   Space  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+
+  @@index([spaceId])
+}

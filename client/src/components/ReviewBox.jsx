@@ -55,9 +55,10 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
         imgFile
       );
       data.imgPath = assetInfo.data.url;
-      data.spaceId = spaceInfo?._id;
+      data.spaceId = spaceInfo?.id;
       data.starRating = rating;
       data.tip = payDetails?.amount;
+      console.log(data)
       const response = await axios.post(
         "http://localhost:3000/api/testimonials/create",
         data

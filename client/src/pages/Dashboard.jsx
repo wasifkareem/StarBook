@@ -33,7 +33,7 @@ const Dashboard = () => {
   const spaceId = location.pathname.split("/")[3];
   const { ReloadCards } = useSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState(null);
-  const [publicTestimonials, setPublicTestimonials] = useState([]);
+  const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
   const { userId } = useAuth();
   const { isKey } = useSelector((state) => state?.pay);
   useEffect(() => {
@@ -43,11 +43,9 @@ const Dashboard = () => {
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);
-      setPublicTestimonials(res.data.WOF);
     };
     getSpace();
   }, [ReloadSpaceInfo, ReloadCards]);
-
   if (!spaceInfo) {
     return <Loader />;
   }
@@ -98,15 +96,15 @@ const Dashboard = () => {
                 className=" underline"
                 target="_blank"
                 rel="noopener noreferrer"
-                to={`/public/${spaceInfo?._id}`}
+                to={`/public/${spaceInfo?.id}`}
               >
                 {" "}
-                {window.location.origin}/{spaceInfo?._id}
+                {window.location.origin}/{spaceInfo?.id}
               </Link>
             </p>
           </div>
         </div>
-        {isKey ? (
+        {/* {isKey ? (
           <RPDash spaceInfo={spaceInfo} spaceId={spaceId} />
         ) : (
           <div className=" md:w-[430px] border border-slate-300 flex flex-col  justify-between  items-center py-6 rounded text-slate-800">
@@ -119,7 +117,7 @@ const Dashboard = () => {
               and allow your happy customers to tip you while leaving reviews.
             </p>
           </div>
-        )}
+        )} */}
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
@@ -204,8 +202,8 @@ const Dashboard = () => {
                     <DashoardCard
                       spaceId={spaceId}
                       email={testimonial.email}
-                      key={testimonial._id}
-                      Id={testimonial._id}
+                      key={testimonial.id}
+                      Id={testimonial.id}
                       imgPath={testimonial.imgPath}
                       name={testimonial.name}
                       starRating={testimonial.starRating}

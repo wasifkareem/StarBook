@@ -56,8 +56,8 @@ const Home = () => {
           {cardData?.map((card) => (
             <SpaceCard
               spaceName={card.spaceName}
-              key={card._id}
-              spaceId={card._id}
+              key={card.id}
+              spaceId={card.id}
               imgPath={card.imgPath}
               testimonials={card.testimonials}
             />

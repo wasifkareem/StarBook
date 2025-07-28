@@ -76,7 +76,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
             </button>
           </div>
         </div>
-        {publicTestimonials.length <= 0 ? (
+        {publicTestimonials?.length <= 0 ? (
           <p className=" text-center md:mt-32 mt-20 font-semibold text-slate-200 md:text-5xl text-xl">
             Wall of fame is empty, add some testimonials
           </p>
@@ -92,7 +92,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
                   .map((_, colIndex) => (
                     <div className="grid gap-3 justify-center" key={colIndex}>
                       {publicTestimonials
-                        .filter((_, index) => index % arrayCount() === colIndex)
+                        ?.filter((_, index) => index % arrayCount() === colIndex)
                         .map((testimonial) => (
                           <Testimonials
                            email={testimonial.email}

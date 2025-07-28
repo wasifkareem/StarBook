@@ -65,7 +65,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }) => {
         data.ownerEmail = emailAddress;
         if (isEdit === true) {
           const response = await axios.put(
-            `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo._id}`,
+            `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo.id}`,
             data
           );
           if (response.status == 200) {

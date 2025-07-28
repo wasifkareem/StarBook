@@ -3,12 +3,12 @@ import { z } from "zod";
 export const createSpaceSchema = z.object({
   ownerEmail: z.email(),
   spaceName: z.string(),
-  imgPath: z.string().optional(),
-  headerTitle: z.string().optional(),
-  message: z.string().optional(),
-  qOne: z.string().optional(),
-  qTwo: z.string().optional(),
-  qThree: z.string().optional(),
+  imgPath: z.string(),
+  headerTitle: z.string(),
+  message: z.string(),
+  qOne: z.string(),
+  qTwo: z.string(),
+  qThree: z.string(),
 });
 
 
@@ -24,7 +24,7 @@ export const updateSpaceSchema = z.object({
   qOne: z.string(),
   qTwo: z.string(),
   qThree: z.string(),
-  tipBox: z.string().optional()
+  tipBox: z.boolean().optional()
 })
 
 export const fetchSpacesSchema = z.object({

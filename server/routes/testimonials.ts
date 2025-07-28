@@ -1,8 +1,8 @@
 import express, {type Request, type Response } from "express";
-import Space from "../modals/Space.ts";
 import { validateBody, validateQuery } from "../middleware/validate.ts";
 import {type createTestimonial, createTestimonialSchema, type deleteTestimonail, deleteTestimonialSchema} from "../src/schemas/testimonial.schema.ts"
 import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.ts";
+import prisma from "../prisma/db.ts";
 
 const router = express.Router();
 
@@ -28,9 +28,10 @@ router.post("/create",validateBody(createTestimonialSchema), async (req:Request<
     imgMedia,
   } = req.body;
   try {
-    let mySpace = await Space.findById({ _id: spaceId });
+    let mySpace = await prisma.space.findUnique({ where: { id: spaceId } });
     if (!mySpace) return res.status(400).json("No Space found!");
-    mySpace.testimonials.push({
+      const newTestimonial = await prisma.testimonial.create({
+     data:{
       imgPath,
       starRating,
       testimonial,
@@ -49,47 +50,31 @@ router.post("/create",validateBody(createTestimonialSchema), async (req:Request<
       video,
       twitterHandle,
       imgMedia,
+     }
     });
-    const updatedSpace = await mySpace.save();
-    res.status(200).json(updatedSpace);
+    res.status(200).json(newTestimonial);
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
-router.get("/fetch-all",validateQuery(spaceQuerySchema), async (req:Request<{},{},{},spaceQuery>, res:Response) => {
-  const { spaceId } = req.query;
-  try {
-    const mySpace = await Space.findById(spaceId);
-    if (!mySpace) return res.status(400).json("Space not found!");
-
-    res.status(200).json((mySpace?.testimonials).reverse());
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
 
 router.delete("/delete",validateQuery(deleteTestimonialSchema), async (req:Request<{},{},{},deleteTestimonail>, res:Response) => {
   const { spaceId, testimonialId } = req.query;
   try {
-    const deleteTestimonial = await Space.updateOne(
-      { _id: spaceId },
-      {
-        $pull: {
-          testimonials: { _id: testimonialId },
-          WOF: { _id: testimonialId },
-        },
-      }
-    );
-    if (deleteTestimonial.modifiedCount === 1) {
-      res.status(200).json("testimonial deleted successfully");
-    }
+  const deletedTestimonial = await prisma.testimonial.delete({
+      where: {
+        id: testimonialId,
+        spaceId: spaceId,
+      },
+    });
+    res.status(200).json("Testimonail deleted successfully!");
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
-router.get('/fetch-tweet', async (req, res) => {
+router.get('/fetch-tweet', async (req:Request, res:Response) => {
   const { xId } = req.query;
   const SYNDICATION_URL = 'https://cdn.syndication.twimg.com';
 

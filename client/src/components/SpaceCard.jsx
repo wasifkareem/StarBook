@@ -7,6 +7,7 @@ import DeleteSpace from "./DeleteSpace";
 
 const SpaceCard = ({ imgPath, spaceName, spaceId, testimonials }) => {
   const [toggle, setToggle] = useState(false);
+  console.log(spaceId)
   const handleDel = (e) => {
     e.preventDefault();
     setToggle(true);
@@ -35,7 +36,7 @@ const SpaceCard = ({ imgPath, spaceName, spaceId, testimonials }) => {
           />
           <div className="xl px-5 py-3">
             <h2 className=" font-semibold text-xl">{spaceName}</h2>
-            <p>Testimonials:{testimonials.length}</p>
+            <p>Testimonials:{testimonials?.length}</p>
           </div>
         </div>
       </Link>

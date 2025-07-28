@@ -16,11 +16,11 @@ const Embed = () => {
       const res = await axios.get(
         `http://localhost:3000/api/wall/fetch-wall?spaceId=${spaceId}`
       );
-      setTestimonials(res?.data);
+      setTestimonials(res?.data.testimonials);
     };
     getTestimonials();
   }, []);
-
+console.log(testimonials)
   if (!testimonials) {
     return (
       <div className=" flex justify-center items-center  h-screen w-screen">
@@ -62,7 +62,7 @@ const Embed = () => {
                     imgPath={testimonial.imgPath}
                     name={testimonial.name}
                     starRating={testimonial.starRating}
-                    testimonial={testimonial.testimonial}
+                    testimonial={testimonial}
                     createdAt={testimonial.createdAt}
                     theme={theme}
                     tip={testimonial.tip}

@@ -8,7 +8,7 @@ import { IoWarningOutline } from "react-icons/io5";
 const DeleteSpace = ({ setToggle, spaceName, spaceId }) => {
   const [input, setInput] = useState();
   const dispatch = useDispatch();
-  console.log(spaceName);
+  console.log(spaceId);
   const handleChange = (e) => {
     setInput(e.target.value);
   };

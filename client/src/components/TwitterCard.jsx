@@ -10,7 +10,6 @@ const TwitterCard = ({ spaceId, testimonials }) => {
   const [isFetching, setIsFetching] = useState(false);
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
-  console.log(tweetData)
   const dispatch = useDispatch();
   const handleClick = async () => {
     setIsFetching(true)
@@ -89,8 +88,8 @@ const TwitterCard = ({ spaceId, testimonials }) => {
                     imgPath={testimonial.imgPath}
                     spaceId={spaceId}
                     xId={testimonial.xId}
-                    Id={testimonial._id}
-                    key={testimonial._id}
+                    Id={testimonial.id}
+                    key={testimonial.id}
                     WOF={testimonial.WOF}
                     name={testimonial.name}
                     testimonial={testimonial?.testimonial}
