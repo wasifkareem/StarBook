@@ -1,8 +1,8 @@
-import prisma from "../prisma/db.js";
+import prisma from "../prisma/db";
 import express from "express";
 import type { Request, Response } from "express"
-import { validateBody, validateQuery } from "../middleware/validate.js";
-import {type createSpace, createSpaceSchema, type fetchSpaces, fetchSpacesSchema, type spaceQuery, spaceQuerySchema, type updateSpaces, updateSpaceSchema} from "../src/schemas/space.schema.js"
+import { validateBody, validateQuery } from "../middleware/validate";
+import {type createSpace, createSpaceSchema, type fetchSpaces, fetchSpacesSchema, type spaceQuery, spaceQuerySchema, type updateSpaces, updateSpaceSchema} from "../src/schemas/space.schema"
 
 const router = express.Router();
 

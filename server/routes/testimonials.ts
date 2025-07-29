@@ -1,7 +1,8 @@
 import express, {type Request, type Response } from "express";
-import { validateBody, validateQuery } from "../middleware/validate.js";
-import {type createTestimonial, createTestimonialSchema, type deleteTestimonail, deleteTestimonialSchema} from "../src/schemas/testimonial.schema.js"
-import prisma from "../prisma/db.js";
+import { validateBody, validateQuery } from "../middleware/validate";
+import {type createTestimonial, createTestimonialSchema, type deleteTestimonail, deleteTestimonialSchema} from "../src/schemas/testimonial.schema"
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema";
+import prisma from "../prisma/db";
 
 const router = express.Router();
 
