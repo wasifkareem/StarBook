@@ -1,8 +1,8 @@
 import express, {type Request,type Response } from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { validateQuery } from "../middleware/validate";
-import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema";
-import prisma from "../prisma/db";
+import { validateQuery } from "../middleware/validate.js";
+import { type spaceQuery, spaceQuerySchema } from "../src/schemas/space.schema.js";
+import prisma from "../prisma/db.js";
 const router = express.Router();
 
 
