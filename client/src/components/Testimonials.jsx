@@ -28,8 +28,8 @@ const Testimonials = ({
   if (tweet) {
     return (
       <div
-        className={` w-[354px] border  ${
-          theme == "true" || theme == true ? "dark" : "light"
+        className={` w-[354px]   ${
+          theme == "true" || theme == true ? "bg-[#121213] hover:bg-[#1c3442] text-white " : "bg-white hover:bg-gray-50"
         } rounded-xl`}
       >
           <TweetCard
@@ -62,7 +62,7 @@ const Testimonials = ({
       } rounded-xl  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
         theme == "true" || theme == true
           ? "hover:bg-[#1c3442]"
-          : "hover:bg-gray-100"
+          : "hover:bg-gray-50"
       }`}
     >
       <div className=" flex justify-between items-center">
