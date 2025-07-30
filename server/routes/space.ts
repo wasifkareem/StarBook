@@ -90,7 +90,7 @@ router.get("/fetch-space", async (req, res) => {
     res.status(200).json(space);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Could not fetch space." });
+    res.status(500).json({ error: err });
   }
 });
 
