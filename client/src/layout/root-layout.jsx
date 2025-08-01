@@ -7,7 +7,7 @@ import {
 } from "@clerk/clerk-react";
 import Navbar from "../components/Navbar";
 import { Provider } from "react-redux";
-import { store } from "../redux/store.js";
+import { store } from "../redux/store.ts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

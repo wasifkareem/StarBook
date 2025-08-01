@@ -5,9 +5,8 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import DeleteSpace from "./DeleteSpace";
 
-const SpaceCard = ({ imgPath, spaceName, spaceId, testimonials }) => {
+const SpaceCard = ({ imgPath, spaceName, spaceId }) => {
   const [toggle, setToggle] = useState(false);
-  console.log(spaceId)
   const handleDel = (e) => {
     e.preventDefault();
     setToggle(true);
@@ -36,7 +35,7 @@ const SpaceCard = ({ imgPath, spaceName, spaceId, testimonials }) => {
           />
           <div className="xl px-5 py-3">
             <h2 className=" font-semibold text-xl">{spaceName}</h2>
-            <p>Testimonials:{testimonials?.length}</p>
+            <p>Testimonials:need fix</p>
           </div>
         </div>
       </Link>

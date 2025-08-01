@@ -35,7 +35,7 @@ const DashoardCard = ({
   const dispatch = useDispatch();
   const addToWall = async () => {
     const res = await axios.put(
-      `https://starbook-1.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
+      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
       {}
     );
     if (res.status == 200) {
@@ -45,7 +45,7 @@ const DashoardCard = ({
   };
   const removeFromWall = async () => {
     const res = await axios.put(
-      `https://starbook-1.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
+      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
       {}
     );
     if (res.status == 200) {
@@ -55,7 +55,7 @@ const DashoardCard = ({
 
   const handleDelete = async () => {
     const res = await axios.delete(
-      `https://starbook-1.onrender.com/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`,
+      `http://localhost:3000/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`,
 
       {
         headers: {

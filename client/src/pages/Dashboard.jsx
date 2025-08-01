@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Testimonials from "../components/Testimonials";
-import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader";
-import Wall from "../components/Wall";
-import DashoardCard from "../components/DashoardCard";
-import EditSpace from "../components/EditSpace";
-import AddSpace from "../components/AddSpace";
-import Razorpaykeys from "../components/Razorpaykeys";
-import RPDash from "../components/RPDash";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { FaPenFancy } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useAuth, useUser } from "@clerk/clerk-react";
-import TwitterCard from "../components/TwitterCard";
-import { Tweet } from "react-tweet";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import AddSpace from "../components/AddSpace";
+import DashoardCard from "../components/DashoardCard";
 import Insights from "../components/Insights";
-import { GiArtificialHive } from "react-icons/gi";
-import { FaPenFancy } from "react-icons/fa";
+import Loader from "../components/Loader";
+import TwitterCard from "../components/TwitterCard";
+import Wall from "../components/Wall";
 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
@@ -39,7 +31,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
-        `https://starbook-1.onrender.com/api/space/fetch-space?spaceId=${spaceId}`
+        `http://localhost:3000/api/space/fetch-space?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);

@@ -13,6 +13,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const persistConfig = {
   key: "root",
@@ -37,5 +38,13 @@ export const store = configureStore({
       },
     }),
 });
+
+// Get the type of our store variable
+export type AppStore = typeof store
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export let persistor = persistStore(store);

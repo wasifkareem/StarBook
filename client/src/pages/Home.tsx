@@ -3,16 +3,37 @@ import AddSpace from "../components/AddSpace";
 import Navbar from "../components/Navbar";
 import SpaceCard from "../components/SpaceCard";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../redux/store";
 import Loader from "../components/Loader";
 import { useUser } from "@clerk/clerk-react";
+import z from "zod";
 
+const spaceSchema = z.object({
+  id: z.string(),
+  spaceName: z.string(),
+  ownerEmail: z.email(),
+  headerTitle: z.string(),
+  message: z.string(),
+  imgPath: z.url(),
+  qOne: z.string(),
+  qTwo: z.string(),
+  qThree: z.string(),
+  tipBox: z.boolean(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+})
+
+const spaceArraySchema = z.array(spaceSchema)
+
+type Space = z.infer<typeof spaceSchema>
 const Home = () => {
   const [toggle, setToggle] = useState(false);
   const { user } = useUser();
-  const { ReloadSpaces } = useSelector((state) => state?.info);
+  const { ReloadSpaces } = useAppSelector((state) => state?.info);
+  console.log(ReloadSpaces)
 
-  const [cardData, setCardData] = useState(null);
+  const [cardData, setCardData] = useState<Space[] | null>(null);
+  console.log(cardData)
   const handleClick = () => {
     setToggle(true);
   };
@@ -20,9 +41,11 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `https://starbook-1.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress.emailAddress}`
+        `http://localhost:3000/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
       );
-      setCardData(response.data);
+      const validatedData = spaceArraySchema.parse(response.data)
+      
+      setCardData(validatedData);
     };
     getCards();
   }, [toggle, ReloadSpaces]);
@@ -59,7 +82,6 @@ const Home = () => {
               key={card.id}
               spaceId={card.id}
               imgPath={card.imgPath}
-              testimonials={card.testimonials}
             />
           ))}
         </div>
