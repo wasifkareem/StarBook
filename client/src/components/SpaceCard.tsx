@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { Link } from "react-router-dom";
-import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import DeleteSpace from "./DeleteSpace";
+import z from "zod";
+import { Card } from "./ui/card";
 
-const SpaceCard = ({ imgPath, spaceName, spaceId }) => {
+const spaceCardPropsSchema = z.object({
+  imgPath:z.string(),
+  spaceName:z.string(),
+  spaceId:z.string(),
+})
+
+type spaceCardProps = z.infer<typeof spaceCardPropsSchema>
+const SpaceCard = ({ imgPath, spaceName, spaceId }:spaceCardProps) => {
   const [toggle, setToggle] = useState(false);
-  const handleDel = (e) => {
+  const handleDel = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setToggle(true);
   };
@@ -21,7 +29,8 @@ const SpaceCard = ({ imgPath, spaceName, spaceId }) => {
         />
       ) : null}
       <Link to={`/app/products/${spaceId}`}>
-        <div className=" border relative border-slate-300 text-slate-800 md:w-[350px]  cursor-pointer rounded-md flex gap-3  overflow-hidden">
+       <Card className=" flex relative">
+
           <button
             onClick={(e) => handleDel(e)}
             className="  absolute top-1 right-1 "
@@ -37,7 +46,8 @@ const SpaceCard = ({ imgPath, spaceName, spaceId }) => {
             <h2 className=" font-semibold text-xl">{spaceName}</h2>
             <p>Testimonials:need fix</p>
           </div>
-        </div>
+          </Card>
+
       </Link>
     </>
   );

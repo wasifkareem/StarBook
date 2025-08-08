@@ -6,13 +6,21 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import AddSpace from "../components/AddSpace";
+import AddSpace from "../components/AddSpace.tsx";
 import DashoardCard from "../components/DashoardCard";
 import Insights from "../components/Insights";
 import Loader from "../components/Loader";
 import TwitterCard from "../components/TwitterCard";
 import Wall from "../components/Wall";
-
+import { Button } from "@/components/ui/button";
+import { VscPreview } from "react-icons/vsc";
+import { BsTwitterX } from "react-icons/bs";
+import { HeartIcon } from "lucide-react";
+import { CiEdit, CiHeart } from "react-icons/ci";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { SiPlatformdotsh } from "react-icons/si";
+import { MdEdit } from "react-icons/md";
+ 
 const Dashboard = () => {
   const [spaceInfo, setSpaceInfo] = useState(null);
   const [wallPageToggle, setWallPageToggle] = useState(false);
@@ -28,6 +36,7 @@ const Dashboard = () => {
   const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
   const { userId } = useAuth();
   const { isKey } = useSelector((state) => state?.pay);
+  const manualTestimonials = testimonials?.filter((t)=>t.tweet==false);
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
@@ -70,16 +79,17 @@ const Dashboard = () => {
             alt=""
           />
           <div>
-            <div className=" flex gap-2">
+            <div className=" flex gap-4">
               <h1 className=" text-4xl font-semibold text-slate-800 font-sans ">
                 {spaceInfo?.spaceName}
               </h1>
-              <button
+              <Button
+              variant="outline"
                 onClick={() => setInsightsToggle(true)}
-                className=" flex gap-2 items-center bg-slate-900 text-xs font-mono text-white px-3 rounded"
+                
               >
                 Generate Insights <FaPenFancy className=" " />
-              </button>
+              </Button>
             </div>
             <p className=" text-slate-500 md:mt-1">
               Space public url :
@@ -113,48 +123,53 @@ const Dashboard = () => {
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
-        <div className=" md:w-2/6  flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
+        <div className=" md:w-1/4 bg-gray-50 h-screen  flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
           <button
             onClick={() => setIsBtn("All")}
-            className={` w-full hover:bg-slate-200 transition-colors  ${
-              isBtn === "All" && "bg-slate-100"
-            } font-semibold text-slate-800 text-start px-4 py-2 rounded-md `}
+            className={` w-full flex gap-2 items-center hover:bg-slate-200 transition-colors  ${
+              isBtn === "All" && "bg-slate-200"
+            } text-slate-800 text-start px-4 py-2 rounded-md `}
           >
+            <VscPreview />
             All
           </button>
           <button
             onClick={() => setIsBtn("Twitter")}
-            className={` w-full hover:bg-slate-200 transition-colors  ${
-              isBtn === "Twitter" && "bg-slate-100"
-            } font-semibold text-slate-800 text-start px-4 py-2 rounded-md `}
+            className={` w-full hover:bg-slate-200 flex gap-2 items-center transition-colors  ${
+              isBtn === "Twitter" && "bg-slate-200"
+            }  text-slate-800 text-start px-4 py-2 rounded-md `}
           >
+            <BsTwitterX/>
             Twitter
           </button>
           <button
             onClick={() => setWallPageToggle(true)}
-            className=" w-full hover:bg-slate-200 transition-colors  font-semibold text-slate-800 text-start px-4 py-2 rounded-md "
+            className=" w-full flex gap-2 items-center hover:bg-slate-200 transition-colors   text-slate-800 text-start px-4 py-2 rounded-md "
           >
+            <IoMdHeartEmpty className=" text-xl"/>
             Wall of Fame
           </button>
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            to={`/public/${spaceInfo?._id}`}
+            to={`/public/${spaceInfo?.id}`}
           >
-            <button className=" w-full hover:bg-slate-200  transition-colors font-semibold text-slate-800 text-start px-4 py-2 rounded-md ">
+            <button className=" w-full flex gap-2 items-center hover:bg-slate-200  transition-colors  text-slate-800 text-start px-4 py-2 rounded-md ">
+              <SiPlatformdotsh/>
               Public landing page
             </button>
           </Link>
           <button
             onClick={() => setToggle(true)}
-            className=" w-full hover:bg-slate-200 transition-colors  font-semibold text-slate-800 text-start px-4 py-2 rounded-md "
+            className=" w-full flex gap-2 items-center hover:bg-slate-200 transition-colors   text-slate-800 text-start px-4 py-2 rounded-md "
           >
+            <MdEdit className=" text-lg" />
             Edit Space
           </button>
         </div>
         {/* <hr className=" w-[1px] h-[500px] bg-gray-200 mt-10 mx-10" /> */}
-        <div className=" md:w-4/6 grid md:grid-cols-1 grid-cols-1 md:flex-row flex-col gap-3  m-3 ">
-          {testimonials?.length === 0 && isBtn !== "Twitter" ? (
+        <div className=" md:w-3/4 grid md:grid-cols-1 grid-cols-1 md:flex-row lg:mx-36 flex-col gap-3  m-3 ">
+          {manualTestimonials?.length === 0 && isBtn !== "Twitter" ? (
             <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200 md:mt-40 mt-12">
               No Testimonials! Send the public URL to your best customers and
               ask them for feedback.{" "}
@@ -185,7 +200,7 @@ const Dashboard = () => {
               </div>
             </>
           ) : (
-            <div className=" transition-all flex flex-col gap-3">
+            <div className=" transition-all flex  md:mt-10 flex-col gap-3">
               {isBtn === "All" &&
                 testimonials
                   ?.filter((t) => !t.tweet)

@@ -4,6 +4,8 @@ import TweetCard from "./TweetCard";
 import { useDispatch } from "react-redux";
 import { ReloadCards } from "../redux/InfoRedux";
 import { toast } from "react-toastify";
+import { Button } from "./ui/button";
+import { BsTwitterX } from "react-icons/bs";
 
 const TwitterCard = ({ spaceId, testimonials }) => {
   const [url, setUrl] = useState("");
@@ -12,11 +14,14 @@ const TwitterCard = ({ spaceId, testimonials }) => {
   const tweetData = testimonials?.filter((t) => t.tweet);
   const dispatch = useDispatch();
   const handleClick = async () => {
-    setIsFetching(true)
+    setIsFetching(true);
     try {
-      const getTweetData = await axios.get('http://localhost:3000/api/testimonials/fetch-tweet', {
-        params: { xId: id }
-      });
+      const getTweetData = await axios.get(
+        "http://localhost:3000/api/testimonials/fetch-tweet",
+        {
+          params: { xId: id },
+        }
+      );
 
       let tweet = getTweetData?.data;
       const data = {
@@ -26,14 +31,13 @@ const TwitterCard = ({ spaceId, testimonials }) => {
         imgPath: tweet.user.profile_image_url_https,
         name: tweet.user.name,
         twitterHandle: tweet.user.screen_name,
-        imgMedia:tweet?.photos?.[0]?.url,
-        entities:tweet.entities,
-        poster:tweet?.video?.poster,
-        likes:tweet.favorite_count,
-        video:tweet?.video?.variants[tweet?.video.variants.length-1]?.src,
-        date:tweet.created_at,
-        xId:tweet.id_str
-        
+        imgMedia: tweet?.photos?.[0]?.url,
+        entities: tweet.entities,
+        poster: tweet?.video?.poster,
+        likes: tweet.favorite_count,
+        video: tweet?.video?.variants[tweet?.video.variants.length - 1]?.src,
+        date: tweet.created_at,
+        xId: tweet.id_str,
       };
       const res = await axios.post(
         `http://localhost:3000/api/testimonials/create`,
@@ -42,7 +46,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
       if (res.status == 200) {
         dispatch(ReloadCards());
         toast.success("🎊 Testimonial Created");
-        setIsFetching(false)
+        setIsFetching(false);
         setUrl("");
       }
     } catch (err) {
@@ -66,40 +70,38 @@ const TwitterCard = ({ spaceId, testimonials }) => {
           />
         </div>
         <div className=" bg-white"></div>
-        <button
-          className=" bg-slate-600 text-white font-semibold px-2 rounded mx-2 py-1"
-          onClick={handleClick}
-        >
+        <Button variant="default" className=" mx-2" onClick={handleClick}>
+          <BsTwitterX />
           Get tweet
-        </button>
+        </Button>
       </div>
       <div className=" w-full flex justify-center">
-        <div className=" grid grid-cols-2 items-start gap-3 w-fit h-fit  light bg-white">
-          {Array(2)
+        <div className=" grid grid-cols-3 items-start gap-3 w-fit h-fit  light bg-white">
+          {Array(3)
             .fill()
             .map((_, colIndex) => (
               <div className="grid gap-3 w-fit" key={colIndex}>
                 {tweetData
                   .toReversed()
-                  ?.filter((_, index) => index % 2 === colIndex)
+                  ?.filter((_, index) => index % 3 === colIndex)
                   .map((testimonial) => (
                     <TweetCard
-                    isAdmin={true}
-                    imgPath={testimonial.imgPath}
-                    spaceId={spaceId}
-                    xId={testimonial.xId}
-                    Id={testimonial.id}
-                    key={testimonial.id}
-                    WOF={testimonial.WOF}
-                    name={testimonial.name}
-                    testimonial={testimonial?.testimonial}
-                    twitterHandle={testimonial?.twitterHandle}
-                    entities={testimonial?.entities}
-                    likes={testimonial?.likes}
-                    date={testimonial?.date}
-                    imgMedia={testimonial?.imgMedia}
-                    poster={testimonial?.poster}
-                    video={testimonial?.video}
+                      isAdmin={true}
+                      imgPath={testimonial.imgPath}
+                      spaceId={spaceId}
+                      xId={testimonial.xId}
+                      Id={testimonial.id}
+                      key={testimonial.id}
+                      WOF={testimonial.WOF}
+                      name={testimonial.name}
+                      testimonial={testimonial?.testimonial}
+                      twitterHandle={testimonial?.twitterHandle}
+                      entities={testimonial?.entities}
+                      likes={testimonial?.likes}
+                      date={testimonial?.date}
+                      imgMedia={testimonial?.imgMedia}
+                      poster={testimonial?.poster}
+                      video={testimonial?.video}
                     />
                   ))}
               </div>

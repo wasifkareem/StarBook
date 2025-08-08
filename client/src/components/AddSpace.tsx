@@ -5,51 +5,76 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { ReloadSpaceInfo } from "../redux/InfoRedux";
 import { useUser } from "@clerk/clerk-react";
+import z from "zod";
 
-const AddSpace = ({ setToggle, isEdit }) => {
+const addSpacePropsSchema = z.object({
+  setToggle: z.any(),
+  isEdit:z.boolean(),
+  spaceInfo:z.object().optional()
+})
+
+const addSpaceFormSchema = z.object({
+    spaceName: z.string(),
+    headerTitle: z.string(),
+    message: z.string(),
+    qOne: z.string(),
+    qTwo: z.string(),
+    qThree: z.string(),
+    imgPath:z.string(),
+    ownerEmail:z.email()
+})
+
+type addSpaceProps = z.infer<typeof addSpacePropsSchema>;
+type addSpaceForm = z.infer<typeof addSpaceFormSchema>
+
+const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
   const dispatch = useDispatch();
-  const [headerPreview, setHeaderPreview] = useState(
-    isEdit ? spaceInfo.headerTitle : null
+  
+  const [headerPreview, setHeaderPreview] = useState<string|null>(
+    isEdit && spaceInfo ? spaceInfo.headerTitle : null
   );
-  const [msgPreview, setMsgPreview] = useState(
-    isEdit ? spaceInfo.message : null
+  const [msgPreview, setMsgPreview] = useState<string|null>(
+    isEdit && spaceInfo ? spaceInfo.message : null
   );
-  const [one, setOne] = useState(isEdit ? spaceInfo.qOne : null);
-  const [two, setTwo] = useState(isEdit ? spaceInfo.qTwo : null);
-  const [three, setThree] = useState(isEdit ? spaceInfo.qThree : null);
+  const [one, setOne] = useState<string | null>(isEdit && spaceInfo ? spaceInfo.qOne : null);
+  const [two, setTwo] = useState<string|null>(isEdit && spaceInfo ? spaceInfo.qTwo : null);
+  const [three, setThree] = useState<string|null>(isEdit && spaceInfo ? spaceInfo.qThree : null);
   const [isFetching, setIsFetching] = useState(false);
-  const [ImgFile, setImgFile] = useState();
-  const [imgPreview, setImgPreview] = useState(
-    isEdit ? spaceInfo?.imgPath : null
+  const [ImgFile, setImgFile] = useState<File | null>(null);
+  const [imgPreview, setImgPreview] = useState<string|null>(
+    isEdit && spaceInfo ? spaceInfo?.imgPath : null
   );
   const { user } = useUser();
-  const { emailAddress } = user.primaryEmailAddress;
+  const emailAddress = user?.primaryEmailAddress?.emailAddress;
+  console.log(ImgFile)
+
   const {
     register,
     handleSubmit,
     reset,
     setValue,
     formState: { errors },
-  } = useForm();
-  console.log(errors);
-  const handleOne = (e) => {
+  } = useForm<addSpaceForm>();
+  const handleOne = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue("qOne", e.target.value);
     setOne(e.target.value);
   };
-  const handleTwo = (e) => {
+  const handleTwo = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue("qTwo", e.target.value);
     setTwo(e.target.value);
   };
-  const handleThree = (e) => {
+  const handleThree = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue("qThree", e.target.value);
     setThree(e.target.value);
   };
-  const handleImage = (e) => {
+  const handleImage = (e:React.ChangeEvent<HTMLInputElement>) => {
+  if(e.target.files && e.target.files[0]){
     setImgFile(e.target.files[0]);
     const url = URL.createObjectURL(e.target.files[0]);
     setImgPreview(url);
+   }
   };
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:addSpaceForm) => {
     try {
       setIsFetching(true);
       if (emailAddress) {
@@ -65,7 +90,7 @@ const AddSpace = ({ setToggle, isEdit }) => {
         data.ownerEmail = emailAddress;
         if (isEdit === true) {
           const response = await axios.put(
-            `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo.id}`,
+            `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo?.id}`,
             data
           );
           if (response.status == 200) {
@@ -90,7 +115,11 @@ const AddSpace = ({ setToggle, isEdit }) => {
       }
     } catch (err) {
       setIsFetching(false);
-      toast.error(err.response.data);
+      if (axios.isAxiosError(err) && err.response) {
+        toast.error(err.response.data);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
@@ -174,7 +203,7 @@ const AddSpace = ({ setToggle, isEdit }) => {
             >
               <label className=" text-slate-500">Space name</label>
               <input
-                defaultValue={isEdit ? spaceInfo.spaceName : null}
+                defaultValue={isEdit && spaceInfo ? spaceInfo.spaceName : undefined}
                 maxLength={40}
                 placeholder="Space name"
                 className="h-10   focus:outline-cyan-600  border rounded pl-3 border-slate-300"
@@ -210,7 +239,7 @@ const AddSpace = ({ setToggle, isEdit }) => {
               </div>
               <label className=" text-slate-500">Header title</label>
               <input
-                defaultValue={isEdit ? spaceInfo.headerTitle : null}
+                defaultValue={isEdit && spaceInfo ? spaceInfo.headerTitle : undefined}
                 maxLength={70}
                 placeholder="Would you like to give a shoutout to xyz?"
                 className=" h-10   border rounded focus:outline-cyan-600 pl-3 border-slate-300"
@@ -225,7 +254,7 @@ const AddSpace = ({ setToggle, isEdit }) => {
 
               <label className=" text-slate-500">Your custom message</label>
               <textarea
-                defaultValue={isEdit ? spaceInfo.message : null}
+                defaultValue={isEdit && spaceInfo ? spaceInfo.message : undefined}
                 maxLength={250}
                 className=" h-24  focus:outline-cyan-600  border rounded pl-3 border-slate-300"
                 placeholder="Write a warm message to your customers, and ask them to give you lot of stars."
@@ -242,7 +271,7 @@ const AddSpace = ({ setToggle, isEdit }) => {
               <input
                 maxLength={70}
                 defaultValue={
-                  isEdit
+                  isEdit && spaceInfo
                     ? spaceInfo.qOne
                     : "Who are you / what are you working on?"
                 }
@@ -259,7 +288,7 @@ const AddSpace = ({ setToggle, isEdit }) => {
                   required: true,
                 })}
                 defaultValue={
-                  isEdit
+                  isEdit && spaceInfo
                     ? spaceInfo.qTwo
                     : "How has [our product / service] helped you?"
                 }
@@ -272,7 +301,7 @@ const AddSpace = ({ setToggle, isEdit }) => {
                   required: true,
                 })}
                 defaultValue={
-                  isEdit
+                  isEdit && spaceInfo
                     ? spaceInfo.qThree
                     : "What is the best thing about [our product / service]"
                 }

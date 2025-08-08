@@ -7,6 +7,8 @@ import { useAppSelector } from "../redux/store";
 import Loader from "../components/Loader";
 import { useUser } from "@clerk/clerk-react";
 import z from "zod";
+import { Button } from "../components/ui/button";
+import { MdCreateNewFolder } from "react-icons/md";
 
 const spaceSchema = z.object({
   id: z.string(),
@@ -30,8 +32,6 @@ const Home = () => {
   const [toggle, setToggle] = useState(false);
   const { user } = useUser();
   const { ReloadSpaces } = useAppSelector((state) => state?.info);
-  console.log(ReloadSpaces)
-
   const [cardData, setCardData] = useState<Space[] | null>(null);
   console.log(cardData)
   const handleClick = () => {
@@ -60,15 +60,15 @@ const Home = () => {
           <p className=" text-lg md:text-3xl font-semibold text-slate-800">
             Spaces
           </p>
-          <button
+          <Button 
             onClick={handleClick}
-            className=" flex items-center gap-1 md:gap-3 bg-slate-700 text-white font-semibold py-1 md:py-3  rounded px-2 md:px-8"
-          >
-            <span className=" text-xl md:text-3xl font-normal"> &#43;</span>{" "}
+          variant="outline" size="lg">
+          <MdCreateNewFolder />
+
             Create Space
-          </button>
+            </Button>
         </div>
-        <div className=" mt-12 md:flex md:flex-wrap gap-2 justify-start">
+        <div className=" mt-12 md:flex md:flex-wrap gap-4 justify-start">
           {cardData.length === 0 ? (
             <p className=" text-slate-200 text-2xl md:text-4xl font-semibold text-center md:mt-28">
               No spaces available. Create a new space, start collecting
