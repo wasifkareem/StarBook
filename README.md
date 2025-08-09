@@ -12,7 +12,7 @@
 ## Add this Code to a replit template website(or check our live demo)
 
 ```
- <iframe id="starbook-cmdjursce0000skxy386qm721" src="https://star-book-wwnd-git-dev-wasifkareems-projects.vercel.app/embed/cmdjursce0000skxy386qm721?dark=false" frameborder="0" scrolling="no" width="100%"></iframe>
+ <iframe id="starbook-cmdjursce0000skxy386qm721" src="https://starbook2762.vercel.app/embed/cmdjursce0000skxy386qm721?dark=false" frameborder="0" scrolling="no" width="100%"></iframe>
  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
  <script>
   iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-cmdjursce0000skxy386qm721');
@@ -28,4 +28,8 @@ target="_blank">
 ## How it works?
 
 Check out the 3-minute demo video below.
-[![My Awesome Video](client/public/assets/thumb.png)](https://www.youtube.com/watch?v=gaiyO3RZB6E)
+
+
+https://github.com/user-attachments/assets/43731594-7035-41d1-8460-758f99126f0a
+
+
