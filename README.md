@@ -12,15 +12,11 @@
 ## Add this Code to a replit template website(or check our live demo)
 
 ```
-<iframe id="starbook-66cc1fc4e29b3e5fff22d1a9" src="https://starbook2762.vercel.app/embed/66d06d140005066118db08df?dark=false" frameborder="0" scrolling="no" width="100%"></iframe>
-<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
-<script>
-  iframeResize({
-    license: "GPLv3",
-    log: true,
-    checkOrigin: false,
-  }, '#starbook-66cc1fc4e29b3e5fff22d1a9');
-</script>
+ <iframe id="starbook-cmdjursce0000skxy386qm721" src="https://star-book-wwnd-git-dev-wasifkareems-projects.vercel.app/embed/cmdjursce0000skxy386qm721?dark=false" frameborder="0" scrolling="no" width="100%"></iframe>
+ <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
+ <script>
+  iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-cmdjursce0000skxy386qm721');
+ </script>
 ```
 
 <a href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"

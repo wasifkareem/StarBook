@@ -1,21 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/userRedux";
-import { Link, useNavigate } from "react-router-dom";
 import {
-  SignInButton,
   SignedIn,
   SignedOut,
   UserButton,
-  useUser,
+  useUser
 } from "@clerk/clerk-react";
 import { useState } from "react";
-import Razorpaykeys from "./Razorpaykeys";
 import { GrDashboard } from "react-icons/gr";
+import { Link } from "react-router-dom";
+import Razorpaykeys from "./Razorpaykeys";
 
 const Navbar = () => {
   const { isSignedIn } = useUser();
   const [toggle, setToggle] = useState(false);
-  const { isKey } = useSelector((state) => state?.pay);
 
   const handleClick = () => {
     setToggle(!toggle);

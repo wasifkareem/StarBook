@@ -10,12 +10,11 @@ import remarkGfm from "remark-gfm";
 const Insights = ({ setInsightsToggle, spaceInfo, insightsToggle }) => {
   const [aiInsights, setAiInsights] = useState(null);
   const [isfetching, setIsfetching] = useState(true);
-
   useEffect(() => {
     const handleInsights = async () => {
       try {
         const InsightsRes = await axios.post(
-          `http://localhost:3000/api/AI/get-insights?spaceId=${spaceInfo?._id}`
+          `https://starbook.onrender.com/api/AI/get-insights?spaceId=${spaceInfo?.id}`
         );
         if (spaceInfo?.testimonials?.length === 0) {
           toast.error("No Testimonails found to create Insights");

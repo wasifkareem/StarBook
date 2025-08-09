@@ -1,6 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import z from "zod";
 
-const initialState = {
+
+const payStateSchema = z.object({
+  isKey:z.boolean(),
+  keyId:z.string().nullable(),
+  isTipOpen:z.boolean()
+})
+type payState = z.infer<typeof payStateSchema>
+const initialState:payState = {
   isKey: false,
   keyId: null,
   isTipOpen: false,
@@ -8,9 +16,7 @@ const initialState = {
 
 const paySlice = createSlice({
   name: "payData",
-  initialState: {
-    initialState,
-  },
+  initialState,
   reducers: {
     isKeyAvailable: (state, action) => {
       state.isKey = action.payload;

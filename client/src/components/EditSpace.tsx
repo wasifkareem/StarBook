@@ -1,30 +1,32 @@
+import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { SpaceForm } from "./AddSpace";
+import { toast } from "react-toastify";
 
 const EditSpace = () => {
   const [isFetching, setIsFetching] = useState(false);
-  const [ImgFile, setImgFile] = useState();
-  const [imgPreview, setImgPreview] = useState();
-  const { token } = useSelector((state) => state?.user?.currentUser);
-  const { email } = useSelector(
-    (state) => state?.user?.currentUser?.userObject
-  );
+  const [ImgFile, setImgFile] = useState<File|null>();
+  const [imgPreview, setImgPreview] = useState<string|null>();
+  const {user} = useUser();
+  const email = user?.primaryEmailAddress?.emailAddress
   const {
     register,
     handleSubmit,
     reset,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm<SpaceForm>();
 
-  const handleImage = (e) => {
+  const handleImage = (e:React.ChangeEvent<HTMLInputElement>) => {
+   if(e.target.files && e.target.files[0]){
     setImgFile(e.target.files[0]);
     const url = URL.createObjectURL(e.target.files[0]);
     setImgPreview(url);
+   }
   };
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:SpaceForm) => {
     try {
       setIsFetching(true);
       if (email) {
@@ -32,20 +34,15 @@ const EditSpace = () => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "http://localhost:3000/upload",
+            "https://starbook.onrender.com/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
         }
         data.ownerEmail = email;
         const response = await axios.post(
-          "http://localhost:3000/api/space/create-space",
+          "https://starbook.onrender.com/api/space/create-space",
           data,
-          {
-            headers: {
-              token: `Bearer ${token}`,
-            },
-          }
         );
       }
       reset();
@@ -54,7 +51,11 @@ const EditSpace = () => {
       toast.success("Space Created.");
     } catch (err) {
       setIsFetching(false);
-      toast.error(err.response.data);
+      if (axios.isAxiosError(err) && err.response) {
+        toast.error(err.response.data);
+      } else {
+        toast.error("An error occurred");
+      }
     }
   };
 

@@ -1,16 +1,18 @@
 {
     "compilerOptions": {
-      "target": "ES2020",
-      "module": "ESNext",
-      "moduleResolution": "node",
-      "rootDir": "./src",
+      "target": "ES2022", // Updated for modern Node
+      "module": "NodeNext", // Use NodeNext
+      "moduleResolution": "NodeNext", // Use NodeNext
+      "rootDir": "./",
       "outDir": "./dist",
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
       "forceConsistentCasingInFileNames": true,
       "strict": true,
+      "typeRoots": ["./node_modules/@types", "./types"],
       "skipLibCheck": true,
-      "allowJs": true // <-- The key for gradual migration
+      "resolveJsonModule": true,
+      "verbatimModuleSyntax": true
     },
-    "include": ["src/**/*"]
-  }
+    "include": ["index.ts","src/**/*","routes/**/*","modals/**/*","middleware/**/*",]
+}

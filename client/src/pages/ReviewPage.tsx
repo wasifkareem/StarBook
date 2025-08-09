@@ -1,23 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import ReviewBox from "../components/ReviewBox";
-import { toast } from "react-toastify";
+import { SpaceInfo } from "./Dashboard";
 
 const ReviewPage = () => {
-  const [spaceInfo, setSpaceInfo] = useState();
-  console.log(spaceInfo);
-  const [toggle, setToggle] = useState(false);
+  const [spaceInfo, setSpaceInfo] = useState<SpaceInfo>();
+  const [toggle, setToggle] = useState<boolean>(false);
   const location = useLocation();
   const spaceId = location.pathname.split("/")[2];
 
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios(
-        `http://localhost:3000/api/space/fetch-reviewInfo?spaceId=${spaceId}`
+        `https://starbook.onrender.com/api/space/fetch-reviewInfo?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
     };

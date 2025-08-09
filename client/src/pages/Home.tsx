@@ -3,16 +3,40 @@ import AddSpace from "../components/AddSpace";
 import Navbar from "../components/Navbar";
 import SpaceCard from "../components/SpaceCard";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../redux/store";
 import Loader from "../components/Loader";
 import { useUser } from "@clerk/clerk-react";
+import z from "zod";
+import { Button } from "../components/ui/button";
+import { MdCreateNewFolder } from "react-icons/md";
 
+const spaceSchema = z.object({
+  id: z.string(),
+  spaceName: z.string(),
+  ownerEmail: z.email(),
+  headerTitle: z.string(),
+  message: z.string(),
+  imgPath: z.url(),
+  qOne: z.string(),
+  qTwo: z.string(),
+  qThree: z.string(),
+  tipBox: z.boolean(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+  _count:z.object({
+    testimonials:z.number()
+  })
+})
+
+const spaceArraySchema = z.array(spaceSchema)
+
+type Space = z.infer<typeof spaceSchema>
 const Home = () => {
   const [toggle, setToggle] = useState(false);
   const { user } = useUser();
-  const { ReloadSpaces } = useSelector((state) => state?.info);
+  const { ReloadSpaces } = useAppSelector((state) => state?.info);
+  const [cardData, setCardData] = useState<Space[] | null>(null);
 
-  const [cardData, setCardData] = useState(null);
   const handleClick = () => {
     setToggle(true);
   };
@@ -20,9 +44,12 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `http://localhost:3000/api/space/fetch-spaces?email=${user?.primaryEmailAddress.emailAddress}`
+        `https://starbook.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
       );
-      setCardData(response.data);
+
+      const validatedData = spaceArraySchema.parse(response.data)
+      
+      setCardData(validatedData);
     };
     getCards();
   }, [toggle, ReloadSpaces]);
@@ -37,15 +64,15 @@ const Home = () => {
           <p className=" text-lg md:text-3xl font-semibold text-slate-800">
             Spaces
           </p>
-          <button
+          <Button 
             onClick={handleClick}
-            className=" flex items-center gap-1 md:gap-3 bg-slate-700 text-white font-semibold py-1 md:py-3  rounded px-2 md:px-8"
-          >
-            <span className=" text-xl md:text-3xl font-normal"> &#43;</span>{" "}
+          variant="outline" size="lg">
+          <MdCreateNewFolder />
+
             Create Space
-          </button>
+            </Button>
         </div>
-        <div className=" mt-12 md:flex md:flex-wrap gap-2 justify-start">
+        <div className=" mt-12 md:flex md:flex-wrap gap-4 justify-start">
           {cardData.length === 0 ? (
             <p className=" text-slate-200 text-2xl md:text-4xl font-semibold text-center md:mt-28">
               No spaces available. Create a new space, start collecting
@@ -55,11 +82,11 @@ const Home = () => {
           ) : null}
           {cardData?.map((card) => (
             <SpaceCard
+            testimonialCount={card._count.testimonials}
               spaceName={card.spaceName}
-              key={card._id}
-              spaceId={card._id}
+              key={card.id}
+              spaceId={card.id}
               imgPath={card.imgPath}
-              testimonials={card.testimonials}
             />
           ))}
         </div>

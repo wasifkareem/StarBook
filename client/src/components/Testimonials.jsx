@@ -6,30 +6,19 @@ import { Tweet } from "react-tweet";
 import TweetCard from "./TweetCard";
 
 const Testimonials = ({
-  email,
-  imgPath,
-  name,
-  starRating,
-  text,
-  testimonial,
-  createdAt,
-  theme,
-  tip,
-  title,
-  xId,
-  tweet,
+testimonial,
 }) => {
-  const dateObj = new Date(createdAt);
+  const dateObj = new Date(testimonial.createdAt);
   const options = { year: "numeric", month: "short", day: "2-digit" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
 
-  if (tweet) {
+  if (testimonial.tweet) {
     return (
       <div
-        className={` w-[354px] border  ${
-          theme == "true" || theme == true ? "dark" : "light"
+        className={` w-[354px]   ${
+          testimonial.theme == "true" || testimonial.theme == true ? "bg-[#121213] hover:bg-[#1c3442] text-white " : "bg-white hover:bg-gray-50"
         } rounded-xl`}
       >
           <TweetCard
@@ -55,47 +44,47 @@ const Testimonials = ({
   return (
     <div
       style={{
-        border: theme == "true" ? "none" : "",
+        border: testimonial.theme == "true" ? "none" : "",
       }}
       className={`relative flex transition-all flex-col gap-2 border ${
-        theme == "true" || theme == true ? "bg-[#15202b]" : "bg-white"
+        testimonial.theme == "true" || testimonial.theme == true ? "bg-[#15202b]" : "bg-white"
       } rounded-xl  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
-        theme == "true" || theme == true
+        testimonial.theme == "true" || testimonial.theme == true
           ? "hover:bg-[#1c3442]"
-          : "hover:bg-gray-100"
+          : "hover:bg-gray-50"
       }`}
     >
       <div className=" flex justify-between items-center">
         <div className=" flex gap-2  items-center">
-          <img className=" h-12 rounded-full w-12" src={imgPath} alt="" />
+          <img className=" h-12 rounded-full w-12" src={testimonial.imgPath} alt="" />
           <div>
             <p
               style={{
-                color: theme == "true" || theme == true ? "white" : "#0f172a",
+                color: testimonial.theme == "true" || testimonial.theme == true ? "white" : "#0f172a",
               }}
               className=" first-letter:uppercase font-semibold text-slate-900"
             >
-              {name}
+              {testimonial.name}
             </p>
-            {title && (
+            {testimonial.title && (
               <p
                 className={` text-sm ${
-                  theme == "true" || theme == true
+                  testimonial.theme == "true" || testimonial.theme == true
                     ? "text-white"
                     : " text-gray-800"
                 }`}
               >
-                {title}
+                {testimonial.title}
               </p>
             )}
           </div>
         </div>
-        {tip && (
+        {testimonial.tip && (
           <>
             <RiMoneyRupeeCircleFill
               data-tooltip-id="tip-tooltip"
               data-tooltip-content={` 
-                  This is a tipped review, ${name} tipped us INR ${tip / 100} 
+                  This is a tipped review, ${testimonial.name} tipped us INR ${testimonial.tip / 100} 
                   while writing this review.
                 `}
               className=" bg-slate-800 rounded-full text-yellow-500 text-xl z-1"
@@ -105,8 +94,8 @@ const Testimonials = ({
                 width: "230px",
                 zIndex: "1",
                 backgroundColor:
-                  theme == "true" || theme == true ? "#e6e6e6" : "#0f172a",
-                color: theme == "true" || (theme == true && "#0f172a"),
+                  testimonial.theme == "true" || testimonial.theme == true ? "#e6e6e6" : "#0f172a",
+                color: testimonial.theme == "true" || (testimonial.theme == true && "#0f172a"),
               }}
               id="tip-tooltip"
             />
@@ -115,21 +104,21 @@ const Testimonials = ({
       </div>
       <StarRatings
         starRatedColor="#ffa534"
-        rating={starRating}
+        rating={testimonial.starRating}
         starSpacing="2px"
         starDimension="20px"
       />
       <div
         style={{
-          color: theme == "true" || theme == true ? "white" : "#0f172a",
+          color: testimonial.theme == "true" || testimonial.theme == true ? "white" : "#0f172a",
         }}
         className=" first-letter:uppercase"
       >
-        {text}
+        {testimonial.text}
       </div>
       <p
         style={{
-          color: theme == "true" || theme == true ? "#b1afafda" : "#434d5acc",
+          color: testimonial.theme == "true" || testimonial.theme == true ? "#b1afafda" : "#434d5acc",
         }}
         className=" text-sm text-slate-700 absolute bottom-3 left-4"
       >

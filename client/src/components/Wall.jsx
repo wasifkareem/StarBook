@@ -1,12 +1,12 @@
-import { CopyBlock, irBlack } from "react-code-blocks";
-import Testimonials from "./Testimonials";
 import { useEffect, useState } from "react";
+import { CopyBlock, irBlack } from "react-code-blocks";
 import { useWindowDimensions } from "../utils/windowDimensions";
+import Testimonials from "./Testimonials";
 
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   const { width } = useWindowDimensions();
   const [theme, setTheme] = useState(false);
-  const code = ` <iframe id="starbook-${spaceId}" src="https://starbook2762.vercel.app/embed/${spaceId}?dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
+  const code = ` <iframe id="starbook-${spaceId}" src="http://localhost:5174/embed/${spaceId}?dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
  <script>
   iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-${spaceId}');
@@ -76,7 +76,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
             </button>
           </div>
         </div>
-        {publicTestimonials.length <= 0 ? (
+        {publicTestimonials?.length <= 0 ? (
           <p className=" text-center md:mt-32 mt-20 font-semibold text-slate-200 md:text-5xl text-xl">
             Wall of fame is empty, add some testimonials
           </p>
@@ -92,7 +92,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
                   .map((_, colIndex) => (
                     <div className="grid gap-3 justify-center" key={colIndex}>
                       {publicTestimonials
-                        .filter((_, index) => index % arrayCount() === colIndex)
+                        ?.filter((_, index) => index % arrayCount() === colIndex)
                         .map((testimonial) => (
                           <Testimonials
                            email={testimonial.email}
