@@ -1,13 +1,12 @@
 # StarBook
 
-- Full-stack app that helps SaaS owners collect testimonials and Tips
+- Full-stack app that helps SaaS owners collect tweets as testimonials
 - Also, let you add tweets as testimonials
 - Uses the Gemini 1.5 flash model to generate Useful Insights based on collected testimonials and
   give suggestions for improvements
 - Let you embed the testimonials on any website with just three lines of code
-- Let you connect your Razorpay account and start collecting tips.
 
-**Tech Stack:** Reactjs, Redux, Clerk(for auth), Iframe-Resizer, Expressjs,MongoDB,Cloudinary,Razorpay API
+**Tech Stack:** Reactjs, Redux, Clerk(for auth), Iframe-Resizer, Expressjs,MongoDB,Cloudinary
 
 ## Add this Code to a replit template website(or check our live demo)
 
