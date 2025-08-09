@@ -44,7 +44,7 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `https://starbook-1.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
+        `https://starbook.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
       );
 
       const validatedData = spaceArraySchema.parse(response.data)

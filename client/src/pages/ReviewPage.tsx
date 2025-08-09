@@ -14,7 +14,7 @@ const ReviewPage = () => {
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios(
-        `https://starbook-1.onrender.com/api/space/fetch-reviewInfo?spaceId=${spaceId}`
+        `https://starbook.onrender.com/api/space/fetch-reviewInfo?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
     };

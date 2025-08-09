@@ -34,14 +34,14 @@ const EditSpace = () => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "https://starbook-1.onrender.com/upload",
+            "https://starbook.onrender.com/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
         }
         data.ownerEmail = email;
         const response = await axios.post(
-          "https://starbook-1.onrender.com/api/space/create-space",
+          "https://starbook.onrender.com/api/space/create-space",
           data,
         );
       }

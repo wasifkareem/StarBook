@@ -51,7 +51,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       const imgFile = new FormData();
       imgFile.append("my_file", ImgFile);
       const assetInfo = await axios.post(
-        "https://starbook-1.onrender.com/upload",
+        "https://starbook.onrender.com/upload",
         imgFile
       );
       data.imgPath = assetInfo.data.url;
@@ -60,7 +60,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       data.tip = payDetails?.amount;
       console.log(data)
       const response = await axios.post(
-        "https://starbook-1.onrender.com/api/testimonials/create",
+        "https://starbook.onrender.com/api/testimonials/create",
         data
       );
       setImgPreview(null);
@@ -78,7 +78,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       toast.warning("First Add some amount they click the Pay Button.");
       return;
     }
-    const API_URL = "https://starbook-1.onrender.com/api/tip/";
+    const API_URL = "https://starbook.onrender.com/api/tip/";
     e.preventDefault();
     const orderUrl = `${API_URL}order?userId=${userId}&amount=${amount}&currency=${selectedValue}&label=tip_${spaceInfo?._id}`;
     const response = await axios.get(orderUrl);
