@@ -1,46 +1,89 @@
+import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/redux/store";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BsTwitterX } from "react-icons/bs";
 import { FaPenFancy } from "react-icons/fa";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
+import { SiPlatformdotsh } from "react-icons/si";
+import { VscPreview } from "react-icons/vsc";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import AddSpace from "../components/AddSpace.tsx";
-import DashoardCard from "../components/DashoardCard";
-import Insights from "../components/Insights";
-import Loader from "../components/Loader";
-import TwitterCard from "../components/TwitterCard";
-import Wall from "../components/Wall";
-import { Button } from "@/components/ui/button";
-import { VscPreview } from "react-icons/vsc";
-import { BsTwitterX } from "react-icons/bs";
-import { HeartIcon } from "lucide-react";
-import { CiEdit, CiHeart } from "react-icons/ci";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { SiPlatformdotsh } from "react-icons/si";
-import { MdEdit } from "react-icons/md";
+import z from "zod";
+import AddSpace from "../components/AddSpace";
+import DashoardCard from "../components/DashoardCard.jsx";
+import Insights from "../components/Insights.jsx";
+import Loader from "../components/Loader.jsx";
+import TwitterCard from "../components/TwitterCard.jsx";
+import Wall from "../components/Wall.jsx";
+
+
+const testimonialSchema = z.object({
+  id: z.string(),
+  createdAt: z.string(), 
+  updatedAt: z.string(),
+  imgPath: z.string(),
+  starRating: z.number().optional(),
+  testimonial: z.string(),
+  name: z.string(),
+  email: z.string().optional(),
+  WOF: z.boolean(),
+  tweet: z.boolean(),
+  xId: z.string().optional(),
+  tip: z.number().optional(),
+  title: z.string().optional(),
+  twitterHandle: z.string().optional(),
+  entities: z.any().optional(),
+  likes: z.number().optional(),
+  imgMedia: z.string().optional(),
+  date: z.string().optional(),
+  poster: z.string().optional(),
+  video: z.string().optional(),
+  spaceId: z.string(),
+});
+
+export const spaceInfoSchema = z.object({
+  id: z.string(),
+  createdAt: z.iso.datetime(), 
+  updatedAt: z.string(),
+  ownerEmail: z.email(),
+  spaceName: z.string(),
+  qOne: z.string(),
+  qTwo: z.string(),
+  qThree: z.string(),
+  imgPath: z.string().optional().nullable(),
+  headerTitle: z.string(),
+  message: z.string(),
+  tipBox: z.boolean().optional().nullable(),
+  testimonials: z.array(testimonialSchema),
+});
+
+export type SpaceInfo = z.infer<typeof spaceInfoSchema>
+export type Testimonial = z.infer<typeof testimonialSchema>
  
 const Dashboard = () => {
-  const [spaceInfo, setSpaceInfo] = useState(null);
+  const [spaceInfo, setSpaceInfo] = useState<SpaceInfo|null>(null);
+
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [insightsToggle, setInsightsToggle] = useState(false);
   const [isBtn, setIsBtn] = useState("All");
   const location = useLocation();
 
-  const { ReloadSpaceInfo } = useSelector((state) => state?.info);
+  const { ReloadSpaceInfo } = useAppSelector((state) => state?.info);
   const spaceId = location.pathname.split("/")[3];
-  const { ReloadCards } = useSelector((state) => state?.info);
-  const [testimonials, setTestimonials] = useState(null);
+  const { ReloadCards } = useAppSelector((state) => state?.info);
+  const [testimonials, setTestimonials] = useState<[Testimonial]|null>(null);
   const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
   const { userId } = useAuth();
-  const { isKey } = useSelector((state) => state?.pay);
   const manualTestimonials = testimonials?.filter((t)=>t.tweet==false);
   useEffect(() => {
     const getSpace = async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/space/fetch-space?spaceId=${spaceId}`
+        `https://starbook-1.onrender.com/api/space/fetch-space?spaceId=${spaceId}`
       );
       setSpaceInfo(res?.data);
       setTestimonials(res.data.testimonials);
@@ -50,7 +93,7 @@ const Dashboard = () => {
   if (!spaceInfo) {
     return <Loader />;
   }
-
+console.log(testimonials)
   return (
     <>
       {insightsToggle ? (
@@ -207,18 +250,8 @@ const Dashboard = () => {
                   ?.toReversed()
                   .map((testimonial) => (
                     <DashoardCard
-                      spaceId={spaceId}
-                      email={testimonial.email}
-                      key={testimonial.id}
-                      Id={testimonial.id}
-                      imgPath={testimonial.imgPath}
-                      name={testimonial.name}
-                      starRating={testimonial.starRating}
-                      testimonial={testimonial.testimonial}
-                      createdAt={testimonial.createdAt}
-                      WOF={testimonial.WOF}
-                      tip={testimonial.tip}
-                      title={testimonial?.title}
+                    key={testimonial.id}
+                      testimonial={testimonial}
                     />
                   ))}
               {isBtn === "Twitter" && (
@@ -231,7 +264,7 @@ const Dashboard = () => {
     </>
   );
 };
-const starWrapper = ({ children }) => {
+const starWrapper = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div
       style={{

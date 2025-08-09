@@ -40,7 +40,7 @@ const TweetCard = ({
   const addToWall = async () => {
     setIsWallChange(true);
     const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
+      `https://starbook-1.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
       {}
     );
     if (res.status == 200) {
@@ -53,7 +53,7 @@ const TweetCard = ({
   const removeFromWall = async () => {
     setIsWallChange(true);
     const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
+      `https://starbook-1.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
       {}
     );
     if (res.status == 200) {
@@ -65,7 +65,7 @@ const TweetCard = ({
   const handleDelete = async () => {
     setIsDel(true);
     const res = await axios.delete(
-      `http://localhost:3000/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`
+      `https://starbook-1.onrender.com/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`
     );
     if (res.status == 200) {
       setIsDel(false);

@@ -4,19 +4,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { ReloadSpaces } from "../redux/InfoRedux";
 import { IoWarningOutline } from "react-icons/io5";
+import z from "zod";
 
-const DeleteSpace = ({ setToggle, spaceName, spaceId }) => {
-  const [input, setInput] = useState();
+const deleteSpaceProps = z.object({
+  setToggle:z.any(),
+  spaceName:z.string(),
+  spaceId:z.string()
+})
+
+type deleteSpaceProps = z.infer<typeof deleteSpaceProps>
+
+const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
+  const [input, setInput] = useState<string|null>(null);
   const dispatch = useDispatch();
   console.log(spaceId);
-  const handleChange = (e) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
   const handleClick = async () => {
     if (input == spaceName) {
       const res = await axios.delete(
-        `http://localhost:3000/api/space/delete-space?spaceId=${spaceId}`
+        `https://starbook-1.onrender.com/api/space/delete-space?spaceId=${spaceId}`
       );
       if (res.status == 200) {
         dispatch(ReloadSpaces());

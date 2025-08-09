@@ -6,36 +6,27 @@ import { toast } from "react-toastify";
 import { ReloadCards } from "../redux/InfoRedux";
 import { MdDelete } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { IoIosCheckbox, IoMdHeart } from "react-icons/io";
+import { IoMdHeart } from "react-icons/io";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { Tooltip } from "react-tooltip";
 import { FaSquareCheck } from "react-icons/fa6";
+import { Testimonial } from "@/pages/Dashboard";
+
+
 
 const DashoardCard = ({
-  token,
-  spaceId,
-  WOF,
-  email,
-  imgPath,
-  tip,
-  name,
-  starRating,
   testimonial,
-  Id,
-  createdAt,
-  title,
-}) => {
+}: {testimonial: Testimonial}) => {
   const [overlay, setOverlay] = useState(false);
-  const dateObj = new Date(createdAt);
-  const options = { year: "numeric", month: "short", day: "2-digit" };
+  const dateObj = new Date(testimonial.createdAt);
+  const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "short", day: "2-digit" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
   const dispatch = useDispatch();
   const addToWall = async () => {
     const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
+      `https://starbook-1.onrender.com/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=true`,
       {}
     );
     if (res.status == 200) {
@@ -45,7 +36,7 @@ const DashoardCard = ({
   };
   const removeFromWall = async () => {
     const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
+      `https://starbook-1.onrender.com/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=false`,
       {}
     );
     if (res.status == 200) {
@@ -55,13 +46,8 @@ const DashoardCard = ({
 
   const handleDelete = async () => {
     const res = await axios.delete(
-      `http://localhost:3000/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`,
+      `https://starbook-1.onrender.com/api/testimonials/delete?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}`,
 
-      {
-        headers: {
-          token: `Bearer ${token}`,
-        },
-      }
     );
     if (res.status == 200) {
       dispatch(ReloadCards());
@@ -74,7 +60,7 @@ const DashoardCard = ({
         <div className=" rounded-lg flex flex-col justify-center items-center absolute top-0 bottom-0 right-0 left-0 bg-white z-50 gap-7">
           <p className="  text-xl text-slate-600">
             Are you sure you want to delete{" "}
-            <span className="font-semibold ">{name}</span>&#39;s testimonial?
+            <span className="font-semibold ">{testimonial.name}</span>&#39;s testimonial?
           </p>
           <div className=" flex gap-3">
             <button
@@ -96,7 +82,7 @@ const DashoardCard = ({
         <div>
           <div className=" flex justify-between items-center">
             <label className=" relative bg-teal-800 text-white text-sm font-semibold px-5 py-1 rounded-3xl">
-              {tip && (
+              {testimonial.tip && (
                 <>
                   <RiMoneyRupeeCircleFill
                     data-tooltip-id="tip-tooltip"
@@ -118,7 +104,7 @@ const DashoardCard = ({
           <div className=" flex justify-between">
             <StarRatings
               starRatedColor="#ffa534"
-              rating={starRating}
+              rating={testimonial.starRating}
               starSpacing="2px"
               starDimension="20px"
             />
@@ -126,7 +112,7 @@ const DashoardCard = ({
         </div>
         <div>
           <div className=" flex flex-col gap-2 items-cente&WOF=falser justify-center">
-            {WOF ? (
+            {testimonial.WOF ? (
               <>
                 <button
                   title=""
@@ -160,37 +146,37 @@ const DashoardCard = ({
         </div>
       </div>
 
-      <div className=" text-slate-900 max-w-[720px]">{testimonial}</div>
+      {/* <div className=" text-slate-900 max-w-[720px]">{testimonial}</div> */}
       <div className=" grid grid-cols-2 gap-3 mt-3">
         <div>
           <p className=" font-semibold text-slate-800 text-sm">Name</p>
           <div className=" flex gap-2  items-center">
-            <img className=" h-8 rounded-full w-8" src={imgPath} alt="" />
+            <img className=" h-8 rounded-full w-8" src={testimonial.imgPath} alt="" />
             <p className=" text-sm text-slate-900 first-letter:uppercase">
-              {name}
+              {testimonial.name}
             </p>
           </div>
         </div>
-        {title && (
+        {testimonial.title && (
           <div>
             <p className=" font-semibold text-slate-800 text-sm">Title</p>
             <div className=" flex items-center ">
-              <p className=" text-sm text-slate-900">{title}</p>
+              <p className=" text-sm text-slate-900">{testimonial.title}</p>
             </div>
           </div>
         )}
-        {tip && (
+        {testimonial.tip && (
           <div>
             <p className=" font-semibold text-slate-800 text-sm">Tip Amount</p>
             <div className=" flex items-center ">
-              <p className=" text-sm text-slate-900">INR {tip / 100}</p>
+              <p className=" text-sm text-slate-900">INR {testimonial.tip / 100}</p>
             </div>
           </div>
         )}
         <div>
           <p className=" font-semibold text-slate-800 text-sm">Email</p>
           <div className=" flex gap-2  items-center">
-            <p className=" text-sm text-slate-900">{email}</p>
+            <p className=" text-sm text-slate-900">{testimonial.email}</p>
           </div>
         </div>
         <div>

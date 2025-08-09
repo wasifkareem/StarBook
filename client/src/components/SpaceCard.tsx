@@ -10,10 +10,11 @@ const spaceCardPropsSchema = z.object({
   imgPath:z.string(),
   spaceName:z.string(),
   spaceId:z.string(),
+  testimonialCount:z.number()
 })
 
 type spaceCardProps = z.infer<typeof spaceCardPropsSchema>
-const SpaceCard = ({ imgPath, spaceName, spaceId }:spaceCardProps) => {
+const SpaceCard = ({ imgPath, spaceName, spaceId,testimonialCount }:spaceCardProps) => {
   const [toggle, setToggle] = useState(false);
   const handleDel = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ const SpaceCard = ({ imgPath, spaceName, spaceId }:spaceCardProps) => {
         />
       ) : null}
       <Link to={`/app/products/${spaceId}`}>
-       <Card className=" flex relative">
+       <Card className=" flex relative pr-16">
 
           <button
             onClick={(e) => handleDel(e)}
@@ -44,7 +45,7 @@ const SpaceCard = ({ imgPath, spaceName, spaceId }:spaceCardProps) => {
           />
           <div className="xl px-5 py-3">
             <h2 className=" font-semibold text-xl">{spaceName}</h2>
-            <p>Testimonials:need fix</p>
+            <p>Testimonials:{testimonialCount}</p>
           </div>
           </Card>
 

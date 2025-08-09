@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userReducer from "./userRedux";
 import infoReducer from "./InfoRedux";
 import payReducer from "./payRedux";
 import {
@@ -22,7 +21,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  user: userReducer,
   info: infoReducer,
   pay: payReducer,
 });

@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 import { ReloadSpaceInfo } from "../redux/InfoRedux";
 import { useUser } from "@clerk/clerk-react";
 import z from "zod";
+import { spaceInfoSchema } from "@/pages/Dashboard";
 
 const addSpacePropsSchema = z.object({
   setToggle: z.any(),
   isEdit:z.boolean(),
-  spaceInfo:z.object().optional()
+  spaceInfo:spaceInfoSchema.optional()
 })
 
 const addSpaceFormSchema = z.object({
@@ -25,7 +26,7 @@ const addSpaceFormSchema = z.object({
 })
 
 type addSpaceProps = z.infer<typeof addSpacePropsSchema>;
-type addSpaceForm = z.infer<typeof addSpaceFormSchema>
+export type SpaceForm = z.infer<typeof addSpaceFormSchema>
 
 const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
   const [isFetching, setIsFetching] = useState(false);
   const [ImgFile, setImgFile] = useState<File | null>(null);
   const [imgPreview, setImgPreview] = useState<string|null>(
-    isEdit && spaceInfo ? spaceInfo?.imgPath : null
+    isEdit && spaceInfo ? spaceInfo?.imgPath ?? null : null
   );
   const { user } = useUser();
   const emailAddress = user?.primaryEmailAddress?.emailAddress;
@@ -54,7 +55,7 @@ const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<addSpaceForm>();
+  } = useForm<SpaceForm>();
   const handleOne = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue("qOne", e.target.value);
     setOne(e.target.value);
@@ -74,7 +75,7 @@ const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
     setImgPreview(url);
    }
   };
-  const onSubmit = async (data:addSpaceForm) => {
+  const onSubmit = async (data:SpaceForm) => {
     try {
       setIsFetching(true);
       if (emailAddress) {
@@ -82,7 +83,7 @@ const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
           const imgFile = new FormData();
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
-            "http://localhost:3000/upload",
+            "https://starbook-1.onrender.com/upload",
             imgFile
           );
           data.imgPath = assetInfo.data.url;
@@ -90,7 +91,7 @@ const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
         data.ownerEmail = emailAddress;
         if (isEdit === true) {
           const response = await axios.put(
-            `http://localhost:3000/api/space/update-space?spaceId=${spaceInfo?.id}`,
+            `https://starbook-1.onrender.com/api/space/update-space?spaceId=${spaceInfo?.id}`,
             data
           );
           if (response.status == 200) {
@@ -102,7 +103,7 @@ const AddSpace = ({ setToggle, isEdit,spaceInfo }:addSpaceProps) => {
           }
         } else {
           const response = await axios.post(
-            "http://localhost:3000/api/space/create-space",
+            "https://starbook-1.onrender.com/api/space/create-space",
             data
           );
           if (response.status == 200) {

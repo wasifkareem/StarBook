@@ -10,13 +10,13 @@ import LandingPage from "./pages/LandingPage";
 
 //Pages
 import Home from "./pages/Home";
+import SignInPage from "./pages/Login";
+import SignUpPage from "./pages/Signup";
+import "@iframe-resizer/child";
 import Dashboard from "./pages/Dashboard";
 import Embed from "./pages/Embed";
 import ReviewPage from "./pages/ReviewPage";
-import SignInPage from "./pages/Login";
 import Billing from "./pages/Billing";
-import SignUpPage from "./pages/Signup";
-import "@iframe-resizer/child";
 
 const router = createBrowserRouter([
   {

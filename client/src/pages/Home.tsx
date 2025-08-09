@@ -23,6 +23,9 @@ const spaceSchema = z.object({
   tipBox: z.boolean(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
+  _count:z.object({
+    testimonials:z.number()
+  })
 })
 
 const spaceArraySchema = z.array(spaceSchema)
@@ -33,7 +36,7 @@ const Home = () => {
   const { user } = useUser();
   const { ReloadSpaces } = useAppSelector((state) => state?.info);
   const [cardData, setCardData] = useState<Space[] | null>(null);
-  console.log(cardData)
+
   const handleClick = () => {
     setToggle(true);
   };
@@ -41,8 +44,9 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `http://localhost:3000/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
+        `https://starbook-1.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
       );
+
       const validatedData = spaceArraySchema.parse(response.data)
       
       setCardData(validatedData);
@@ -78,6 +82,7 @@ const Home = () => {
           ) : null}
           {cardData?.map((card) => (
             <SpaceCard
+            testimonialCount={card._count.testimonials}
               spaceName={card.spaceName}
               key={card.id}
               spaceId={card.id}
