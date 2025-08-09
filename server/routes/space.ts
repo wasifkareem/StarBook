@@ -69,8 +69,11 @@ router.get("/fetch-spaces",validateQuery(fetchSpacesSchema), async (req:Request<
   try {
     let spaces = await prisma.space.findMany({ 
       where: { ownerEmail: email },
-      // To include testimonials, you can use 'include'
-      // include: { testimonials: true } 
+      include: { 
+      _count: {
+        select: { testimonials: true }
+      }
+      } 
     });
     res.status(200).json(spaces);
   } catch (err) {
