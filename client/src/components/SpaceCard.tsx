@@ -30,16 +30,16 @@ const SpaceCard = ({ imgPath, spaceName, spaceId,testimonialCount }:spaceCardPro
         />
       ) : null}
       <Link to={`/app/products/${spaceId}`}>
-       <Card className=" flex relative pr-16">
+       <Card className=" flex relative pr-24">
 
           <button
             onClick={(e) => handleDel(e)}
-            className="  absolute top-1 right-1 "
+            className="  absolute top-2 right-2 "
           >
             <MdDeleteForever className="text-2xl text-slate-400 hover:text-red-900 transition-colors" />
           </button>
           <img
-            className=" h-24 w-24 object-cover border"
+            className=" h-32 w-32 object-cover border"
             src={imgPath ? imgPath : "/assets/review.png"}
             alt=""
           />

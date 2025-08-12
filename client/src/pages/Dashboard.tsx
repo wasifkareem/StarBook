@@ -19,6 +19,7 @@ import Insights from "../components/Insights.jsx";
 import Loader from "../components/Loader.jsx";
 import TwitterCard from "../components/TwitterCard.jsx";
 import Wall from "../components/Wall.jsx";
+import { GalleryHorizontalEnd, Heart, SquarePen, StickyNote, Twitter } from "lucide-react";
 
 
 const testimonialSchema = z.object({
@@ -78,7 +79,6 @@ const Dashboard = () => {
   const { ReloadCards } = useAppSelector((state) => state?.info);
   const [testimonials, setTestimonials] = useState<[Testimonial]|null>(null);
   const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
-  const { userId } = useAuth();
   const manualTestimonials = testimonials?.filter((t)=>t.tweet==false);
   useEffect(() => {
     const getSpace = async () => {
@@ -93,9 +93,9 @@ const Dashboard = () => {
   if (!spaceInfo) {
     return <Loader />;
   }
-console.log(testimonials)
   return (
     <>
+   
       {insightsToggle ? (
         <Insights
           insightsToggle={insightsToggle}
@@ -114,10 +114,10 @@ console.log(testimonials)
         />
       ) : null}
       <hr />
-      <div className=" flex flex-col md:flex-row w-full md:h-40 justify-between py-4 px-5 ">
+      <div className=" flex flex-col md:flex-row w-full md:h-40 lg:px-16 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
           <img
-            className=" hidden md:block w-20 object-cover rounded-lg h-20"
+            className=" hidden md:block w-32 object-cover rounded-lg h-32"
             src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
             alt=""
           />
@@ -126,13 +126,7 @@ console.log(testimonials)
               <h1 className=" text-4xl font-semibold text-slate-800 font-sans ">
                 {spaceInfo?.spaceName}
               </h1>
-              <Button
-              variant="outline"
-                onClick={() => setInsightsToggle(true)}
-                
-              >
-                Generate Insights <FaPenFancy className=" " />
-              </Button>
+              
             </div>
             <p className=" text-slate-500 md:mt-1">
               Space public url :
@@ -149,6 +143,17 @@ console.log(testimonials)
             </p>
           </div>
         </div>
+        <div className=" hidden  md:flex justify-center items-center">
+
+        <Button
+        className=" p-5 py-8 rounded-xl hover:shadow-[0_0_20px_rgba(255,0,255,0.3),0_0_40px_rgba(0,255,255,0.2),0_0_60px_rgba(255,255,0,0.1)] transition-shadow duration-300"
+        variant="outline"
+        onClick={() => setInsightsToggle(true)}
+        
+        >
+          Generate Insights <FaPenFancy className=" " />
+              </Button>
+                </div>
         {/* {isKey ? (
           <RPDash spaceInfo={spaceInfo} spaceId={spaceId} />
         ) : (
@@ -166,60 +171,85 @@ console.log(testimonials)
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
-        <div className=" md:w-1/4 bg-gray-50 h-screen  flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
+        
+        <div className=" md:w-1/4 md:sticky top-0  md:h-screen bg-gray-50 font-handwriting flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
           <button
             onClick={() => setIsBtn("All")}
-            className={` w-full flex gap-2 items-center hover:bg-slate-200 transition-colors  ${
-              isBtn === "All" && "bg-slate-200"
-            } text-slate-800 text-start px-4 py-2 rounded-md `}
+            className={` w-full flex gap-2 group items-center  transition-colors  ${
+              isBtn === "All" && "bg-neutral-200"
+            }  text-neutral-700  text-start px-4 py-2 rounded-md `}
           >
-            <VscPreview />
-            All
+            <GalleryHorizontalEnd color="#404040" />
+            <span className="group-hover:translate-x-2 transition-all">All</span>
           </button>
-          <button
+            <button
             onClick={() => setIsBtn("Twitter")}
-            className={` w-full hover:bg-slate-200 flex gap-2 items-center transition-colors  ${
-              isBtn === "Twitter" && "bg-slate-200"
-            }  text-slate-800 text-start px-4 py-2 rounded-md `}
-          >
-            <BsTwitterX/>
-            Twitter
-          </button>
-          <button
+            className={` w-full  group flex gap-2  items-center transition-colors  ${
+              isBtn === "Twitter" && "bg-neutral-200"
+            }  text-neutral-700 text-start px-4 py-2 rounded-md `}
+            >
+            <Twitter color="#404040" />
+             <span className=" group-hover:translate-x-2 transition-all"> Twitter</span>
+            </button>
+            <button
             onClick={() => setWallPageToggle(true)}
-            className=" w-full flex gap-2 items-center hover:bg-slate-200 transition-colors   text-slate-800 text-start px-4 py-2 rounded-md "
-          >
-            <IoMdHeartEmpty className=" text-xl"/>
-            Wall of Fame
-          </button>
-          <Link
+            className=" w-full group flex gap-2 items-center  transition-colors   text-neutral-700 text-start px-4 py-2 rounded-md "
+            >
+            <Heart color="#404040" />
+            <span className=" group-hover:translate-x-2 transition-all">Wall of Fame</span>
+            </button>
+            <Link
             target="_blank"
             rel="noopener noreferrer"
             to={`/public/${spaceInfo?.id}`}
-          >
-            <button className=" w-full flex gap-2 items-center hover:bg-slate-200  transition-colors  text-slate-800 text-start px-4 py-2 rounded-md ">
-              <SiPlatformdotsh/>
-              Public landing page
+            >
+            <button className=" w-full group flex gap-2 items-center   transition-colors  text-neutral-700 text-start px-4 py-2 rounded-md ">
+            <StickyNote color="#404040" />              
+            <span className=" group-hover:translate-x-2 transition-all">Public landing page</span>
             </button>
-          </Link>
-          <button
+            </Link>
+            <button
             onClick={() => setToggle(true)}
-            className=" w-full flex gap-2 items-center hover:bg-slate-200 transition-colors   text-slate-800 text-start px-4 py-2 rounded-md "
-          >
-            <MdEdit className=" text-lg" />
-            Edit Space
-          </button>
+            className=" w-full group flex gap-2 items-center  transition-colors   text-neutral-700 text-start px-4 py-2 rounded-md "
+            >
+             <SquarePen color="#404040" />
+            <span className=" group-hover:translate-x-2 transition-all">Edit Space</span>
+            </button>
         </div>
-        {/* <hr className=" w-[1px] h-[500px] bg-gray-200 mt-10 mx-10" /> */}
-        <div className=" md:w-3/4 grid md:grid-cols-1 grid-cols-1 md:flex-row lg:mx-36 flex-col gap-3  m-3 ">
+        <div className=" md:w-3/4 flex rounded-2xl overflow-hidden border-[1px] border-gray-200 shadow shadow-gray-300  relative flex-col gap-3 ">
+        <div className="bg-gray-50 border border-gray-200 self-end m-5 rounded-lg text-slate-600 hidden md:block top-0 px-4 py-3 text-sm w-fit">
+          <div className="flex items-center gap-2">
+            <span className="text-base">💡</span>
+            <span className="font-medium text-gray-700">Tip:</span>
+            <span>
+              {isBtn === "All" 
+          ? (
+            <>
+              Share your{" "}
+              <a 
+                href={`/public/${spaceInfo?.id}`}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className=" hover:underline font-semibold underline-offset-2 hover:text-blue-800"
+              >
+                public landing page
+              </a>
+              {" "}with customers to collect authentic reviews and grow your reputation!
+            </>
+          )
+          : "Paste any tweet URL to instantly showcase social proof from Twitter on your testimonial wall!"
+              }
+            </span>
+          </div>
+        </div>
           {manualTestimonials?.length === 0 && isBtn !== "Twitter" ? (
-            <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200 md:mt-40 mt-12">
+            <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200  mt-12">
               No Testimonials! Send the public URL to your best customers and
               ask them for feedback.{" "}
             </p>
           ) : !testimonials ? (
             <>
-              <div className=" transition-all relative flex flex-col gap-2 border border-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
+              <div className=" transition-all  relative flex flex-col gap-2 border border-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
                 <Skeleton className=" w-16 h-6 rounded-xl" />
                 <Skeleton wrapper={starWrapper} count={5} className=" h-full" />
                 <Skeleton count={2} className=" w-4/5 h-6 " />
@@ -243,7 +273,7 @@ console.log(testimonials)
               </div>
             </>
           ) : (
-            <div className=" transition-all flex  md:mt-10 flex-col gap-3">
+            <div className=" transition-all flex md:px-6 lg:px-10  h-full  pt-12 flex-col gap-3">
               {isBtn === "All" &&
                 testimonials
                   ?.filter((t) => !t.tweet)

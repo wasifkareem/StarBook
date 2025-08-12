@@ -15,7 +15,6 @@ import Multer from "multer";
 
 const app = express();
 const port = process.env.PORT||3000;
-console.log("DATABASE_URL from env:", process.env.DATABASE_URL);
 
 app.use(express.json());
 

@@ -34,7 +34,7 @@ const TweetCard = ({
 }) => {
   let [isDel, setIsDel] = useState(false);
   let [isWallChange, setIsWallChange] = useState(false);
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   const dispatch = useDispatch();
 
   const addToWall = async () => {
@@ -97,7 +97,7 @@ const TweetCard = ({
   }, []);
 
   return (
-    <div className="flex flex-col p-5 px-4 max-h-fit relative w-[354px] border rounded-xl">
+    <div className="flex flex-col p-5 px-4 max-h-fit relative max-w-[354px] border rounded-xl">
       <div className="flex justify-between items-center">
         <div className=" flex justify-between w-full items-center">
         <div className="flex gap-2 items-start">
@@ -149,9 +149,14 @@ const TweetCard = ({
         <a href={imgMedia} className="glightbox">
           <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 shadow-sm shadow-gray-300 flex justify-center ">
             <img
-              className=" max-h-96 "
+             className={`max-h-96 transition-all duration-300 ${
+              imageLoaded ? 'blur-0' : 'blur-md opacity-50'
+            }`}
               src={imgMedia}
               alt=""
+              loading="lazy"
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageLoaded(true)}
             />
           </div>
         </a>

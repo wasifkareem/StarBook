@@ -6,6 +6,7 @@ import { ReloadSpaces } from "../redux/InfoRedux";
 import { IoWarningOutline } from "react-icons/io5";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { SquareX } from "lucide-react";
 
 const Insights = ({ setInsightsToggle, spaceInfo, insightsToggle }) => {
   const [aiInsights, setAiInsights] = useState(null);
@@ -35,14 +36,24 @@ const Insights = ({ setInsightsToggle, spaceInfo, insightsToggle }) => {
     };
     handleInsights();
   }, [insightsToggle === true]);
+
+  useEffect(()=>{
+    const handleEsc =(e)=>{
+      if(e.key==="Escape"){
+        setInsightsToggle(false)
+      }
+    };
+    window.addEventListener("keydown",handleEsc);
+    return ()=>window.removeEventListener("keydown",handleEsc)
+   },[])
   return (
     <div
       onClick={() => setInsightsToggle(false)}
-      className=" z-50 flex  overflow-y-auto justify-center items-center fixed top-0 bottom-0 left-0 right-0 bg-[#0000007f]"
+      className=" z-50 flex overflow-y-auto justify-center items-center fixed top-0 bottom-0 left-0 right-0 bg-[#0000007f]"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className=" rounded absolute top-10 md:min-h-[500px] pb-10 bg-slate-900 text-white py-5 px-4 w-4/6 flex   flex-col gap-2"
+        className=" rounded-2xl absolute top-10 md:min-h-[750px] pb-10  bg-white py-5 px-4 w-4/6 flex md:px-10 md:pt-10 flex-col gap-2"
       >
         <div className=" flex items-center justify-between">
           <h2>
@@ -52,9 +63,9 @@ const Insights = ({ setInsightsToggle, spaceInfo, insightsToggle }) => {
           </h2>
           <button
             onClick={() => setInsightsToggle(false)}
-            className=" border rounded-lg px-2 self-end text-3xl mr-3 mt-1 "
+            className=" rounded-lg self-end text-3xl "
           >
-            &times;
+            <SquareX />
           </button>
         </div>
         {isfetching ? (
@@ -65,19 +76,19 @@ const Insights = ({ setInsightsToggle, spaceInfo, insightsToggle }) => {
         ) : (
           <div className=" font-mono flex flex-col gap-3">
             <div className=" flex flex-col gap-2 ">
-              <label className=" opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1">
+              <label className=" opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1 md:mt-3">
                 Things that users love about {spaceInfo?.spaceName} ❤️
               </label>
               <Markdown>{aiInsights?.positive}</Markdown>
             </div>
             <div className=" flex flex-col gap-2 ">
-              <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1">
+              <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1 md:mt-3">
                 Issues :
               </label>
               <p dangerouslySetInnerHTML={{ __html: aiInsights?.negative }}></p>
             </div>
             <div className=" flex flex-col gap-2 ">
-              <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1">
+              <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1 md:mt-3">
                 Suggestions :
               </label>
               <ol className=" flex flex-col gap-2">

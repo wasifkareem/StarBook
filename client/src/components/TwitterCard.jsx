@@ -57,27 +57,26 @@ const TwitterCard = ({ spaceId, testimonials }) => {
 
   return (
     <>
-      <div className=" flex w-full my-5 justify-center">
-        <div>
-          <label className=" font-semibold" htmlFor="">
-            Tweet URL :{" "}
-          </label>
-          <input
-            value={url}
-            className="  outline-cyan-700 w-[450px] rounded border border-slate-300 px-2 py-1"
-            type="text"
-            placeholder="https://x.com/elonmusk/status/1830650370336473253"
-            onChange={(e) => setUrl(e.target.value)}
-          />
+      <div className="flex w-full my-5 px-4">
+        <div className=" flex flex-col md:flex-row items-center gap-2 w-full justify-center ">
+            <label className="font-semibold hidden md:block" htmlFor="">
+              Tweet URL :{" "}
+            </label>
+            <input
+              value={url}
+              className="outline-cyan-700 w-full max-w-[450px] self-center rounded border border-slate-300 px-2 py-1"
+              type="text"
+              placeholder="https://x.com/elonmusk/status/1830650370336473253"
+              onChange={(e) => setUrl(e.target.value)}
+            />
+          <Button variant="outline" className="mx-2 shrink-0" onClick={handleClick}>
+            <RiTwitterXFill className={`${isFetching && "animate-spin"}`} />
+            Get tweet
+          </Button>
         </div>
-        <div className=" bg-white"></div>
-        <Button variant="outline" className=" mx-2" onClick={handleClick}>
-          <RiTwitterXFill className={`${isFetching && "animate-spin"}`} />
-          Get tweet
-        </Button>
       </div>
-      <div className=" w-full flex justify-center">
-        <div className=" grid grid-cols-3 items-start gap-3 w-fit h-fit  light bg-white">
+      <div className="w-full flex justify-center px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start gap-10 lg:gap-3 w-fit h-fit light bg-white">
           {Array(3)
             .fill()
             .map((_, colIndex) => (
