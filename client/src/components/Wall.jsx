@@ -6,7 +6,8 @@ import Testimonials from "./Testimonials";
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   const { width } = useWindowDimensions();
   const [theme, setTheme] = useState(false);
-  const code = ` <iframe id="starbook-${spaceId}" src="http://localhost:5174/embed/${spaceId}?dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
+  console.log(theme)
+  const code = ` <iframe id="starbook-${spaceId}" src="https://starbook.wasifkareem.com/embed/${spaceId}?dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
  <script>
   iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-${spaceId}');
