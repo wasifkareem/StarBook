@@ -7,18 +7,18 @@ import TweetCard from "./TweetCard";
 
 const Testimonials = ({
 testimonial,
+theme
 }) => {
   const dateObj = new Date(testimonial.createdAt);
   const options = { year: "numeric", month: "short", day: "2-digit" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
-
   if (testimonial.tweet) {
     return (
       <div
         className={` w-[354px]   ${
-          testimonial.theme == "true" || testimonial.theme == true ? "bg-[#121213] hover:bg-[#1c3442] text-white " : "bg-white hover:bg-gray-50"
+          theme == "true" || theme == true ? "bg-neutral-900 hover:bg-neutral-800 transition-all text-white " : "bg-white hover:bg-gray-50"
         } rounded-xl`}
       >
           <TweetCard
@@ -44,13 +44,13 @@ testimonial,
   return (
     <div
       style={{
-        border: testimonial.theme == "true" ? "none" : "",
+        border: theme == "true" ? "none" : "",
       }}
       className={`relative flex transition-all flex-col gap-2 border ${
-        testimonial.theme == "true" || testimonial.theme == true ? "bg-[#15202b]" : "bg-white"
+        theme == "true" || theme == true ? "bg-neutral-900" : "bg-white"
       } rounded-xl  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
-        testimonial.theme == "true" || testimonial.theme == true
-          ? "hover:bg-[#1c3442]"
+        theme == "true" || theme == true
+          ? "hover:bg-neutral-800"
           : "hover:bg-gray-50"
       }`}
     >
@@ -60,7 +60,7 @@ testimonial,
           <div>
             <p
               style={{
-                color: testimonial.theme == "true" || testimonial.theme == true ? "white" : "#0f172a",
+                color: theme == "true" || theme == true ? "white" : "#0f172a",
               }}
               className=" first-letter:uppercase font-semibold text-slate-900"
             >
@@ -69,7 +69,7 @@ testimonial,
             {testimonial.title && (
               <p
                 className={` text-sm ${
-                  testimonial.theme == "true" || testimonial.theme == true
+                  theme == "true" || theme == true
                     ? "text-white"
                     : " text-gray-800"
                 }`}
@@ -94,8 +94,8 @@ testimonial,
                 width: "230px",
                 zIndex: "1",
                 backgroundColor:
-                  testimonial.theme == "true" || testimonial.theme == true ? "#e6e6e6" : "#0f172a",
-                color: testimonial.theme == "true" || (testimonial.theme == true && "#0f172a"),
+                  theme == "true" || theme == true ? "#e6e6e6" : "#0f172a",
+                color: theme == "true" || (theme == true && "#0f172a"),
               }}
               id="tip-tooltip"
             />
@@ -110,7 +110,7 @@ testimonial,
       />
       <div
         style={{
-          color: testimonial.theme == "true" || testimonial.theme == true ? "white" : "#0f172a",
+          color: theme == "true" || theme == true ? "white" : "#0f172a",
         }}
         className=" first-letter:uppercase"
       >
@@ -118,7 +118,7 @@ testimonial,
       </div>
       <p
         style={{
-          color: testimonial.theme == "true" || testimonial.theme == true ? "#b1afafda" : "#434d5acc",
+          color: theme == "true" || theme == true ? "#b1afafda" : "#434d5acc",
         }}
         className=" text-sm text-slate-700 absolute bottom-3 left-4"
       >

@@ -40,6 +40,7 @@ router.post("/get-insights",validateQuery(spaceQuerySchema), async (req:Request<
 
     res.status(200).json(text);
   } catch (err) {
+    res.status(401).json(err)
     console.error(err);
   }
 });

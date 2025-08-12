@@ -34,13 +34,13 @@ const TweetCard = ({
 }) => {
   let [isDel, setIsDel] = useState(false);
   let [isWallChange, setIsWallChange] = useState(false);
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   const dispatch = useDispatch();
 
   const addToWall = async () => {
     setIsWallChange(true);
     const res = await axios.put(
-      `https://starbook.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
+      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
       {}
     );
     if (res.status == 200) {
@@ -53,7 +53,7 @@ const TweetCard = ({
   const removeFromWall = async () => {
     setIsWallChange(true);
     const res = await axios.put(
-      `https://starbook.onrender.com/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
+      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
       {}
     );
     if (res.status == 200) {
@@ -65,7 +65,7 @@ const TweetCard = ({
   const handleDelete = async () => {
     setIsDel(true);
     const res = await axios.delete(
-      `https://starbook.onrender.com/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`
+      `http://localhost:3000/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`
     );
     if (res.status == 200) {
       setIsDel(false);
@@ -97,7 +97,7 @@ const TweetCard = ({
   }, []);
 
   return (
-    <div className="flex flex-col p-5 px-4 max-h-fit relative w-[354px] border rounded-xl">
+    <div className="flex flex-col p-5 px-4 max-h-fit relative max-w-[354px] border rounded-xl">
       <div className="flex justify-between items-center">
         <div className=" flex justify-between w-full items-center">
         <div className="flex gap-2 items-start">
@@ -113,7 +113,7 @@ const TweetCard = ({
           href={`https://x.com/${twitterHandle}/status/${xId}`}
           rel="noopener noreferrer"
         >
-         <FaXTwitter className=" text-xl mb-6"/>
+         <FaXTwitter className=" border border-white p-1 text-2xl rounded-md mb-6"/>
         </a>}
         </div>
 
@@ -147,11 +147,16 @@ const TweetCard = ({
       </a>
       {imgMedia && (
         <a href={imgMedia} className="glightbox">
-          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 shadow-sm shadow-gray-300 flex justify-center ">
+          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2  flex justify-center ">
             <img
-              className=" max-h-96 "
+             className={`max-h-96 transition-all duration-300 ${
+              imageLoaded ? 'blur-0' : 'blur-md opacity-50'
+            }`}
               src={imgMedia}
               alt=""
+              loading="lazy"
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageLoaded(true)}
             />
           </div>
         </a>
@@ -161,7 +166,7 @@ const TweetCard = ({
           href={video}
           className="glightbox relative transition-all opacity-100 hover:opacity-80"
         >
-          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 shadow-sm shadow-gray-300 flex justify-center">
+          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 flex justify-center">
             <img className="max-h-60" src={poster} alt="" />
           </div>
           <FaCirclePlay className="absolute top-[45%] left-[135px] text-5xl text-cyan-400" />

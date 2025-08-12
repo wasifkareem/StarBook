@@ -26,7 +26,7 @@ const DashoardCard = ({
   const dispatch = useDispatch();
   const addToWall = async () => {
     const res = await axios.put(
-      `https://starbook.onrender.com/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=true`,
+      `http://localhost:3000/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=true`,
       {}
     );
     if (res.status == 200) {
@@ -36,7 +36,7 @@ const DashoardCard = ({
   };
   const removeFromWall = async () => {
     const res = await axios.put(
-      `https://starbook.onrender.com/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=false`,
+      `http://localhost:3000/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=false`,
       {}
     );
     if (res.status == 200) {
@@ -46,7 +46,7 @@ const DashoardCard = ({
 
   const handleDelete = async () => {
     const res = await axios.delete(
-      `https://starbook.onrender.com/api/testimonials/delete?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}`,
+      `http://localhost:3000/api/testimonials/delete?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}`,
 
     );
     if (res.status == 200) {
@@ -55,7 +55,7 @@ const DashoardCard = ({
     }
   };
   return (
-    <div className=" transition-all relative flex flex-col gap-2 shadow border bg-white border-slate-200 shadow-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
+    <div className=" transition-all relative flex flex-col gap-2 shadow border bg-white border-slate-200 shadow-slate-300 rounded-lg w-full px-5 py-4 pb-12 max-w-5xl self-center">
       {overlay ? (
         <div className=" rounded-lg flex flex-col justify-center items-center absolute top-0 bottom-0 right-0 left-0 bg-white z-50 gap-7">
           <p className="  text-xl text-slate-600">

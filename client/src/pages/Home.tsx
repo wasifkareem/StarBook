@@ -44,7 +44,7 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const response = await axios.get(
-        `https://starbook.onrender.com/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
+        `http://localhost:3000/api/space/fetch-spaces?email=${user?.primaryEmailAddress?.emailAddress}`
       );
 
       const validatedData = spaceArraySchema.parse(response.data)
@@ -65,14 +65,13 @@ const Home = () => {
             Spaces
           </p>
           <Button 
-            onClick={handleClick}
+          onClick={handleClick}
           variant="outline" size="lg">
           <MdCreateNewFolder />
-
             Create Space
             </Button>
         </div>
-        <div className=" mt-12 md:flex md:flex-wrap gap-4 justify-start">
+        <div className=" mt-20 md:mt-16 flex flex-col md:flex-row md:flex-wrap gap-4 justify-start">
           {cardData.length === 0 ? (
             <p className=" text-slate-200 text-2xl md:text-4xl font-semibold text-center md:mt-28">
               No spaces available. Create a new space, start collecting
