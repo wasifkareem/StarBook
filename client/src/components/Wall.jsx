@@ -7,7 +7,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   const { width } = useWindowDimensions();
   const [theme, setTheme] = useState(false);
   console.log(theme)
-  const code = ` <iframe id="starbook-${spaceId}" src="http://localhost:5174/embed/${spaceId}?dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
+  const code = ` <iframe id="starbook-${spaceId}" src="https://starbook.wasifkareem.com/embed/${spaceId}?dark=${theme}" frameborder="0" scrolling="no" width="100%"></iframe>
  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
  <script>
   iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-${spaceId}');
@@ -44,7 +44,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
       className="  z-40 overflow-y-auto  fixed top-0 bottom-0 left-0 right-0 flex flex-col md:justify-center md:items-center "
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     >
-      <div className=" absolute top-16 md:min-h-[700px] h-fit rounded-lg   bg-white z-50 md:w-[90%] flex flex-col ">
+      <div className=" absolute top-16 md:min-h-[700px] justify-center h-fit rounded-lg   bg-white z-50 w-full  md:w-[90%] flex flex-col ">
         <button
           onClick={() => setWallPageToggle(false)}
           className=" self-end text-3xl mr-3 mt-1 "
@@ -55,7 +55,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
           <p className=" text-center font-bold text-3xl mb-4">
             Embed a Wall of Fame
           </p>
-          <div className=" w-5/6 self-center md:flex md:flex-col">
+          <div className=" max-w-7xl md:self-center w-full overflow-x-auto  md:flex md:flex-col">
             {publicTestimonials && (
               <CopyBlock
                 showLineNumbers={false}
@@ -71,7 +71,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
                 color: theme ? "rgb(37, 40, 44)" : "white",
               }}
               onClick={handleClick}
-              className=" border border-slate-800 w-fit px-2 p-1 rounded-lg self-center mt-5"
+              className=" border border-slate-800 hidden md:block w-fit px-2 p-1 rounded-lg self-center mt-5"
             >
               {theme ? "Light theme" : "Dark Theme"}
             </button>

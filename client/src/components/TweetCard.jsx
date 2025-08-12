@@ -113,7 +113,7 @@ const TweetCard = ({
           href={`https://x.com/${twitterHandle}/status/${xId}`}
           rel="noopener noreferrer"
         >
-         <FaXTwitter className=" text-xl mb-6"/>
+         <FaXTwitter className=" border border-white p-1 text-2xl rounded-md mb-6"/>
         </a>}
         </div>
 
@@ -147,7 +147,7 @@ const TweetCard = ({
       </a>
       {imgMedia && (
         <a href={imgMedia} className="glightbox">
-          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 shadow-sm shadow-gray-300 flex justify-center ">
+          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2  flex justify-center ">
             <img
              className={`max-h-96 transition-all duration-300 ${
               imageLoaded ? 'blur-0' : 'blur-md opacity-50'
@@ -166,7 +166,7 @@ const TweetCard = ({
           href={video}
           className="glightbox relative transition-all opacity-100 hover:opacity-80"
         >
-          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 shadow-sm shadow-gray-300 flex justify-center">
+          <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 flex justify-center">
             <img className="max-h-60" src={poster} alt="" />
           </div>
           <FaCirclePlay className="absolute top-[45%] left-[135px] text-5xl text-cyan-400" />

@@ -63,7 +63,8 @@ export default {
 		'2xl': '1536px',
 		xl: '1150px',
 		lg: '782px',
-		md: '768px'
+		md: '768px',
+		sm:'400px'
 	}
   },
   plugins: [require("tailwindcss-animate")],
