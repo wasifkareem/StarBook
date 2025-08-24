@@ -11,7 +11,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         const validation = validateQuery(fetchSpacesSchema, searchParams);
         if (!validation.success) {
             return NextResponse.json(
-                { error: Array.isArray(validation.error) ? validation.error.map(err => err.message).join(', ') : 'Validation failed' },
+                { error : 'Validation failed' },
                 { status: 400 }
             );
         }

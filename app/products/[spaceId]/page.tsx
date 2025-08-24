@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { GalleryHorizontalEnd, Heart, SquarePen, StickyNote, Twitter } from "lucide-react";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { FaPenFancy } from "react-icons/fa";
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
@@ -14,8 +14,11 @@ import Link from "next/link";
 // import DashoardCard from "../components/DashoardCard.jsx";
 // import Insights from "../components/Insights.jsx";
 // import Loader from "../components/Loader.jsx";
-// import TwitterCard from "../components/TwitterCard.jsx";
-// import Wall from "../components/Wall.jsx";
+import TwitterCard from "@/components/TwitterCard";
+import { toast } from "react-toastify";
+import { useAppContext } from "@/context/AppContext";
+import DashoardCard from "@/components/DashoardCard";
+import Wall from "@/components/Wall";
 
 
 const testimonialSchema = z.object({
@@ -36,7 +39,7 @@ const testimonialSchema = z.object({
   entities: z.any().optional(),
   likes: z.number().optional(),
   imgMedia: z.string().optional(),
-  date: z.string().optional(),
+  date: z.string(),
   poster: z.string().optional(),
   video: z.string().optional(),
   spaceId: z.string(),
@@ -58,40 +61,38 @@ export const spaceInfoSchema = z.object({
   testimonials: z.array(testimonialSchema),
 });
 
-const dashboardPropsSchema = z.object({
-    params:z.object({
-        spaceId:z.string()
-    })
-})
-
-type dashProps = z.infer<typeof dashboardPropsSchema>
 export type SpaceInfo = z.infer<typeof spaceInfoSchema>
 export type Testimonial = z.infer<typeof testimonialSchema>
  
-const Dashboard = ({params}:dashProps) => {
+const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
   const [spaceInfo, setSpaceInfo] = useState<SpaceInfo|null>(null);
   
-
+console.log(spaceInfo)
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [insightsToggle, setInsightsToggle] = useState(false);
   const [isBtn, setIsBtn] = useState("All");
-  const {spaceId} = params;
+  const {spaceId} = use(params);
   const [testimonials, setTestimonials] = useState<[Testimonial]|null>(null);
   const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
   const manualTestimonials = testimonials?.filter((t)=>t.tweet==false);
+  const {state} = useAppContext()
   useEffect(() => {
     const getSpace = async () => {
       const res = await fetch(
-        `http://localhost:3010/api/space/fetch-space?spaceId=${spaceId}`
+        `/api/space/fetch-space?spaceId=${spaceId}`
       );
-
-      const data = await res.json()
+      if(!res.ok){
+        toast('failed to fetch spaces, try later!!!')
+      }
+      if(res.ok){
+        const data = await res.json()
       setSpaceInfo(data);
       setTestimonials(data.testimonials);
+      }
     };
     getSpace();
-  }, []);
+  }, [state.reloadTweets,state.reloadCards]);
   if (!spaceInfo) {
     return <Loader />;
   }
@@ -108,13 +109,13 @@ const Dashboard = ({params}:dashProps) => {
       {toggle ? (
         <AddSpace spaceInfo={spaceInfo} setToggle={setToggle} isEdit={true} />
       ) : null}
-      {/* {wallPageToggle ? (
+      {wallPageToggle ? (
         <Wall
           spaceId={spaceId}
           publicTestimonials={publicTestimonials}
           setWallPageToggle={setWallPageToggle}
         />
-      ) : null} */}
+      ) : null}
       <hr />
       <div className=" flex flex-col md:flex-row w-full md:h-40 lg:px-16 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
@@ -276,7 +277,7 @@ const Dashboard = ({params}:dashProps) => {
             </>
           ) : (
             <div className=" transition-all flex md:px-6 lg:px-10  h-full  pt-12 flex-col gap-3">
-              {/* {isBtn === "All" &&
+              {isBtn === "All" &&
                 testimonials
                   ?.filter((t) => !t.tweet)
                   ?.toReversed()
@@ -288,7 +289,7 @@ const Dashboard = ({params}:dashProps) => {
                   ))}
               {isBtn === "Twitter" && (
                 <TwitterCard spaceId={spaceId} testimonials={testimonials} />
-              )} */}
+              )}
             </div>
           )}
         </div>

@@ -1,19 +1,23 @@
 "use client";
 
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import { useDispatch } from "react-redux";
-import { Tweet } from "react-tweet";
-import { ReloadCards } from "../redux/InfoRedux";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
-import { getTweet } from "react-tweet/api";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.min.css";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
 import { TweetRenderer } from "./helper-comp/TweetRenderer";
+import { tweetSchema } from "@/lib/schemas/testimonial.schema";
+import z from "zod";
+import { useAppContext } from "@/context/AppContext";
+
+const tweetPropsSchema = tweetSchema.extend({
+  Id:z.string()
+})
+
+type tweetProps = z.infer<typeof tweetPropsSchema>
 
 const TweetCard = ({
   xId,
@@ -31,50 +35,61 @@ const TweetCard = ({
   entities,
   likes,
   date,
-}) => {
+}:tweetProps) => {
   let [isDel, setIsDel] = useState(false);
   let [isWallChange, setIsWallChange] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const dispatch = useDispatch();
+  const {setReloadCards,state} = useAppContext()
 
   const addToWall = async () => {
     setIsWallChange(true);
-    const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
-      {}
+    const res = await fetch(
+      `/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
+      {
+        method:'PUT'
+      }
     );
-    if (res.status == 200) {
+    if (res.ok) {
       setIsWallChange(false);
-      dispatch(ReloadCards());
+      setReloadCards(!state.reloadCards)
       toast.success("Successfully added to Wall of Fame!");
     }
   };
 
   const removeFromWall = async () => {
     setIsWallChange(true);
-    const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
-      {}
+    const res = await fetch(
+      `/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
+      {
+        method:'PUT'
+      }
     );
-    if (res.status == 200) {
+    if (res.ok) {
       setIsWallChange(false);
-      dispatch(ReloadCards());
+      setReloadCards(!state.reloadCards)
     }
   };
 
   const handleDelete = async () => {
     setIsDel(true);
-    const res = await axios.delete(
-      `http://localhost:3000/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`
+    const res = await fetch(
+      `/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`,{
+        method:'DELETE'
+      }
     );
-    if (res.status == 200) {
+
+    if(!res.ok){
+      toast('Failed to delete testimonails, try again later!!!')
+      return
+    }
+    if (res.ok) {
       setIsDel(false);
-      dispatch(ReloadCards());
+      setReloadCards(!state.reloadCards);
       toast.success("Deleted!");
     }
   };
 
-  function formatDate(dateString) {
+  function formatDate(dateString:string) {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       year: "numeric",
@@ -149,7 +164,7 @@ const TweetCard = ({
         <a href={imgMedia} className="glightbox">
           <div className="bg-black rounded-lg overflow-hidden mt-5 my-2  flex justify-center ">
             <img
-             className={`max-h-96 transition-all duration-300 ${
+             className={`max</a>-h-96 transition-all duration-300 ${
               imageLoaded ? 'blur-0' : 'blur-md opacity-50'
             }`}
               src={imgMedia}
@@ -173,19 +188,19 @@ const TweetCard = ({
         </a>
       )}
       <div className="flex items-center gap-5 mt-4">
-        <span className="flex items-center gap-1 md:gap-1">
-          <BsHeart className="text-red-500" />
-          {likes}
-        </span>
-        <a
-          target="_blank"
-          className="hover:underline transition-all underline-offset-1"
-          href={`https://x.com/${twitterHandle}/status/${xId}`}
-          rel="noopener noreferrer"
-        >
-          {formatDate(date)}
-        </a>
-      </div>
+  <span className="flex items-center gap-1 md:gap-1">
+    <BsHeart className="text-red-500" />
+    {likes}
+  </span>
+  <a
+    target="_blank"
+    className="hover:underline transition-all underline-offset-1"
+    href={`https://x.com/${twitterHandle}/status/${xId}`}
+    rel="noopener noreferrer"
+  >
+    {formatDate(date)}
+  </a>
+</div>
      {isAdmin && <div className="flex justify-center gap-3 mt-8 font-quicksand">
         <a
           target="_blank"

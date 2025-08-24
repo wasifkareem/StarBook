@@ -1,40 +1,57 @@
+import { spaceInfoSchema } from "@/lib/schemas/space.schema";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
-import { useSelector } from "react-redux";
 import StarRatings from "react-star-ratings";
 import { toast } from "react-toastify";
+import z from "zod";
 
-const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
+const ReviewBoxPropsSchema = z.object({
+  spaceInfo:spaceInfoSchema,
+  setToggle:z.any()
+})
+const AddReviewSchema = z.object({
+  email: z.email(),
+  name: z.string().min(1),
+  testimonial: z.string().min(1),
+  title: z.string().optional(),
+  imgPath: z.url(),
+  spaceId: z.string(),
+  starRating: z.number().min(1).max(5)
+})
+type AddReview = z.infer<typeof AddReviewSchema>
+type reviewBox = z.infer<typeof ReviewBoxPropsSchema>
+
+const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
   const [isFetching, setIsFetching] = useState(false);
-  const [rating, setRating] = useState(5);
-  const [ImgFile, setImgFile] = useState(null);
+  const [rating, setRating] = useState<number>(5);
+  const [ImgFile, setImgFile] = useState<File | null>(null);
   const [amount, setAmount] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const [payDetails, setPayDetails] = useState(null);
   console.log(payDetails);
   const [selectedValue, setSelectedValue] = useState("");
-  const [imgPreview, setImgPreview] = useState(null);
+  const [imgPreview, setImgPreview] = useState<string|undefined>(undefined);
   const [isChecked, setIsChecked] = useState(false);
   const { userId } = useAuth();
-  const changeRating = (newRating) => {
+  const changeRating = (newRating:number) => {
     setRating(newRating);
   };
-  const { isKey } = useSelector((state) => state?.pay);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
-  const handleImage = (e) => {
+  } = useForm<AddReview>();
+  const handleImage = (e:React.ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files && e.target.files[0]){
     setImgFile(e.target.files[0]);
     const url = URL.createObjectURL(e.target.files[0]);
     setImgPreview(url);
+   }
   };
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:AddReview) => {
     try {
       if (!ImgFile) {
         toast.warning("Please upload a photo of yours");
@@ -50,73 +67,41 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
       setIsFetching(true);
       const imgFile = new FormData();
       imgFile.append("my_file", ImgFile);
-      const assetInfo = await axios.post(
-        "http://localhost:3000/upload",
-        imgFile
+      const response = await fetch(
+        "/api/upload",
+        {
+          method:'POST',
+          body:imgFile
+        }
       );
-      data.imgPath = assetInfo.data.url;
+     
+      if(response.ok){
+      const assetInfo = await response.json()
+      data.imgPath = assetInfo.url;
       data.spaceId = spaceInfo?.id;
       data.starRating = rating;
-      data.tip = payDetails?.amount;
-      console.log(data)
-      const response = await axios.post(
-        "http://localhost:3000/api/testimonials/create",
-        data
+      }
+    console.log(data)
+
+      const res = await fetch(
+        "/api/testimonials/create",{
+          method:'POST',
+          body:JSON.stringify(data)
+        }
+        
       );
-      setImgPreview(null);
-      reset();
+      if(res.ok){
+        reset();
       setIsFetching(false);
       setToggle(false);
       toast.success("Thanks for the shoutout, it means a lot to Us!🤗");
+      }
     } catch (err) {
       setIsFetching(false);
       toast.error("Something went wrong at our end! try again later.");
     }
   };
-  const paymentHandler = async (e) => {
-    if (amount === null) {
-      toast.warning("First Add some amount they click the Pay Button.");
-      return;
-    }
-    const API_URL = "http://localhost:3000/api/tip/";
-    e.preventDefault();
-    const orderUrl = `${API_URL}order?userId=${userId}&amount=${amount}&currency=${selectedValue}&label=tip_${spaceInfo?._id}`;
-    const response = await axios.get(orderUrl);
-    const { data } = response;
-    setPayDetails(data);
-    const options = {
-      key: data.keyId,
-      name: spaceInfo.name,
-      image: spaceInfo.imgPath,
-      order_id: data.id,
-      handler: async (response) => {
-        try {
-          const url = `${API_URL}validate?userId=${userId}`;
-          const captureResponse = await axios.post(url, response);
-          console.log(captureResponse);
-          if (captureResponse.status == 201) {
-            setIsPaid(true);
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      },
-      theme: {
-        color: "#53546b",
-      },
-    };
-    const rzp1 = new window.Razorpay(options);
-    rzp1.on("payment.failed", function (response) {
-      alert(response.error.code);
-      alert(response.error.description);
-      alert(response.error.source);
-      alert(response.error.step);
-      alert(response.error.reason);
-      alert(response.error.metadata.order_id);
-      alert(response.error.metadata.payment_id);
-    });
-    rzp1.open();
-  };
+  
   return (
     <div
       className="overflow-y-auto fixed top-0 bottom-0 left-0 right-0 flex flex-col "
@@ -134,7 +119,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
         </p>
         <img
           className=" h-20 w-20 object-cover rounded-lg mt-3"
-          src={spaceInfo?.imgPath}
+          src={spaceInfo.imgPath || ""}
           alt=""
         />
         <div className="  flex flex-col md:self-center">
@@ -164,7 +149,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
             placeholder={
               rating <= 3
                 ? "What issues did you face? How can we make it better?"
-                : null
+                : undefined
             }
             maxLength={280}
             className=" h-24 md:h-36 p-2 focus:outline-blue-600  pl-3 border border-slate-400 rounded"
@@ -241,48 +226,7 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
             onChange={handleImage}
             accept=".jpg,.jpeg,.png"
           />
-          {isPaid && isKey ? (
-            <span className=" bg-green-500 px-4 py-2 rounded-3xl text-white text-center ">
-              Your Tip of {payDetails?.currency} {payDetails?.amount / 100} has
-              been recieved by the seller
-            </span>
-          ) : (
-            spaceInfo?.tipBox && (
-              <div className=" bg-blue-700 rounded py-3 px-2 mt-4">
-                <label className=" text-white font-mono text-sm">
-                  This seller is accepting tips, show them some love(Optional)
-                </label>
-                <div className=" flex gap-3 mt-3">
-                  <div className=" flex w-fit shadow shadow-slate-800">
-                    <select
-                      value={selectedValue}
-                      onChange={(e) => setSelectedValue(e.target.value)}
-                      className=" rounded-l-sm outline-none bg-gray-800 text-gray-300 text-sm font-semibold border-r border-slate-500"
-                      name=""
-                      id=""
-                    >
-                      <option className="" value="INR">
-                        INR
-                      </option>
-                    </select>
-                    <input
-                      className="h-10 w-fit overflow-hidden  rounded-r-sm  pl-3 bg-gray-800 text-white outline-none "
-                      type="number"
-                      placeholder="2000"
-                      pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                      onChange={(e) => setAmount(e.target.value)}
-                    />
-                  </div>
-                  <button
-                    onClick={paymentHandler}
-                    className="  bg-white rounded  shadow shadow-white border-slate-700 text-slate-800 font-semibold px-3 py-1"
-                  >
-                    Pay
-                  </button>
-                </div>
-              </div>
-            )
-          )}
+        
           <div className=" flex gap-2 mt-3 ">
             <Checkbox
               isChecked={isChecked}
@@ -318,7 +262,13 @@ const ReviewBox = ({ spaceInfo, toggle, setToggle }) => {
     </div>
   );
 };
-function Checkbox({ label, isChecked, setIsChecked }) {
+interface CheckboxProps {
+  label: string;
+  isChecked: boolean;
+  setIsChecked: (checked: boolean) => void;
+}
+
+function Checkbox({ label, isChecked, setIsChecked }: CheckboxProps) {
   const handleChange = () => {
     setIsChecked(!isChecked);
   };

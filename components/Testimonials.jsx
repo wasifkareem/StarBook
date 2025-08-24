@@ -1,8 +1,4 @@
-import IframeResizer from "@iframe-resizer/react";
-import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import StarRatings from "react-star-ratings";
-import { Tooltip } from "react-tooltip";
-import { Tweet } from "react-tweet";
 import TweetCard from "./TweetCard";
 
 const Testimonials = ({
@@ -79,28 +75,7 @@ theme
             )}
           </div>
         </div>
-        {testimonial.tip && (
-          <>
-            <RiMoneyRupeeCircleFill
-              data-tooltip-id="tip-tooltip"
-              data-tooltip-content={` 
-                  This is a tipped review, ${testimonial.name} tipped us INR ${testimonial.tip / 100} 
-                  while writing this review.
-                `}
-              className=" bg-slate-800 rounded-full text-yellow-500 text-xl z-1"
-            />
-            <Tooltip
-              style={{
-                width: "230px",
-                zIndex: "1",
-                backgroundColor:
-                  theme == "true" || theme == true ? "#e6e6e6" : "#0f172a",
-                color: theme == "true" || (theme == true && "#0f172a"),
-              }}
-              id="tip-tooltip"
-            />
-          </>
-        )}
+        
       </div>
       <StarRatings
         starRatedColor="#ffa534"

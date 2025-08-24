@@ -31,7 +31,7 @@ export const fetchSpacesSchema = z.object({
   email:z.email(),
 })
 
-const testimonialSchema = z.object({
+export const testimonialSchema = z.object({
   id: z.string(),
   createdAt: z.string(), 
   updatedAt: z.string(),
@@ -49,7 +49,7 @@ const testimonialSchema = z.object({
   entities: z.any().optional(),
   likes: z.number().optional(),
   imgMedia: z.string().optional(),
-  date: z.string().optional(),
+  date: z.string(),
   poster: z.string().optional(),
   video: z.string().optional(),
   spaceId: z.string(),

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CopyBlock, irBlack } from "react-code-blocks";
-import { useWindowDimensions } from "../utils/windowDimensions";
+import { useWindowDimensions } from "@/lib/utils";
 import Testimonials from "./Testimonials";
 
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {

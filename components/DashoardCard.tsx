@@ -1,16 +1,14 @@
-import axios from "axios";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import StarRatings from "react-star-ratings";
 import { toast } from "react-toastify";
-import { ReloadCards } from "../redux/InfoRedux";
 import { MdDelete } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 import { IoMdHeart } from "react-icons/io";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-import { Tooltip } from "react-tooltip";
 import { FaSquareCheck } from "react-icons/fa6";
-import { Testimonial } from "@/pages/Dashboard";
+import { Testimonial } from "@/lib/schemas/testimonial.schema";
+import { useAppContext } from "@/context/AppContext";
+import StarRatings from "react-star-ratings";
+
 
 
 
@@ -18,39 +16,48 @@ const DashoardCard = ({
   testimonial,
 }: {testimonial: Testimonial}) => {
   const [overlay, setOverlay] = useState(false);
-  const dateObj = new Date(testimonial.createdAt);
+  const dateObj = new Date(testimonial.date);
   const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "short", day: "2-digit" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
-  const dispatch = useDispatch();
+  const {setReloadCards,state} = useAppContext();
   const addToWall = async () => {
-    const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=true`,
-      {}
+    const res = await fetch(
+      `/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=true`,{
+        method:'PUT'
+      }
     );
-    if (res.status == 200) {
-      dispatch(ReloadCards());
+    if (res.ok) {
+      setReloadCards(!state.reloadCards)
       toast.success("Successfully added to Wall of Fame!");
     }
   };
   const removeFromWall = async () => {
-    const res = await axios.put(
-      `http://localhost:3000/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=false`,
-      {}
+    const res = await fetch(
+      `/api/wall/update-wall?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}&WOF=false`,
+      {
+        method:'PUT'
+      }
     );
-    if (res.status == 200) {
-      dispatch(ReloadCards());
+    if (res.ok) {
+      setReloadCards(!state.reloadCards)
     }
   };
 
-  const handleDelete = async () => {
-    const res = await axios.delete(
-      `http://localhost:3000/api/testimonials/delete?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}`,
-
+ const handleDelete = async () => {
+    const res = await fetch(
+      `/api/testimonials/delete?spaceId=${testimonial.spaceId}&testimonialId=${testimonial.id}`,{
+        method:'DELETE'
+      }
     );
-    if (res.status == 200) {
-      dispatch(ReloadCards());
+
+    if(!res.ok){
+      toast('Failed to delete testimonails, try again later!!!')
+      return
+    }
+    if (res.ok) {
+      setReloadCards(!state.reloadCards);
       toast.success("Deleted!");
     }
   };
@@ -89,7 +96,7 @@ const DashoardCard = ({
                     data-tooltip-content="This is a tipped review, the tip amount might take some time to get reflected in razorpay dashboard."
                     className=" bg-slate-800 rounded-full text-yellow-500 text-xl z-1 absolute top-[-3px] left-[-4px]"
                   />
-                  <Tooltip style={{ width: "180px" }} id="tip-tooltip" />
+                  {/* <Tooltip style={{ width: "180px" }} id="tip-tooltip" /> */}
                 </>
               )}
               <FaSquareCheck
@@ -97,7 +104,7 @@ const DashoardCard = ({
                 data-tooltip-content="The reviewer has given permission to share this review for marketing efforts"
                 className="absolute top-[-3px] right-[-4px] text-xl text-white bg-green-500  rounded"
               />
-              <Tooltip id="tick-tip" style={{ width: "180px" }} />
+              {/* <Tooltip id="tick-tip" style={{ width: "180px" }} /> */}
               Text
             </label>
           </div>
@@ -124,7 +131,7 @@ const DashoardCard = ({
               </>
             ) : (
               <>
-                <Tooltip style={{ width: "180px" }} id="WOF-tooltip" />
+                {/* <Tooltip style={{ width: "180px" }} id="WOF-tooltip" /> */}
 
                 <button
                   data-tooltip-content="Add to Wall of fame"

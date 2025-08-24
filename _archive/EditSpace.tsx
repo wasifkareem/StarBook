@@ -2,7 +2,7 @@ import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { SpaceForm } from "./AddSpace";
+import { SpaceForm } from "../components/AddSpace";
 import { toast } from "react-toastify";
 
 const EditSpace = () => {

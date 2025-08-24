@@ -1,30 +1,37 @@
-import axios from "axios";
 import { useState } from "react";
 import TweetCard from "./TweetCard";
-import { useDispatch } from "react-redux";
-import { ReloadCards } from "../redux/InfoRedux";
 import { toast } from "react-toastify";
-import { Button } from "../../components/ui/button";
-import { BsTwitterX } from "react-icons/bs";
+import { Button } from "@/components/ui/button";
 import { RiTwitterXFill } from "react-icons/ri";
+import z from "zod";
+import { testimonialSchema } from "@/lib/schemas/space.schema";
+import { useAppContext } from "@/context/AppContext";
 
-const TwitterCard = ({ spaceId, testimonials }) => {
+const twitterCardPropsSchema = z.object({
+  spaceId:z.string(),
+  testimonials:z.array(testimonialSchema)
+})
+
+export type twitterCardProps = z.infer<typeof twitterCardPropsSchema>
+const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
   const [url, setUrl] = useState("");
+    const {setReloadTweets,state} = useAppContext()
   const [isFetching, setIsFetching] = useState(false);
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
-  const dispatch = useDispatch();
   const handleClick = async () => {
     setIsFetching(true);
     try {
-      const getTweetData = await axios.get(
-        "http://localhost:3000/api/testimonials/fetch-tweet",
-        {
-          params: { xId: id },
-        }
+      const response = await fetch(
+        `/api/testimonials/fetch-tweet?xId=${id}`,
+        
       );
+      
+      if(!response.ok){
+        throw new Error('failed to fetch space');
+      }
 
-      let tweet = getTweetData?.data;
+      const tweet =await response.json()
       const data = {
         tweet: true,
         spaceId: spaceId,
@@ -40,13 +47,17 @@ const TwitterCard = ({ spaceId, testimonials }) => {
         date: tweet.created_at,
         xId: tweet.id_str,
       };
-      const res = await axios.post(
-        `http://localhost:3000/api/testimonials/create`,
-        data
-      );
-      if (res.status == 200) {
-        dispatch(ReloadCards());
+      const res = await fetch(
+        `/api/testimonials/create`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+      if (res.ok) {
         toast.success("🎊 Testimonial Created");
+        setReloadTweets(!state.reloadTweets);
         setIsFetching(false);
         setUrl("");
       }
@@ -78,7 +89,7 @@ const TwitterCard = ({ spaceId, testimonials }) => {
       <div className="w-full flex justify-center px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start gap-10 lg:gap-3 w-fit h-fit light bg-white">
           {Array(3)
-            .fill()
+            .fill(0)
             .map((_, colIndex) => (
               <div className="grid gap-3 w-auto" key={colIndex}>
                 {tweetData
