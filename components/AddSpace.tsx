@@ -7,6 +7,7 @@ import { useUser } from "@clerk/clerk-react";
 import z from "zod";
 import { spaceInfoSchema } from "@/lib/schemas/space.schema";
 import { Button } from "./ui/stateful-button";
+import { useAppContext } from "@/context/AppContext";
 
 const addSpacePropsSchema = z.object({
   setToggle: z.any(),
@@ -41,6 +42,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
   const [three, setThree] = useState<string | null>(isEdit && spaceInfo ? spaceInfo.qThree : null);
   const [isFetching, setIsFetching] = useState(false);
   const [ImgFile, setImgFile] = useState<File | null>(null);
+  const {setReloadCards, state} = useAppContext();
   const [imgPreview, setImgPreview] = useState<string | null>(
     isEdit && spaceInfo ? spaceInfo?.imgPath ?? null : null
   );
@@ -125,6 +127,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
         if (response.ok) {
           reset();
           setIsFetching(false);
+          setReloadCards(!state.reloadCards)
           setToggle(false);
           toast.success("Space Updated Successfully!");
         } else {

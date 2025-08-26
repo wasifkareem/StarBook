@@ -10,6 +10,7 @@ theme
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
+  console.log(testimonial)
   if (testimonial.tweet) {
     return (
       <div
@@ -89,7 +90,7 @@ theme
         }}
         className=" first-letter:uppercase"
       >
-        {testimonial.text}
+        {testimonial.testimonial}
       </div>
       <p
         style={{

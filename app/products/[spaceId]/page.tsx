@@ -12,7 +12,7 @@ import Loader from "@/components/Loader";
 import Link from "next/link";
 
 // import DashoardCard from "../components/DashoardCard.jsx";
-// import Insights from "../components/Insights.jsx";
+import Insights from "@/components/Insights.jsx";
 // import Loader from "../components/Loader.jsx";
 import TwitterCard from "@/components/TwitterCard";
 import { toast } from "react-toastify";
@@ -67,7 +67,6 @@ export type Testimonial = z.infer<typeof testimonialSchema>
 const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
   const [spaceInfo, setSpaceInfo] = useState<SpaceInfo|null>(null);
   
-console.log(spaceInfo)
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [insightsToggle, setInsightsToggle] = useState(false);
@@ -99,13 +98,13 @@ console.log(spaceInfo)
   return (
     <>
    
-      {/* {insightsToggle ? (
+      {insightsToggle ? (
         <Insights
           insightsToggle={insightsToggle}
           spaceInfo={spaceInfo}
           setInsightsToggle={setInsightsToggle}
         />
-      ) : null} */}
+      ) : null}
       {toggle ? (
         <AddSpace spaceInfo={spaceInfo} setToggle={setToggle} isEdit={true} />
       ) : null}

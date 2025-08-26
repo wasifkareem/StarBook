@@ -1,51 +1,68 @@
-import axios from "axios";
+'use client'
+
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { ReloadSpaces } from "../redux/InfoRedux";
-import { IoWarningOutline } from "react-icons/io5";
+import { SquareX } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { SquareX } from "lucide-react";
 
-const Insights = ({ setInsightsToggle, spaceInfo, insightsToggle }) => {
+const Insights = ({ setInsightsToggle, spaceInfo }) => {
   const [aiInsights, setAiInsights] = useState(null);
   const [isfetching, setIsfetching] = useState(true);
+
   useEffect(() => {
+    let isCancelled = false;
+
     const handleInsights = async () => {
       try {
-        const InsightsRes = await axios.post(
-          `http://localhost:3000/api/AI/get-insights?spaceId=${spaceInfo?.id}`
-        );
         if (spaceInfo?.testimonials?.length === 0) {
-          toast.error("No Testimonails found to create Insights");
+          toast.error("No Testimonials found to create Insights");
           return;
         }
-        if (InsightsRes.status !== 200) {
+
+        const InsightsRes = await fetch(
+          `/api/get-insights?spaceId=${spaceInfo?.id}`,
+          { method: 'POST' }
+        );
+
+        if (isCancelled) return; 
+
+        if (!InsightsRes.ok) {
           toast.error("Something went wrong, Can't generate insights");
           setInsightsToggle(false);
           return;
         }
+
+        const data = await InsightsRes.json();
         setIsfetching(false);
-        setAiInsights(InsightsRes?.data);
+        setAiInsights(data);
       } catch (err) {
+        if (isCancelled) return;
         console.error(err);
         toast.error("Something went wrong, Can't generate insights");
+        setIsfetching(false);
+      }
+    };
+
+    if (spaceInfo?.id) {
+      handleInsights();
+    }
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [spaceInfo?.id]); 
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
         setInsightsToggle(false);
       }
     };
-    handleInsights();
-  }, [insightsToggle === true]);
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
 
-  useEffect(()=>{
-    const handleEsc =(e)=>{
-      if(e.key==="Escape"){
-        setInsightsToggle(false)
-      }
-    };
-    window.addEventListener("keydown",handleEsc);
-    return ()=>window.removeEventListener("keydown",handleEsc)
-   },[])
   return (
     <div
       onClick={() => setInsightsToggle(false)}
