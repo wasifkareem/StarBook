@@ -6,6 +6,9 @@ import { RiTwitterXFill } from "react-icons/ri";
 import z from "zod";
 import { testimonialSchema } from "@/lib/schemas/space.schema";
 import { useAppContext } from "@/context/AppContext";
+import { Tooltip } from "./ui/tooltip";
+import { TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 const twitterCardPropsSchema = z.object({
   spaceId:z.string(),
@@ -19,16 +22,23 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
   const [isFetching, setIsFetching] = useState(false);
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
+
   const handleClick = async () => {
     setIsFetching(true);
     try {
+      if(id==undefined){
+        toast.warning('Invalid URL')
+        setIsFetching(false)
+        return
+      }
       const response = await fetch(
         `/api/testimonials/fetch-tweet?xId=${id}`,
         
       );
-      
+      console.log(response)
       if(!response.ok){
-        throw new Error('failed to fetch space');
+        toast.error('Something went wrong, try again!!');
+        setIsFetching(false)
       }
 
       const tweet =await response.json()
@@ -80,14 +90,26 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
               placeholder="https://x.com/elonmusk/status/1830650370336473253"
               onChange={(e) => setUrl(e.target.value)}
             />
-          <Button variant="outline" className="mx-2 shrink-0" onClick={handleClick}>
+            {!url.trim()?<Tooltip>
+            <TooltipTrigger className=" cursor-not-allowed">
+            
+            <Button variant="outline" className="mx-2 shrink-0"  >
+            <RiTwitterXFill />
+           
+            Get tweet
+            </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              Add a URL first!!
+            </TooltipContent>
+            </Tooltip>: <Button variant="outline" className="mx-2 shrink-0" onClick={handleClick}  >
             <RiTwitterXFill className={`${isFetching && "animate-spin"}`} />
             Get tweet
-          </Button>
+            </Button>}
         </div>
       </div>
       <div className="w-full flex justify-center px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start gap-10 lg:gap-3 w-fit h-fit light bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-start gap-10 lg:gap-3 w-fit h-fit light">
           {Array(3)
             .fill(0)
             .map((_, colIndex) => (

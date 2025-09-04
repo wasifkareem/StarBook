@@ -1,3 +1,4 @@
+import { useAppContext } from '@/context/AppContext';
 import React, { ReactElement } from 'react';
 import z from 'zod';
 
@@ -66,6 +67,7 @@ type RenderEntity =
     };
 
 export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElement {
+  const{state} = useAppContext()
   const urls = entities?.urls ?? [];
   const mentions = entities?.user_mentions ?? [];
   const hashtags = entities?.hashtags ?? [];
@@ -133,7 +135,7 @@ export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElem
   );
 
   return (
-    <p className="font-sans text-[15px]" style={{ whiteSpace: 'pre-wrap' }}>
+    <p className={`font-sans ml-1  ${state.field=='sm' && "text-[13px] my-5"} ${state.field=='base' && "text-[15px] my-7"} ${state.field=='lg' && "text-[18px] my-10"}`} style={{ whiteSpace: 'pre-wrap' }}>
       {withBreaks}
     </p>
   );

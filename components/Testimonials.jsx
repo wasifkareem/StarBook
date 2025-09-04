@@ -1,21 +1,27 @@
 import StarRatings from "react-star-ratings";
 import TweetCard from "./TweetCard";
+import { Card, CardContent } from "./ui/card";
+import { useEffect, useState } from "react";
+import { useAppContext } from "@/context/AppContext";
 
 const Testimonials = ({
 testimonial,
-theme
+mode
 }) => {
   const dateObj = new Date(testimonial.createdAt);
   const options = { year: "numeric", month: "short", day: "2-digit" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
-  console.log(testimonial)
+  const {state} = useAppContext()
+
+
+
   if (testimonial.tweet) {
     return (
       <div
-        className={` w-[354px]   ${
-          theme == "true" || theme == true ? "bg-neutral-900 hover:bg-neutral-800 transition-all text-white " : "bg-white hover:bg-gray-50"
+        className={` max-w-[354px]   ${
+          mode == "true" || mode == true ? "bg-neutral-900 hover:bg-neutral-800 transition-all text-white " : " bg-card"
         } rounded-xl`}
       >
           <TweetCard
@@ -34,30 +40,33 @@ theme
                     imgMedia={testimonial?.imgMedia}
                     poster={testimonial?.poster}
                     video={testimonial?.video}
+                    mode={mode}
                     />
       </div>
     );
   }
   return (
-    <div
+    <Card
       style={{
-        border: theme == "true" ? "none" : "",
+        border: mode == "true" ? "none" : "",
       }}
-      className={`relative flex transition-all flex-col gap-2 border ${
-        theme == "true" || theme == true ? "bg-neutral-900" : "bg-white"
+      className={`relative border-none flex transition-all flex-col gap-2  ${
+        mode == "true" || mode == true ? "bg-neutral-900" : ""
       } rounded-xl  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
-        theme == "true" || theme == true
+        mode == "true" || mode == true
           ? "hover:bg-neutral-800"
           : "hover:bg-gray-50"
       }`}
     >
+      <CardContent>
+
       <div className=" flex justify-between items-center">
         <div className=" flex gap-2  items-center">
-          <img className=" h-12 rounded-full w-12" src={testimonial.imgPath} alt="" />
+          <img className=" h-12 rounded-full w-12" src={testimonial.imgPath} />
           <div>
             <p
               style={{
-                color: theme == "true" || theme == true ? "white" : "#0f172a",
+                color: mode == "true" || mode == true ? "white" : "#0f172a",
               }}
               className=" first-letter:uppercase font-semibold text-slate-900"
             >
@@ -66,7 +75,7 @@ theme
             {testimonial.title && (
               <p
                 className={` text-sm ${
-                  theme == "true" || theme == true
+                  mode == "true" || mode == true
                     ? "text-white"
                     : " text-gray-800"
                 }`}
@@ -86,21 +95,23 @@ theme
       />
       <div
         style={{
-          color: theme == "true" || theme == true ? "white" : "#0f172a",
+          color: mode == "true" || mode == true ? "white" : "#0f172a",
         }}
-        className=" first-letter:uppercase"
+        className={`first-letter:uppercase ${state.field=='sm' && "text-[13px] my-5"} ${state.field=='base' && "text-[15px] my-7"} ${state.field=='lg' && "text-[18px] my-10"}`}
       >
         {testimonial.testimonial}
       </div>
       <p
         style={{
-          color: theme == "true" || theme == true ? "#b1afafda" : "#434d5acc",
+          color: mode == "true" || mode == true ? "#b1afafda" : "#434d5acc",
         }}
         className=" text-sm text-slate-700 absolute bottom-3 left-4"
       >
         {formattedDate}
       </p>
-    </div>
+      </CardContent>
+
+    </Card>
   );
 };
 

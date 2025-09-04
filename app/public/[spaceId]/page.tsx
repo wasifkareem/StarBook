@@ -5,6 +5,7 @@ import Loader from "@/components/Loader";
 import ReviewBox from "@/components/ReviewBox";
 import { SpaceInfo } from "@/lib/schemas/space.schema";
 import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
 
 const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
   const [spaceInfo, setSpaceInfo] = useState<SpaceInfo>();
@@ -43,7 +44,7 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
           spaceInfo={spaceInfo}
         />
       ) : null}
-      <div className=" overflow-y-auto flex flex-col justify-center w-full">
+      <div className=" overflow-y-auto font flex flex-col justify-center w-full">
         <img
           className=" h-32 w-32 object-cover self-center mt-20 rounded-lg"
           src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
@@ -69,12 +70,13 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
           </ul>
         </div>
         <div className=" flex gap-3 justify-center">
-          <button
+          <Button
+          variant="secondary"
             onClick={handleClick}
-            className=" w-4/5 md:w-80 mb-5 md:mb-14 bg-cyan-600 self-center py-3 mt-6 text-white font-semibold text-lg rounded-sm"
+            className=" w-4/5 md:w-80 mt-6 h-12 cursor-pointer"
           >
             Send Text
-          </button>
+          </Button>
         </div>
       </div>
     </>

@@ -20,6 +20,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
         const spaces = await prisma.space.findMany({
             where: { ownerEmail: email },
+            orderBy:{createdAt:'asc'},
             include: {
                 _count: {
                     select: { testimonials: true }

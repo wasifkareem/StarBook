@@ -100,14 +100,15 @@ const Home = () => {
             onClick={handleClick}
             variant="outline" 
             size="lg"
+            className=" hover:text-secondary"
           >
             <MdCreateNewFolder />
             Create Space
           </Button>
         </div>
-        <div className="mt-20 md:mt-16 flex flex-col md:flex-row md:flex-wrap gap-4 justify-start">
+        <div className="mt-20 md:mt-16 flex flex-col md:flex-row md:flex-wrap gap-4 justify-center">
           {cardData?.length === 0 ? (
-            <p className="text-slate-200 text-2xl md:text-4xl font-semibold text-center md:mt-28">
+            <p className="text-slate-200 text-2xl md:text-4xl text-center md:mt-28">
               No spaces available. Create a new space, start collecting
               testimonials and use our free embed to showcase them on your
               website

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { MdDelete } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 import { IoMdHeart } from "react-icons/io";
@@ -8,6 +8,8 @@ import { FaSquareCheck } from "react-icons/fa6";
 import { Testimonial } from "@/lib/schemas/testimonial.schema";
 import { useAppContext } from "@/context/AppContext";
 import StarRatings from "react-star-ratings";
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/stateful-button";
 
 
 
@@ -59,26 +61,28 @@ const DashoardCard = ({
     if (res.ok) {
       setReloadCards(!state.reloadCards);
       toast.success("Deleted!");
+      return
     }
   };
   return (
-    <div className=" transition-all relative flex flex-col gap-2 shadow border bg-white border-slate-200 shadow-slate-300 rounded-lg w-full px-5 py-4 pb-12 max-w-5xl self-center">
+    <Card className=" transition-all relative flex flex-col gap-2   w-full px-5 py-4 pb-12 max-w-5xl self-center">
+      <CardContent>
       {overlay ? (
-        <div className=" rounded-lg flex flex-col justify-center items-center absolute top-0 bottom-0 right-0 left-0 bg-white z-50 gap-7">
+        <div className=" rounded-lg flex flex-col justify-center items-center absolute top-0 bottom-0 right-0 left-0 border-[1px] bg-white z-50 gap-7">
           <p className="  text-xl text-slate-600">
             Are you sure you want to delete{" "}
             <span className="font-semibold ">{testimonial.name}</span>&#39;s testimonial?
           </p>
           <div className=" flex gap-3">
-            <button
-              className=" border border-slate-400 font-semibold text-red-800 px-2 py-1 rounded-sm"
+            <Button
+              className=" hover:ring-red-700  bg-red-700  text-white px-2 py-1 rounded-sm"
               onClick={handleDelete}
             >
               Delete
-            </button>
+            </Button>
             <button
-              className=" border border-slate-400 bg-slate-800 font-semibold text-slate-100 px-2 py-1 rounded-sm"
-              onClick={() => setOverlay(false)}
+              className=" border border-slate-400 bg-secondary   text-slate-100 px-5 py-1 rounded-sm"
+              onClick={() => setOverlay(false)} 
             >
               Cancel
             </button>
@@ -88,23 +92,12 @@ const DashoardCard = ({
       <div className=" flex justify-between">
         <div>
           <div className=" flex justify-between items-center">
-            <label className=" relative bg-teal-800 text-white text-sm font-semibold px-5 py-1 rounded-3xl">
-              {testimonial.tip && (
-                <>
-                  <RiMoneyRupeeCircleFill
-                    data-tooltip-id="tip-tooltip"
-                    data-tooltip-content="This is a tipped review, the tip amount might take some time to get reflected in razorpay dashboard."
-                    className=" bg-slate-800 rounded-full text-yellow-500 text-xl z-1 absolute top-[-3px] left-[-4px]"
-                  />
-                  {/* <Tooltip style={{ width: "180px" }} id="tip-tooltip" /> */}
-                </>
-              )}
+            <label className=" relative bg-teal-800 text-white text-sm font-semibold px-5 py-1 rounded-xl">
               <FaSquareCheck
                 data-tooltip-id="tick-tip"
                 data-tooltip-content="The reviewer has given permission to share this review for marketing efforts"
-                className="absolute top-[-3px] right-[-4px] text-xl text-white bg-green-500  rounded"
+                className="absolute top-[-3px] right-[-4px] text-xl text-white bg-green-500 rounded-[4px]"
               />
-              {/* <Tooltip id="tick-tip" style={{ width: "180px" }} /> */}
               Text
             </label>
           </div>
@@ -153,7 +146,7 @@ const DashoardCard = ({
         </div>
       </div>
 
-      {/* <div className=" text-slate-900 max-w-[720px]">{testimonial}</div> */}
+      <div className=" text-slate-900 max-w-[720px] my-3 text-lg">{testimonial.testimonial}</div>
       <div className=" grid grid-cols-2 gap-3 mt-3">
         <div>
           <p className=" font-semibold text-slate-800 text-sm">Name</p>
@@ -193,7 +186,8 @@ const DashoardCard = ({
           </div>
         </div>
       </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

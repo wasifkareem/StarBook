@@ -22,8 +22,10 @@ export async function GET(request:NextRequest) {
 
         const wall = await prisma.testimonial.findMany({
             where:{
-                spaceId:spaceId
-            }
+                spaceId:spaceId,
+                WOF:true
+            },
+            orderBy:{createdAt:'asc'}
         })
         return NextResponse.json(wall)
     } catch (error) {

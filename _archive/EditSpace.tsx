@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { SpaceForm } from "../components/AddSpace";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 const EditSpace = () => {
   const [isFetching, setIsFetching] = useState(false);

@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
-import GLightbox from "glightbox";
-import "glightbox/dist/css/glightbox.min.css";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
 import { TweetRenderer } from "./helper-comp/TweetRenderer";
 import { tweetSchema } from "@/lib/schemas/testimonial.schema";
 import z from "zod";
 import { useAppContext } from "@/context/AppContext";
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/button";
 
 const tweetPropsSchema = tweetSchema.extend({
   Id:z.string()
@@ -99,25 +99,35 @@ const TweetCard = ({
   }
 
   useEffect(() => {
-    const lightbox = GLightbox({
-      loop: false,
-      autoplayVideos: false,
-      zoomable: false,
-      draggable: false,
-      slideEffect: "slide",
-      moreText: "View more",
-      touchNavigation: false,
-      selector: ".glightbox",
-    });
-  }, []);
+    const initLightbox = async () => {
+      if (typeof window !== 'undefined') {
+        const GLightbox = (await import('glightbox')).default;
+        await import('glightbox/dist/css/glightbox.min.css');
+        
+        const lightbox = GLightbox({
+          loop: false,
+          autoplayVideos: false,
+          zoomable: false,
+          draggable: false,
+          slideEffect: "slide",
+          moreText: "View more",
+          touchNavigation: false,
+          selector: ".glightbox",
+        });
+      }
+    };
 
+    initLightbox();
+  }, []);
   return (
-    <div className="flex flex-col p-5 px-4 max-h-fit relative max-w-[354px] w-full border rounded-xl">
+    <Card className={`w-full border-none max-w-sm ${isAdmin? "bg-card":"bg-inherit text-inherit"} `} >
+      <CardContent>
+
       <div className="flex justify-between items-center">
         <div className=" flex justify-between w-full items-center">
         <div className="flex gap-2 items-start">
           <img src={imgPath} alt="x-dp" className="  rounded-full" />
-          <div className="flex flex-col leading-5">
+          <div className={`flex flex-col leading-5 text-${state.field}`}>
             <p className="font-semibold">{name}</p>
             <p className="text-gray-500">@{twitterHandle}</p>
           </div>
@@ -153,7 +163,6 @@ const TweetCard = ({
         )}
       </div>
       <a
-        className="mt-5"
         target="_blank"
         href={`https://x.com/${twitterHandle}/status/${xId}`}
         rel="noopener noreferrer"
@@ -202,17 +211,20 @@ const TweetCard = ({
   </a>
 </div>
      {isAdmin && <div className="flex justify-center gap-3 mt-8 font-quicksand">
+      <Button variant="default" className=" hover:cursor-pointer">
         <a
           target="_blank"
           href={`https://x.com/${twitterHandle}/status/${xId}`}
-          className="flex gap-1 items-center w-fit px-3 py-1 border hover:border-gray-400 rounded-xl transition-all"
+          className="flex gap-1 items-center w-fit "
           rel="noopener noreferrer"
-        >
+          >
           Imported from <FaXTwitter />
         </a>
-        <button
+          </Button>
+        <Button
+        variant="outline"
+         className=" hover:border hover:cursor-pointer hover:border-red-300 hover:text-black hover:bg-white min-w-24"
           onClick={handleDelete}
-          className="group z-10 flex justify-center hover:border-red-300 items-center min-w-24 border rounded-xl px-3 text-[#171717]"
         >
           {!isDel ? (
             <>
@@ -226,9 +238,11 @@ const TweetCard = ({
               alt=""
             />
           )}
-        </button>
+        </Button>
       </div>}
-    </div>
+      </CardContent>
+
+    </Card>
   );
 };
 

@@ -23,11 +23,12 @@ export async function PUT(request: NextRequest) {
         const updatedTestimonial = await prisma.testimonial.update({
             where: {
                 id: testimonialId,
-                spaceId:spaceId
+                spaceId:spaceId,
             },
             data: {
                 WOF: isActiveBoolean
             }
+            
         });
 
         return NextResponse.json(updatedTestimonial, { status: 200 });

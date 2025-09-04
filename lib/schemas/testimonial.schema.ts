@@ -12,9 +12,9 @@ export const tweetSchema = z.object({
   twitterHandle: z.string().optional(),
   poster: z.string().optional(),
   video: z.string().optional(),
-  entities: z.object().optional(),
+  entities: z.any().optional(),
   likes: z.number().optional(),
-  date: z.string().optional(),
+  date: z.string(),
 });
 export const TestimonialSchema = z.object({
   starRating: z.number().optional(),

@@ -4,6 +4,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import z from "zod";
 import { useUser } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
+import { Button } from "./ui/stateful-button";
 
 const deleteSpaceProps = z.object({
   setToggle:z.any(),
@@ -34,7 +35,7 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
        if(!response.ok){
         throw new Error('Failed to delete space!!')
        }
-       const data = await response.json();
+       toast.success('Space deleted successfully 🚮')
        setReloadSpaces(true)
       } else {
       toast.warning("Make sure the space name is correct.");
@@ -48,7 +49,7 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className=" rounded bg-white py-5 px-4 w-fit flex justify-center flex-col gap-2"
+        className=" rounded bg-white py-5 px-8 w-fit flex justify-center flex-col gap-2"
       >
         <IoWarningOutline className=" text-5xl text-center self-center text-red-900" />
         <p className=" text-center">
@@ -61,19 +62,19 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
         </p>
         <input
           onChange={handleChange}
-          className=" outline-red-800 rounded h-8 px-2 border border-slate-500"
+          className=" outline-red-800 rounded-[7px] h-8 px-2 border border-slate-500"
           type="text"
         />
-        <div className=" flex justify-center gap-3">
-          <button
+        <div className=" flex justify-center mt-4 gap-3">
+          <Button
             onClick={handleClick}
-            className=" text-red-900 font-semibold border border-slate-300 px-3 py-1"
+            className=" text-white bg-red-700 hover:ring-red-700 border border-slate-300 px-3 py-1"
           >
             Delete
-          </button>
+          </Button>
           <button
             onClick={() => setToggle(false)}
-            className=" border border-slate-300 font-semibold px-3 py-1"
+            className=" border rounded border-slate-300 font-semibold px-5 py-1"
           >
             Cancel
           </button>

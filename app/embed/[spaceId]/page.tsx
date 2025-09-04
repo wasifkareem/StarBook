@@ -4,20 +4,21 @@ import { use, useEffect, useState } from "react";
 import Testimonials from "@/components/Testimonials";
 import { useWindowDimensions } from "@/lib/utils";
 import { Testimonial } from "@/lib/schemas/testimonial.schema";
+import { prisma } from "@/lib/db";
+import { useAppContext } from "@/context/AppContext";
 
 interface PageProps {
   params: Promise<{ spaceId: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-const  EmbedPage=({ params, searchParams }: PageProps)=> {
+const  EmbedPage= ({ params, searchParams }: PageProps)=> {
   const { spaceId } = use(params)
-  const { dark } = use(searchParams)
-  
-  const isDark = dark === 'true'
+  const [isDark, setIsDark] = useState(false);
+  const {setField,state} = useAppContext()
+ 
   
   const [testimonials, setTestimonials] = useState<[Testimonial]|null>(null);
-  console.log(testimonials)
   const { width } = useWindowDimensions();
   useEffect(() => {
     const getTestimonials = async () => {
@@ -29,8 +30,14 @@ const  EmbedPage=({ params, searchParams }: PageProps)=> {
         const data = await res.json()
         setTestimonials(data);
       }
+
+      const response = await fetch(`/api/fetch-theme?spaceId=${spaceId}`)
+      const theme  = await response.json()
+      setIsDark(theme?.isDark)
+      setField(theme?.field)
     };
     getTestimonials();
+    
   }, []);
   if (!testimonials) {
     return (
@@ -72,7 +79,7 @@ const  EmbedPage=({ params, searchParams }: PageProps)=> {
                     <Testimonials
                       key={testimonial.id}
                       testimonial={testimonial}
-                      theme={isDark}
+                      mode={isDark}
                     />
                   ))}
               </div>

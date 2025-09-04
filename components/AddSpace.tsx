@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useUser } from "@clerk/clerk-react";
 import z from "zod";
 import { spaceInfoSchema } from "@/lib/schemas/space.schema";
-import { Button } from "./ui/stateful-button";
+import { Button } from "./ui/button";
 import { useAppContext } from "@/context/AppContext";
 
 const addSpacePropsSchema = z.object({
@@ -219,9 +219,12 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                   </li>
                 </ul>
               </div>
-              <button className="w-3/5 md:w-60 mb-5 md:mb-14 bg-cyan-600 self-center py-3 mt-10 text-white font-semibold text-lg rounded">
-                Send Text
-              </button>
+              <Button
+                variant="secondary"
+            className=" w-4/5 self-center mb-5 md:mb-9 md:w-80 mt-6 h-12 cursor-pointer"
+          >
+            Send Text
+          </Button>
             </div>
           </div>
 
@@ -248,7 +251,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                 defaultValue={isEdit && spaceInfo ? spaceInfo.spaceName : undefined}
                 maxLength={40}
                 placeholder="Space name"
-                className="h-10 focus:outline-cyan-600 border rounded pl-3 border-slate-300"
+                className="h-10 focus:outline-cyan-600 border rounded-[6px] pl-3 border-slate-300"
                 {...register("spaceName", {
                   required: true,
                 })}
@@ -260,7 +263,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               <label className="text-slate-500">Space logo</label>
               <div className="border-dashed flex items-center gap-3 border border-slate-300 py-2 px-3">
                 <label
-                  className="border rounded-lg px-2 py-1 cursor-pointer text-slate-600 border-slate-600"
+                  className="border rounded-lg px-2 py-1 cursor-pointer text-slate-600 border-slate-300 hover:border-slate-300 transition-all"
                   htmlFor="upload-photo"
                 >
                   Change
@@ -285,7 +288,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                 defaultValue={isEdit && spaceInfo ? spaceInfo.headerTitle : undefined}
                 maxLength={70}
                 placeholder="Would you like to give a shoutout to xyz?"
-                className="h-10 border rounded focus:outline-cyan-600 pl-3 border-slate-300"
+                className="h-10 border rounded-[7px] focus:outline-cyan-600 pl-3 border-slate-300"
                 {...register("headerTitle", {
                   required: true,
                 })}
@@ -299,7 +302,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               <textarea
                 defaultValue={isEdit && spaceInfo ? spaceInfo.message : undefined}
                 maxLength={250}
-                className="h-24 focus:outline-cyan-600 border rounded pl-3 border-slate-300"
+                className="h-24 focus:outline-cyan-600 border rounded-[7px] pl-3 border-slate-300"
                 placeholder="Write a warm message to your customers, and ask them to give you lot of stars."
                 {...register("message", {
                   required: true,
@@ -318,7 +321,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                     ? spaceInfo.qOne
                     : "Who are you / what are you working on?"
                 }
-                className="h-10 focus:outline-cyan-600 border rounded pl-3 border-slate-300"
+                className="h-10 focus:outline-cyan-600 border rounded-[7px] pl-3 border-slate-300"
                 {...register("qOne", {
                   required: true,
                 })}
@@ -326,7 +329,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               />
               <input
                 maxLength={70}
-                className="h-10 focus:outline-cyan-600 border rounded pl-3 border-slate-300"
+                className="h-10 focus:outline-cyan-600 border rounded-[7px] pl-3 border-slate-300"
                 {...register("qTwo", {
                   required: true,
                 })}
@@ -339,7 +342,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               />
               <input
                 maxLength={70}
-                className="h-10 focus:outline-cyan-600 border rounded pl-3 border-slate-300"
+                className="h-10 focus:outline-cyan-600 border rounded-[7px] pl-3 border-slate-300"
                 {...register("qThree", {
                   required: true,
                 })}
@@ -351,14 +354,14 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                 onChange={handleThree}
               />
               
-              <button
-                className="cursor-pointer rounded bg-slate-700 w-52 h-10 flex justify-center items-center self-end px-4 mt-3 text-white"
+              <Button
+                className="cursor-pointer rounded-[7px]  w-40 self-end"
                 type="submit"
                 disabled={isFetching}
               >
                 {isFetching ? (
                   <img
-                    className="m-2 h-7"
+                    className="m-2 h-7 "
                     src="/assets/Spinner@1x-1.0s-200px-200px.svg"
                     alt=""
                   />
@@ -367,7 +370,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                 ) : (
                   "Create new Space"
                 )}
-              </button>
+              </Button>
             </form>
           </div>
         </div>

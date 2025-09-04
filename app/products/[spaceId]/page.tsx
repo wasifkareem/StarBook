@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { useAppContext } from "@/context/AppContext";
 import DashoardCard from "@/components/DashoardCard";
 import Wall from "@/components/Wall";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 
 const testimonialSchema = z.object({
@@ -76,6 +77,20 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
   const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
   const manualTestimonials = testimonials?.filter((t)=>t.tweet==false);
   const {state} = useAppContext()
+
+    // Load from localStorage on component mount
+    useEffect(() => {
+      const savedFilter = localStorage.getItem('dashboard-filter');
+      if (savedFilter) {
+        setIsBtn(savedFilter);
+      }
+    }, []);
+  
+    // Save to localStorage whenever state changes
+    useEffect(() => {
+      localStorage.setItem('dashboard-filter', isBtn);
+    }, [isBtn]);
+    
   useEffect(() => {
     const getSpace = async () => {
       const res = await fetch(
@@ -100,7 +115,6 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
    
       {insightsToggle ? (
         <Insights
-          insightsToggle={insightsToggle}
           spaceInfo={spaceInfo}
           setInsightsToggle={setInsightsToggle}
         />
@@ -146,15 +160,15 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
           </div>
         </div>
         <div className=" hidden  md:flex justify-center items-center">
-
-        <Button
-        className=" p-5 py-8 rounded-xl hover:shadow-[0_0_20px_rgba(255,0,255,0.3),0_0_40px_rgba(0,255,255,0.2),0_0_60px_rgba(255,255,0,0.1)] transition-shadow duration-300"
-        variant="outline"
+        <HoverBorderGradient
         onClick={() => setInsightsToggle(true)}
-        
-        >
-          Generate Insights <FaPenFancy className=" " />
-              </Button>
+        containerClassName="rounded-full"
+        as="button"
+        className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 py-4"
+      >
+        <FaPenFancy className=" " />
+        <span>Generate Insights</span>
+      </HoverBorderGradient>
                 </div>
         {/* {isKey ? (
           <RPDash spaceInfo={spaceInfo} spaceId={spaceId} />

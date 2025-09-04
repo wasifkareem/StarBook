@@ -21,8 +21,24 @@ model Space {
   message       String
   tipBox        Boolean?       @default(false)
   testimonials  Testimonial[]
+  theme         Theme?
 
   @@index([ownerEmail])
+}
+
+model Theme {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  isDark        Boolean  @default(false)
+  field         String?   
+  spaceId       String @unique
+
+  
+  space   Space  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+
+  @@index([spaceId])
+
 }
 
 model Testimonial {

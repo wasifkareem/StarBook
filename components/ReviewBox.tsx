@@ -6,6 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import StarRatings from "react-star-ratings";
 import { toast } from "react-toastify";
 import z from "zod";
+import { Button } from "./ui/button";
 
 const ReviewBoxPropsSchema = z.object({
   spaceInfo:spaceInfoSchema,
@@ -18,7 +19,8 @@ const AddReviewSchema = z.object({
   title: z.string().optional(),
   imgPath: z.url(),
   spaceId: z.string(),
-  starRating: z.number().min(1).max(5)
+  starRating: z.number().min(1).max(5),
+  date:z.string()
 })
 type AddReview = z.infer<typeof AddReviewSchema>
 type reviewBox = z.infer<typeof ReviewBoxPropsSchema>
@@ -80,6 +82,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
       data.imgPath = assetInfo.url;
       data.spaceId = spaceInfo?.id;
       data.starRating = rating;
+      data.date =new Date().toISOString()
       }
     console.log(data)
 
@@ -114,7 +117,8 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
         >
           &times;
         </button>
-        <p className=" font-semibold text-xl text-slate-800">
+<div className=" flex flex-col mx-5">
+<p className=" font-semibold text-xl text-slate-800">
           Write Text Testimonial to
         </p>
         <img
@@ -141,6 +145,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
             rating={rating}
           />
         </div>
+</div>
         <form
           className="  self-center  mb-10 md:mb-2  py-4 flex flex-col  md:w-[500px]  gap-2"
           onSubmit={handleSubmit(onSubmit)}
@@ -152,7 +157,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
                 : undefined
             }
             maxLength={280}
-            className=" h-24 md:h-36 p-2 focus:outline-blue-600  pl-3 border border-slate-400 rounded"
+            className=" h-24 md:h-36 p-2 focus:outline-blue-600  pl-3 border border-slate-300 rounded"
             {...register("testimonial", {
               required: true,
             })}
@@ -165,7 +170,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
           </label>
           <input
             placeholder="Name"
-            className="h-10 focus:outline-blue-600  border pl-3 border-slate-400 "
+            className="h-10 focus:outline-blue-600  border pl-3 rounded-[6px] border-slate-300 "
             {...register("name", {
               required: true,
             })}
@@ -180,7 +185,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
           <input
             type="email"
             placeholder="Email"
-            className="h-10  focus:outline-blue-600  border pl-3 border-slate-400 "
+            className="h-10  focus:outline-blue-600  border pl-3 rounded-[6px] border-slate-300 "
             {...register("email", {
               required: true,
             })}
@@ -193,7 +198,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
             type="text"
             maxLength={40}
             placeholder="Content Marketing head at Adobe"
-            className="h-10  focus:outline-blue-600  border pl-3 border-slate-400 "
+            className="h-10  focus:outline-blue-600  border pl-3 rounded-[6px] border-slate-300 "
             {...register("title")}
           />
 
@@ -202,7 +207,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
           </label>
           <div className=" flex gap-8 items-center ">
             <label
-              className=" border focus:outline-blue-600  rounded-lg w-fit h-fit px-2 py-1 cursor-pointer text-slate-600 border-slate-600"
+              className=" border focus:outline-blue-600  rounded-lg w-fit h-fit px-2 py-1 cursor-pointer text-slate-400 hover:border-slate-600 transition-all border-slate-300"
               htmlFor="upload-photo"
             >
               Choose File
@@ -236,20 +241,20 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-3">
-            <button
-              className=" md:order-2 rounded-sm cursor-pointer bg-slate-800 w-full md:w-[80px] h-10 flex justify-center items-center self-center px-4 font-semibold mt-3 md:mt-0 text-white"
+            <Button
+              className=" md:order-2 rounded-sm cursor-pointer  w-full md:w-[80px] h-10 flex justify-center items-center self-center px-4 font-semibold mt-3 md:mt-0 text-white"
               type="submit"
             >
               {isFetching ? (
                 <img
-                  className=" h-10"
+                  className=" h-6"
                   src="/assets/Spinner@1x-1.0s-200px-200px.svg"
                   alt=""
                 />
               ) : (
                 "Send"
               )}
-            </button>
+            </Button>
             <button
               onClick={() => setToggle(false)}
               className=" md:order-1 border md:w-[80px] h-10 border-slate-800 rounded-sm"

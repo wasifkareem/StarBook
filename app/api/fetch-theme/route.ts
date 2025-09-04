@@ -4,34 +4,32 @@ import { validateQuery } from "@/lib/validate";
 import { NextRequest, NextResponse } from "next/server";
 
 
+
 export async function GET(request:NextRequest) {
     try {
         const {searchParams} = new URL(request.url);
-
         const validation = validateQuery(spaceQuerySchema,searchParams);
-
+         
         if(!validation.success){
             return NextResponse.json(
-                {error:'Validation failed'},
-                {status:401}
+                {error:'validationf failed'},
+                {status:400}
             )
         }
 
         const {spaceId} = validation.data as spaceQuery;
 
-        const space = await prisma.space.findUnique({
-            where:{id:spaceId},
-            include:{
-            testimonials:{
-                orderBy:{
-                createdAt:'asc'
-                }
-            }
-            }
+        const theme = await prisma.theme.findUnique({
+            where:{spaceId:spaceId},
+
         })
 
-        return NextResponse.json(space)
+        return NextResponse.json(theme)
     } catch (error) {
-        console.error('Err fetching this space',error)
+        console.error('error fetching theme', error);
+        return NextResponse.json(
+            {error:'error fetching themes'},
+            {status:401}
+        )
     }
 }

@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
             where: {
                 spaceId: spaceId
             },
+            orderBy:{createdAt:'asc'},
             select: {
                 testimonial: true
             }
