@@ -52,7 +52,7 @@ mode
       }}
       className={`relative border-none flex transition-all flex-col gap-2  ${
         mode == "true" || mode == true ? "bg-neutral-900" : ""
-      } rounded-xl  px-5 py-4 pb-12 w-[354px]  md:h-fit ${
+      } rounded-xl  px-5 py-4 pb-12 max-w-[354px]  md:h-fit ${
         mode == "true" || mode == true
           ? "hover:bg-neutral-800"
           : "hover:bg-gray-50"

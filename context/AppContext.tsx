@@ -8,6 +8,7 @@ const appStateSchema = z.object({
    reloadTweets:z.boolean(),
    reloadCards:z.boolean(),
    field:z.string(),
+   theme:z.string()
 });
 
 interface AppContextType{
@@ -15,7 +16,8 @@ interface AppContextType{
     setReloadSpaces:(reloadSpaces:boolean)=>void,
     setReloadTweets:(reloadTweets:boolean)=>void,
     setReloadCards:(reloadCards:boolean)=>void,
-    setField:(field:string)=>void
+    setField:(field:string)=>void,
+    setTheme:(field:string)=>void
 }
 
 type AppState = z.infer<typeof appStateSchema>;
@@ -27,7 +29,8 @@ const [state, setState] = useState<AppState>({
     reloadSpaces:false,
     reloadTweets:false,
     reloadCards:false,
-    field:'medium'
+    field:'medium',
+    theme:'basic'
 })
 
 const setReloadSpaces=()=>{
@@ -46,13 +49,18 @@ const setField=(val:string)=>{
     setState(prev=>({...prev,field:val}))
 }
 
+const setTheme =(val:string)=>{
+    setState(prev=>({...prev,theme:val}))
+}
+
 return(
     <AppContext.Provider value={{
         state,
         setReloadSpaces,
         setReloadTweets,
         setReloadCards,
-        setField
+        setField,
+        setTheme
     }}>
      {children}
     </AppContext.Provider>

@@ -49,7 +49,7 @@ export default async function RootLayout({
             )}
             {children}
             <ToastContainer />
-            <Toaster />
+            <Toaster position='top-center' />
 
           </AppProvider>
         </body>

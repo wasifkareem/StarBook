@@ -40,7 +40,7 @@ const SpaceCard = ({ imgPath, spaceName, spaceId,testimonialCount }:spaceCardPro
             <MdDeleteForever className="text-2xl text-slate-400 hover:text-red-900 transition-colors" />
           </button>
           <img
-            className=" h-32 w-32 object-cover border rounded-3xl"
+            className=" h-32 w-32 object-cover border bg-white rounded-3xl"
             loading="lazy"
             src={imgPath ? imgPath : "/assets/review.png"}
             alt=""

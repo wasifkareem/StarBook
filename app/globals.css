@@ -188,3 +188,22 @@
     letter-spacing: var(--tracking-normal);
   }
 }
+
+@keyframes infinite-vertical {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%); /* Move exactly half since we have 2 copies */
+  }
+}
+
+.animate-infinite-vertical {
+  animation: infinite-vertical 90s linear infinite;
+}
+
+.animate-infinite-vertical:hover {
+  animation-play-state: paused;
+}
+
+

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TweetCard from "./TweetCard";
-import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import { RiTwitterXFill } from "react-icons/ri";
 import z from "zod";
@@ -9,6 +8,7 @@ import { useAppContext } from "@/context/AppContext";
 import { Tooltip } from "./ui/tooltip";
 import { TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { toast } from "sonner";
 
 const twitterCardPropsSchema = z.object({
   spaceId:z.string(),
@@ -66,7 +66,7 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
           body: JSON.stringify(data),
         });
       if (res.ok) {
-        toast.success("🎊 Testimonial Created");
+        toast.success("Testimonial Created");
         setReloadTweets(!state.reloadTweets);
         setIsFetching(false);
         setUrl("");

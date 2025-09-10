@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { IoWarningOutline } from "react-icons/io5";
 import z from "zod";
 import { useUser } from "@clerk/nextjs";
@@ -68,7 +68,7 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
         <div className=" flex justify-center mt-4 gap-3">
           <Button
             onClick={handleClick}
-            className=" text-white bg-red-700 hover:ring-red-700 border border-slate-300 px-3 py-1"
+            className=" text-white bg-red-900 hover:ring-red-900 border border-slate-300 px-3 py-1"
           >
             Delete
           </Button>

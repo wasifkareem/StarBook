@@ -55,7 +55,7 @@ const DashoardCard = ({
     );
 
     if(!res.ok){
-      toast('Failed to delete testimonails, try again later!!!')
+      toast.error('Failed to delete testimonails, try again later!!!')
       return
     }
     if (res.ok) {

@@ -6,7 +6,8 @@ const isPublicRoute = createRouteMatcher([
   '/sign-up(.*)',
   '/embed(.*)',
   '/api/wall/fetch-wall',
-  '/api/fetch-theme',    
+  '/api/fetch-theme', 
+  '/api/stripe/webhook'   
 ])
 
 export default clerkMiddleware(

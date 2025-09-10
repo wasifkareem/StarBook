@@ -1,5 +1,5 @@
 import { useAppContext } from '@/context/AppContext';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import z from 'zod';
 
 const UrlEntitySchema = z.object({
@@ -67,7 +67,16 @@ type RenderEntity =
     };
 
 export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElement {
-  const{state} = useAppContext()
+  const { state } = useAppContext();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const CHARACTER_LIMIT = 180;
+  const isLongText = text.length > CHARACTER_LIMIT;
+  
+  // Truncate text if needed
+  const displayText = isLongText && !isExpanded 
+    ? text.slice(0, CHARACTER_LIMIT) + '...'
+    : text;
+
   const urls = entities?.urls ?? [];
   const mentions = entities?.user_mentions ?? [];
   const hashtags = entities?.hashtags ?? [];
@@ -103,14 +112,19 @@ export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElem
     })),
   ];
 
-  allEntities.sort((a, b) => a.start - b.start);
+  // Filter entities that are within the display text range
+  const visibleEntities = isLongText && !isExpanded
+    ? allEntities.filter(entity => entity.start < CHARACTER_LIMIT)
+    : allEntities;
+
+  visibleEntities.sort((a, b) => a.start - b.start);
 
   const result: Array<string | React.JSX.Element> = [];
   let lastIndex = 0;
 
-  allEntities.forEach((entity, i) => {
+  visibleEntities.forEach((entity, i) => {
     if (lastIndex < entity.start) {
-      result.push(text.slice(lastIndex, entity.start));
+      result.push(displayText.slice(lastIndex, entity.start));
     }
 
     result.push(
@@ -122,8 +136,8 @@ export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElem
     lastIndex = entity.end;
   });
 
-  if (lastIndex < text.length) {
-    result.push(text.slice(lastIndex));
+  if (lastIndex < displayText.length) {
+    result.push(displayText.slice(lastIndex));
   }
 
   const withBreaks: Array<string | React.JSX.Element> = result.flatMap((part, index) =>
@@ -135,8 +149,22 @@ export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElem
   );
 
   return (
-    <p className={`font-sans ml-1  ${state.field=='sm' && "text-[13px] my-5"} ${state.field=='base' && "text-[15px] my-7"} ${state.field=='lg' && "text-[18px] my-10"}`} style={{ whiteSpace: 'pre-wrap' }}>
-      {withBreaks}
-    </p>
+    <div>
+      <p 
+        className={`font-sans ml-1 ${state.field=='sm' && "text-[13px] my-5"} ${state.field=='base' && "text-[15px] my-7"} ${state.field=='lg' && "text-[18px] my-10"}`} 
+        style={{ whiteSpace: 'pre-wrap' }}
+      >
+        {withBreaks}
+      </p>
+      
+      {isLongText && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`text-blue-500 hover:text-blue-700 hover:underline ml-1 ${state.field=='sm' && "text-[12px]"} ${state.field=='base' && "text-[14px]"} ${state.field=='lg' && "text-[16px]"}`}
+        >
+          {isExpanded ? 'Show less' : 'Show more'}
+        </button>
+      )}
+    </div>
   );
 }

@@ -4,8 +4,8 @@ import { ReactNode, use, useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import ReviewBox from "@/components/ReviewBox";
 import { SpaceInfo } from "@/lib/schemas/space.schema";
-import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
   const [spaceInfo, setSpaceInfo] = useState<SpaceInfo>();
@@ -18,7 +18,7 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
         `/api/space/fetch-reviewInfo?spaceId=${spaceId}`
       );
       if(!res.ok){
-        toast('Failed to fetch this page, try again later!');
+        toast.error('Failed to fetch this page, try again later!');
         return;
       }
       if(res.ok){

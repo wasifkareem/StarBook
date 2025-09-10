@@ -15,11 +15,11 @@ import Link from "next/link";
 import Insights from "@/components/Insights.jsx";
 // import Loader from "../components/Loader.jsx";
 import TwitterCard from "@/components/TwitterCard";
-import { toast } from "react-toastify";
 import { useAppContext } from "@/context/AppContext";
 import DashoardCard from "@/components/DashoardCard";
 import Wall from "@/components/Wall";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { toast } from "sonner";
 
 
 const testimonialSchema = z.object({
@@ -97,7 +97,7 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
         `/api/space/fetch-space?spaceId=${spaceId}`
       );
       if(!res.ok){
-        toast('failed to fetch spaces, try later!!!')
+        toast.error('failed to fetch spaces, try later!!!')
       }
       if(res.ok){
         const data = await res.json()
@@ -133,7 +133,8 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
       <div className=" flex flex-col md:flex-row w-full md:h-40 lg:px-16 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
           <img
-            className=" hidden md:block w-32 object-cover rounded-lg h-32"
+            loading="lazy"
+            className=" hidden md:block w-32 object-cover border bg-white  rounded-lg h-32"
             src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
             alt=""
           />
@@ -170,30 +171,16 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
         <span>Generate Insights</span>
       </HoverBorderGradient>
                 </div>
-        {/* {isKey ? (
-          <RPDash spaceInfo={spaceInfo} spaceId={spaceId} />
-        ) : (
-          <div className=" md:w-[430px] border border-slate-300 flex flex-col  justify-between  items-center py-6 rounded text-slate-800">
-            <p className="  text-sm font-mono md:w-96 text-center">
-              {" "}
-              Add your Razorpay account by navigating to{" "}
-              <span className=" font-semibold ">
-                Manage Account &gt; Razorpay Details
-              </span>{" "}
-              and allow your happy customers to tip you while leaving reviews.
-            </p>
-          </div>
-        )} */}
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
         
-        <div className=" md:w-1/4 md:sticky top-0  md:h-screen bg-gray-50 font-handwriting flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
+        <div className=" md:w-1/4 md:sticky top-0  md:h-screen bg-gray-100 font-handwriting flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
           <button
             onClick={() => setIsBtn("All")}
             className={` w-full flex gap-2 group items-center  transition-colors  ${
               isBtn === "All" && "bg-neutral-200"
-            }  text-neutral-700  text-start px-4 py-2 rounded-md `}
+            }  text-neutral-700  text-start px-4 py-2 rounded-sm `}
           >
             <GalleryHorizontalEnd color="#404040" />
             <span className="group-hover:translate-x-2 transition-all">All</span>
@@ -202,7 +189,7 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
             onClick={() => setIsBtn("Twitter")}
             className={` w-full  group flex gap-2  items-center transition-colors  ${
               isBtn === "Twitter" && "bg-neutral-200"
-            }  text-neutral-700 text-start px-4 py-2 rounded-md `}
+            }  text-neutral-700 text-start px-4 py-2 rounded-sm `}
             >
             <Twitter color="#404040" />
              <span className=" group-hover:translate-x-2 transition-all"> Twitter</span>
@@ -232,7 +219,8 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
             <span className=" group-hover:translate-x-2 transition-all">Edit Space</span>
             </button>
         </div>
-        <div className=" md:w-3/4 flex rounded-2xl overflow-hidden border-[1px] border-gray-200 shadow shadow-gray-300  relative flex-col gap-3 ">
+       <div className="md:w-3/4 bg-gray-100 ">
+       <div className="  flex rounded-l-2xl h-full overflow-hidden border-[1px] bg-white border-gray-200 shadow shadow-gray-300  relative flex-col gap-3 ">
         <div className="bg-gray-50 border border-gray-200 self-end m-5 rounded-lg text-slate-600 hidden md:block top-0 px-4 py-3 text-sm w-fit">
           <div className="flex items-center gap-2">
             <span className="text-base">💡</span>
@@ -306,6 +294,7 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
             </div>
           )}
         </div>
+       </div>
       </div>
     </>
   );

@@ -4,22 +4,25 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
     try {
         const data = await request.json();
-        const { isDark, spaceId, field } = data;
+        const { isDark, spaceId, field, theme } = data;
 
-        const theme = await prisma.theme.upsert({
+        const updatedTheme = await prisma.theme.upsert({
             where: { spaceId: spaceId },
             update: { 
                 isDark: isDark,
-                field:field
+                field:field,
+                theme:theme
+
             },
             create: {
                 isDark: isDark,
                 spaceId: spaceId,
-                field:field
+                field:field,
+                theme:theme
             }
         });
 
-        return NextResponse.json(theme, { status: 200 });
+        return NextResponse.json(updatedTheme, { status: 200 });
         
     } catch (error) {
         console.error('error adding theme', error);

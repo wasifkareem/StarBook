@@ -26,6 +26,7 @@ model Space {
   @@index([ownerEmail])
 }
 
+
 model Theme {
   id            String   @id @default(cuid())
   createdAt     DateTime @default(now())
@@ -33,6 +34,7 @@ model Theme {
   isDark        Boolean  @default(false)
   field         String?   
   spaceId       String @unique
+  theme         String?
 
   
   space   Space  @relation(fields: [spaceId], references: [id], onDelete: Cascade)

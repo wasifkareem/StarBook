@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
@@ -12,6 +11,7 @@ import z from "zod";
 import { useAppContext } from "@/context/AppContext";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 const tweetPropsSchema = tweetSchema.extend({
   Id:z.string()
@@ -79,7 +79,7 @@ const TweetCard = ({
     );
 
     if(!res.ok){
-      toast('Failed to delete testimonails, try again later!!!')
+      toast.error('Failed to delete testimonails, try again later!!!')
       return
     }
     if (res.ok) {
@@ -162,13 +162,8 @@ const TweetCard = ({
           </div>
         )}
       </div>
-      <a
-        target="_blank"
-        href={`https://x.com/${twitterHandle}/status/${xId}`}
-        rel="noopener noreferrer"
-      >
+     
         <TweetRenderer text={testimonial} entities={entities} />
-      </a>
       {imgMedia && (
         <a href={imgMedia} className="glightbox">
           <div className="bg-black rounded-lg overflow-hidden mt-5 my-2  flex justify-center ">

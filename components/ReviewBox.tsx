@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 import StarRatings from "react-star-ratings";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import z from "zod";
 import { Button } from "./ui/button";
 
