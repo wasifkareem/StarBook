@@ -11,6 +11,8 @@ import z from "zod";
 import SpaceCard from "@/components/SpaceCard";
 import AddSpace from "@/components/AddSpace";
 import { useAppContext } from "@/context/AppContext";
+import { toast } from "sonner";
+import { Separator } from "@/components/ui/separator";
 
 const spaceSchema = z.object({
     id: z.string(),
@@ -39,13 +41,21 @@ const Home = () => {
   const { user } = useUser();
 //   const { ReloadSpaces } = useAppSelector((state) => state?.info);
   const [cardData, setCardData] = useState<Space[] | null>(null);
-  console.log(cardData)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const {state} = useAppContext()
-
+  const maxSpaces = state.pro? 10:2
   const handleClick = () => {
-    setToggle(true);
+   if(maxSpaces > (cardData?.length || 0)) {
+     setToggle(true);
+   }else{
+    toast.warning('Space limit reached:2',{
+      action:{
+        label:'Upgrade to Pro',
+        onClick:() => window.location.href = '/billing'
+      }
+    })
+   }
   };
 
   useEffect(() => {
@@ -106,7 +116,8 @@ const Home = () => {
             Create Space
           </Button>
         </div>
-        <div className="mt-20 md:mt-16 flex flex-col md:flex-row md:flex-wrap gap-4 justify-center">
+        <Separator className=" mt-16 "/>
+        <div className="mt-20 md:mt-16 flex flex-col md:flex-row md:flex-wrap gap-4 justify-start">
           {cardData?.length === 0 ? (
             <p className="text-slate-200 text-2xl md:text-4xl text-center md:mt-28">
               No spaces available. Create a new space, start collecting

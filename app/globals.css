@@ -206,4 +206,12 @@
   animation-play-state: paused;
 }
 
-
+@layer utilities {
+  .shadow-yellow-glow {
+    box-shadow: 2px 2px 1px rgba(255, 208, 0, 0.856);
+  }
+  
+  .text-shadow-yellow {
+    text-shadow: 2px 2px 1px rgba(255, 208, 0, 0.856);
+  }
+}

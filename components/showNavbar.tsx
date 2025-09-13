@@ -6,11 +6,11 @@ import Navbar from '@/components/Navbar'
 
 export default function ShowNavbar() {
   const pathname = usePathname()
-  const hide = pathname.startsWith('/embed') || pathname.startsWith('/public')
+  const hide = pathname.startsWith('/embed') || pathname.startsWith('/public')|| pathname.startsWith('/billing')
   if (hide) return null
 
   return (
-    <header className="flex justify-between items-center p-4 gap-4 h-16">
+    <header className="flex justify-between items-center gap-4 ">
       <Navbar />
     </header>
   )

@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export async function POST(request: NextRequest) {
   try {
@@ -9,8 +9,11 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
     const priceId = data.priceId;
     const {userId} = await auth()
+    const user = await currentUser();
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        customer_email:user?.emailAddresses[0]?.emailAddress,
         line_items: [
           {
             price: priceId,
@@ -18,12 +21,12 @@ export async function POST(request: NextRequest) {
           }
         ],
         mode: 'payment',
-        success_url: `${process.env.NEXT_BASE_URL}/billing`,
+        success_url: `${process.env.NEXT_BASE_URL}/billing?success=true`,
         cancel_url: `${process.env.NEXT_BASE_URL}/billing`,
         metadata: {
           userId: userId,
           priceId
-        }
+        },
       });
     return NextResponse.json({ result: checkoutSession, ok: true });
   } catch (error) {

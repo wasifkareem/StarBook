@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { SquareX } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";

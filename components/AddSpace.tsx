@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useUser } from "@clerk/clerk-react";
 import z from "zod";
 import { spaceInfoSchema } from "@/lib/schemas/space.schema";
 import { Button } from "./ui/button";
 import { useAppContext } from "@/context/AppContext";
+import { IoClose } from "react-icons/io5";
 
 const addSpacePropsSchema = z.object({
   setToggle: z.any(),
@@ -148,7 +149,8 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
           setToggle(false);
           toast.success("Space Created.");
         } else {
-          throw new Error("Failed to create space");
+          toast.error("Failed to create space");
+          setIsFetching(false)
         }
       }
     } catch (err) {
@@ -165,20 +167,39 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
     setToggle(false);
   };
 
+  useEffect(() => {
+    document.body.style.overflow='hidden'
+    const handleKeyDown = (e:KeyboardEvent)=>{
+      if(e.key==='Escape'){
+        setToggle(false)
+      }
+    }
+     document.addEventListener('keydown',handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown',handleKeyDown)
+    document.body.style.overflow='unset'
+
+    }
+  }, [])
+  
+
   return (
     <div
       style={{
-        backgroundPosition: "0 0, 10px 10px",
-        backgroundSize: "20px 20px",
+      backgroundPosition: "0 0, 10px 10px",
+      backgroundSize: "20px 20px",
+      backgroundImage: 'radial-gradient(circle, #cccccc 1px, transparent 1px), radial-gradient(circle, #cccccc 1px, transparent 1px)'
       }}
-      className="z-50 bg-dotted-net overflow-y-auto fixed top-0 bottom-0 right-0 flex justify-center items-start left-0 bg-slate-100"
+      className="z-50 overflow-y-auto fixed top-0 bottom-0 right-0 flex justify-center items-start left-0 bg-slate-100"
     >
-      <div className="flex justify-center flex-col min-w-[90%] shadow-lg bg-white mt-20 min-h-[90%] rounded-lg mx-3">
+      <div className="flex relative justify-center flex-col min-w-[90%] bg-white mt-20 min-h-[90%] rounded-lg mx-3" style={{
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)'
+      }}>
         <button
           onClick={handleToggle}
-          className="self-end text-3xl mr-3 mt-1"
+          className="self-end text-3xl absolute top-5 right-5  "
         >
-          &times;
+          <IoClose className=" text-neutral-500 border rounded-[5px] hover:text-neutral-600 "/>
         </button>
 
         <div className="md:flex flex-row md:justify-center px-10 gap-4">

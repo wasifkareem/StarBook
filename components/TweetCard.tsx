@@ -163,7 +163,7 @@ const TweetCard = ({
         )}
       </div>
      
-        <TweetRenderer text={testimonial} entities={entities} />
+        <TweetRenderer text={testimonial} entities={entities} isAdmin={isAdmin} />
       {imgMedia && (
         <a href={imgMedia} className="glightbox">
           <div className="bg-black rounded-lg overflow-hidden mt-5 my-2  flex justify-center ">

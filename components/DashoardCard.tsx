@@ -10,6 +10,7 @@ import { useAppContext } from "@/context/AppContext";
 import StarRatings from "react-star-ratings";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/stateful-button";
+import { Separator } from "./ui/separator";
 
 
 
@@ -101,7 +102,7 @@ const DashoardCard = ({
               Text
             </label>
           </div>
-          <div className=" flex justify-between">
+          <div className=" flex justify-between mt-2 mb-4">
             <StarRatings
               starRatedColor="#ffa534"
               rating={testimonial.starRating}
@@ -146,7 +147,8 @@ const DashoardCard = ({
         </div>
       </div>
 
-      <div className=" text-slate-900 max-w-[720px] my-3 text-lg">{testimonial.testimonial}</div>
+      <div className=" text-slate-900 max-w-[720px]  text-lg">{testimonial.testimonial}</div>
+      <Separator className=" max-w-xl mt-4"/>
       <div className=" grid grid-cols-2 gap-3 mt-3">
         <div>
           <p className=" font-semibold text-slate-800 text-sm">Name</p>

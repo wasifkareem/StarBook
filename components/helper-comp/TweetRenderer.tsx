@@ -32,6 +32,7 @@ const EntitiesSchema = z.object({
 const TweetRendererSchema = z.object({
   text: z.string(),
   entities: EntitiesSchema.optional(),
+  isAdmin:z.boolean()
 });
 
 type TweetRendererProps = z.infer<typeof TweetRendererSchema>;
@@ -66,7 +67,7 @@ type RenderEntity =
       href?: undefined;
     };
 
-export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElement {
+export function TweetRenderer({ text, entities, isAdmin}: TweetRendererProps): ReactElement {
   const { state } = useAppContext();
   const [isExpanded, setIsExpanded] = useState(false);
   const CHARACTER_LIMIT = 180;
@@ -150,12 +151,17 @@ export function TweetRenderer({ text, entities }: TweetRendererProps): ReactElem
 
   return (
     <div>
-      <p 
+      {isAdmin ?<p 
+        className={`font-sans ml-1 text-[15px] my-7`} 
+        style={{ whiteSpace: 'pre-wrap' }}
+      >
+        {withBreaks}
+      </p>:<p 
         className={`font-sans ml-1 ${state.field=='sm' && "text-[13px] my-5"} ${state.field=='base' && "text-[15px] my-7"} ${state.field=='lg' && "text-[18px] my-10"}`} 
         style={{ whiteSpace: 'pre-wrap' }}
       >
         {withBreaks}
-      </p>
+      </p>}
       
       {isLongText && (
         <button

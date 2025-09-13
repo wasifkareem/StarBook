@@ -1,3 +1,5 @@
+import "@iframe-resizer/child";
+
 import {
   ClerkProvider
 } from '@clerk/nextjs'
@@ -11,6 +13,7 @@ import { AppProvider } from '@/context/AppContext'
 import { headers } from 'next/headers'
 import ShowNavbar from '@/components/showNavbar'
 import { Toaster } from '@/components/ui/sonner'
+
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -35,21 +38,19 @@ export default async function RootLayout({
 }>) {
   const headersList = await headers();
   const pathname = headersList.get('x-invoke-pathname') || ''; // Get the pathname from headers
-  const hideNavbar = pathname.startsWith('/embed') || pathname.startsWith('/public');
+
 
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning={true}>
           <AppProvider>
-            {!hideNavbar && (
               <header >
                 <ShowNavbar />
               </header>
-            )}
             {children}
             <ToastContainer />
-            <Toaster position='top-center' />
+            <Toaster  theme='light' position='top-center' />
 
           </AppProvider>
         </body>

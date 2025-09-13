@@ -1,6 +1,7 @@
 'use client'
 
-import { createContext, useContext, ReactNode, useState } from "react";
+import { getUserProStatus } from "@/lib/actions/users";
+import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import z from "zod";
 
 const appStateSchema = z.object({
@@ -8,7 +9,8 @@ const appStateSchema = z.object({
    reloadTweets:z.boolean(),
    reloadCards:z.boolean(),
    field:z.string(),
-   theme:z.string()
+   theme:z.string(),
+   pro:z.boolean().default(false),
 });
 
 interface AppContextType{
@@ -17,7 +19,7 @@ interface AppContextType{
     setReloadTweets:(reloadTweets:boolean)=>void,
     setReloadCards:(reloadCards:boolean)=>void,
     setField:(field:string)=>void,
-    setTheme:(field:string)=>void
+    setTheme:(field:string)=>void,
 }
 
 type AppState = z.infer<typeof appStateSchema>;
@@ -30,7 +32,8 @@ const [state, setState] = useState<AppState>({
     reloadTweets:false,
     reloadCards:false,
     field:'medium',
-    theme:'basic'
+    theme:'basic',
+    pro:false
 })
 
 const setReloadSpaces=()=>{
@@ -52,7 +55,14 @@ const setField=(val:string)=>{
 const setTheme =(val:string)=>{
     setState(prev=>({...prev,theme:val}))
 }
-
+useEffect(() => {
+    getUserProStatus().then(isPro => {
+        setState(prev => ({
+            ...prev, 
+            pro: isPro,
+        }))
+    })
+}, [])
 return(
     <AppContext.Provider value={{
         state,
@@ -60,7 +70,8 @@ return(
         setReloadTweets,
         setReloadCards,
         setField,
-        setTheme
+        setTheme,
+        
     }}>
      {children}
     </AppContext.Provider>

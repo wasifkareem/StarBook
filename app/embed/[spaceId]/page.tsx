@@ -7,6 +7,8 @@ import { Testimonial } from "@/lib/schemas/testimonial.schema";
 import { prisma } from "@/lib/db";
 import { useAppContext } from "@/context/AppContext";
 import Canvas from "@/components/Canvas";
+import("@iframe-resizer/child");
+
 
 interface PageProps {
   params: Promise<{ spaceId: string }>

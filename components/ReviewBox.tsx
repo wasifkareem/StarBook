@@ -98,6 +98,9 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
       setIsFetching(false);
       setToggle(false);
       toast.success("Thanks for the shoutout, it means a lot to Us!🤗");
+      }else{
+        toast.error('Something went wrong!!');
+        setIsFetching(false)
       }
     } catch (err) {
       setIsFetching(false);

@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { GalleryHorizontalEnd, Heart, SquarePen, StickyNote, Twitter } from "lucide-react";
+import { Copy, GalleryHorizontalEnd, Heart, SquarePen, StickyNote, Twitter } from "lucide-react";
 import { use, useEffect, useState } from "react";
 import { FaPenFancy } from "react-icons/fa";
 // import Skeleton from "react-loading-skeleton";
@@ -77,7 +77,7 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
   const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
   const manualTestimonials = testimonials?.filter((t)=>t.tweet==false);
   const {state} = useAppContext()
-
+const maxTestimonials = state.pro?25:7
     // Load from localStorage on component mount
     useEffect(() => {
       const savedFilter = localStorage.getItem('dashboard-filter');
@@ -107,6 +107,23 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
     };
     getSpace();
   }, [state.reloadTweets,state.reloadCards]);
+
+  const copyToClip =async()=>{
+    if((testimonials?.length||0)>=maxTestimonials){
+      toast.warning('public page disabled, maximimum testimonails limit reached: 7',{
+        action:{
+          label:'Upgrade to Pro',
+          onClick:() => window.location.href = '/billing'
+        }
+      })
+      return
+    }else{
+      const url = `${window.location.origin}/public/${spaceInfo?.id}`
+      await navigator.clipboard.writeText(url);
+      toast.success('Space URL copied, send it to your customers/users and ask them for reviews')
+    }
+   
+  }
   if (!spaceInfo) {
     return <Loader />;
   }
@@ -129,7 +146,6 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
           setWallPageToggle={setWallPageToggle}
         />
       ) : null}
-      <hr />
       <div className=" flex flex-col md:flex-row w-full md:h-40 lg:px-16 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
           <img
@@ -138,26 +154,16 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
             src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
             alt=""
           />
-          <div>
-            <div className=" flex gap-4">
+          <div className=" flex items-center  gap-3 md:gap-5">
+            <div className=" flex gap-4 items-end">
               <h1 className=" text-4xl font-semibold text-slate-800 font-sans ">
                 {spaceInfo?.spaceName}
               </h1>
               
             </div>
-            <p className=" text-slate-500 md:mt-1">
-              Space public url :
-              <Link
-                style={{ overflowWrap: "anywhere" }}
-                className=" underline"
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`/public/${spaceInfo?.id}`}
-              >
-                {" "}
-                {window.location.origin}/{spaceInfo?.id}
-              </Link>
-            </p>
+            <button onClick={copyToClip} className="bg-teal-500/20 hover:border-teal-500 transition-all border cursor-pointer flex gap-2 items-center text-teal-600 px-2 py-1 rounded-[5px] text-xs font-medium">
+                           Space Public Url    <Copy size={20}/>
+                            </button>
           </div>
         </div>
         <div className=" hidden  md:flex justify-center items-center">
@@ -175,7 +181,7 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
       <hr />
       <div className=" flex flex-col md:flex-row">
         
-        <div className=" md:w-1/4 md:sticky top-0  md:h-screen bg-gray-100 font-handwriting flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
+        <div className=" relative md:w-1/4 md:sticky top-0  md:h-screen bg-gray-100 font-handwriting flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
           <button
             onClick={() => setIsBtn("All")}
             className={` w-full flex gap-2 group items-center  transition-colors  ${
@@ -205,6 +211,17 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
             target="_blank"
             rel="noopener noreferrer"
             href={`/public/${spaceInfo?.id}`}
+            onClick={(e)=>{
+              if((testimonials?.length||0)>=maxTestimonials){
+                e.preventDefault();
+                toast.warning('Public page disabled, maximum testimonials limit reached: ' + maxTestimonials, {
+                  action: {
+                    label: 'Upgrade to Pro',
+                    onClick: () => window.location.href = '/billing'
+                  }
+                });
+              }
+            }}
             >
             <button className=" w-full group flex gap-2 items-center   transition-colors  text-neutral-700 text-start px-4 py-2 rounded-md ">
             <StickyNote color="#404040" />              
@@ -218,6 +235,7 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
              <SquarePen color="#404040" />
             <span className=" group-hover:translate-x-2 transition-all">Edit Space</span>
             </button>
+          
         </div>
        <div className="md:w-3/4 bg-gray-100 ">
        <div className="  flex rounded-l-2xl h-full overflow-hidden border-[1px] bg-white border-gray-200 shadow shadow-gray-300  relative flex-col gap-3 ">
@@ -235,6 +253,17 @@ const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className=" hover:underline font-semibold underline-offset-2 hover:text-blue-800"
+                onClick={(e) => {
+                  if ((testimonials?.length || 0) >= maxTestimonials) {
+                    e.preventDefault();
+                    toast.warning('Public page disabled, maximum testimonials limit reached: ' + maxTestimonials, {
+                      action: {
+                        label: 'Upgrade to Pro',
+                        onClick: () => window.location.href = '/billing'
+                      }
+                    });
+                  }
+                }}
               >
                 public landing page
               </a>

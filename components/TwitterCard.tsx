@@ -22,8 +22,19 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
   const [isFetching, setIsFetching] = useState(false);
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
+  const maxTweets = state.pro?25:7;
+  
 
   const handleClick = async () => {
+    if(testimonials.length>=maxTweets){
+      toast.warning('Testimonial limit reached:7',{
+        action:{
+          label:'Upgrade to Pro',
+          onClick:() => window.location.href = '/billing'
+        }
+      })
+    return
+    }
     setIsFetching(true);
     try {
       if(id==undefined){
@@ -70,6 +81,9 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
         setReloadTweets(!state.reloadTweets);
         setIsFetching(false);
         setUrl("");
+      }else{
+        toast.error('Something went wrong!!');
+        setIsFetching(false)
       }
     } catch (err) {
       console.error(err);

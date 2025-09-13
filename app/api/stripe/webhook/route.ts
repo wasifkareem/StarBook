@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import { NextRequest } from 'next/server';
 import { headers } from 'next/headers';
+import { clerkClient } from '@clerk/nextjs/server';
 
 type METADATA = {
   userId: string;
@@ -81,6 +82,31 @@ export async function POST(request: NextRequest) {
   console.log('📊 Full Transaction Details:', JSON.stringify(transactionDetails, null, 2));
 
   try {
+    if(paymentStatus==='paid'){
+      const clerkUserId = userId;
+      if(!clerkUserId){
+        console.warn('missing clerk userId')
+      }else{
+        const client  =await clerkClient();
+        const user = await client.users.getUser(clerkUserId);
+        const alreadyPro= user?.privateMetadata?.pro===true;
+
+        if(!alreadyPro){
+          await client.users.updateUser(clerkUserId,{
+            privateMetadata:{
+              ...(user?.privateMetadata||{}),
+              pro:true,
+              proSince:new Date().toISOString()
+            }
+          })
+          console.log(`✅ Clerk privateMetadata updated: user ${clerkUserId} is now pro.`);
+          
+        }else{
+          console.log(`ℹ️ User ${clerkUserId} already pro; no update needed.`);
+
+        }
+      }
+    }
     // TODO: Add database update here later
     console.log('💾 Database update will be added here...');
     

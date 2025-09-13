@@ -17,12 +17,13 @@ import {
 } from "./ui/select";
 import { Separator } from "./ui/separator";
 import { Switch } from "./ui/switch";
+import { IoClose } from "react-icons/io5";
 
 const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   const [mode, setMode] = useState(false);
   const { setField, state,setTheme } = useAppContext();
   const [isPending, startTransition]=useTransition()
-  const code = ` <iframe id="starbook-${spaceId}" src="https://starbook.wasifkareem.com/embed/${spaceId}" frameborder="0" scrolling="no" width="100%"></iframe>
+  const code = ` <iframe id="starbook-${spaceId}" src="http://localhost:3000/embed/${spaceId}" frameborder="0" scrolling="no" width="100%"></iframe>
  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
  <script>
   iframeResize({license: "GPLv3",log: true, checkOrigin: false,}, '#starbook-${spaceId}');
@@ -41,7 +42,9 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
       body: JSON.stringify(data),
     });
     if (res.ok) {
-      toast.success("Theme updated successfully!!");
+      toast.message('Theme updated successfully',{
+        description:'Copy Embed code and add the tesimonails Wall on your website or landing Pages'
+      })
     }
   })
   };
@@ -74,9 +77,9 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
       <div className="absolute top-16 md:min-h-[700px] justify-center h-fit rounded-lg bg-white z-50 w-full md:w-[90%] flex flex-col">
         <button
           onClick={() => setWallPageToggle(false)}
-          className="self-end text-3xl mr-3 mt-1"
+          className="self-end text-3xl border rounded-[6px] m-4 "
         >
-          &times;
+         <IoClose className=" text-neutral-500 hover:text-neutral-600"/>
         </button>
         <div className="flex flex-col justify-center">
           <p className="text-center font-bold text-3xl mb-4">

@@ -15,7 +15,6 @@ export interface CanvasProps {
 
 const Canvas = ({publicTestimonials, mode}:CanvasProps) => {
       const {state} = useAppContext()
-console.log(state.theme)
       const themeComp={
         basic:<BasicTheme publicTestimonials={publicTestimonials} mode={mode}/>,
         scroll:<ScrollTheme publicTestimonials={publicTestimonials} mode={mode}/>,

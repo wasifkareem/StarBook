@@ -30,7 +30,7 @@ const SpaceCard = ({ imgPath, spaceName, spaceId,testimonialCount }:spaceCardPro
         />
       ) : null}
       <Link href={`/products/${spaceId}`}>
-       <Card className=" overflow-hidden ">
+       <Card className=" overflow-hidden shadow-yellow-glow ">
           <CardContent className="flex flex-row relative pr-24">
 
           <button
