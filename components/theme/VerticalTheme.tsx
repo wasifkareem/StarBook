@@ -27,8 +27,8 @@ const VerticalTheme = ({publicTestimonials, mode}:CanvasProps) => {
 
     <div className="max-h-[800px] flex items-center justify-center overflow-hidden relative  w-full  ">
       {/* Gradient overlay for smooth fade effect */}
-      <div className={`absolute top-0 h-24 left-0 right-0 bg-gradient-to-b to-transparent z-10 ${mode?'from-neutral-900 via-neutral-900/100':'from-white via-white/80'}`}></div>
-      <div className={`absolute left-0 right-0 bottom-0 h-24 bg-gradient-to-t to-transparent z-10 ${mode?'from-neutral-900 via-neutral-900/100':'from-white via-white/80'}`}></div>
+      <div className={`absolute top-0 h-16 left-0 right-0 bg-gradient-to-b to-transparent z-10 ${mode?'from-neutral-900 via-neutral-900/100':'from-white via-white/80'}`}></div>
+      <div className={`absolute left-0 right-0 bottom-0 h-16 bg-gradient-to-t to-transparent z-10 ${mode?'from-neutral-900 via-neutral-900/100':'from-white via-white/80'}`}></div>
       
       <div className="animate-infinite-vertical self-center  grid grid-cols-1 w-fit lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 items-start mx-5">
         {Array(arrayCount())

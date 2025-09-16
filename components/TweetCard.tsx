@@ -108,14 +108,20 @@ const TweetCard = ({
           loop: false,
           autoplayVideos: false,
           zoomable: false,
+          skin:'media',
           draggable: false,
           slideEffect: "slide",
           moreText: "View more",
-          touchNavigation: false,
+          touchNavigation: true,
+          keyboardNavigation: false,
+          closeOnOutsideClick: true,
+          videosWidth:'750px',
+          width:"750px",
+          height:'300px',
           selector: ".glightbox",
         });
-      }
-    };
+            }
+          };
 
     initLightbox();
   }, []);

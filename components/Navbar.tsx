@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import { Separator } from '@radix-ui/react-select';
 import { CreditCard } from 'lucide-react';
+import { Cover } from './ui/cover';
 
 const Navbar = () => {
     const { isSignedIn } = useUser();
@@ -18,14 +19,15 @@ const Navbar = () => {
                     <Link href={`${isSignedIn ? "/app" : "/"}`}>
                         <div className="flex gap-2 text-2xl font-bold italic">
                             {/* <img className=" w-6 " src="/assets/star-logo.svg" alt="star-logo" /> */}
+                            <Cover className=' flex'>
                             <p style={{ textShadow: "2px 2px 1px rgba(255, 208, 0, 0.856)" }}>
-                                StarBook
+                               StarBook
                             </p>
                             {state.pro && <p className=' text-sm h-fit px-2 rounded-2xl bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-600 text-yellow-900 font-bold shadow-lg border border-yellow-500' style={{ 
                                 background: 'linear-gradient(145deg, #fbbf24, #f59e0b, #d97706)', 
                                 boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 4px rgba(0,0,0,0.3)',
                                 textShadow: '0 1px 0 rgba(255,255,255,0.3)'
-                            }}>Pro</p>}
+                            }}>Pro</p>}</Cover>
                         </div>
                     </Link>
                 </div>
@@ -69,6 +71,11 @@ const Navbar = () => {
                                     label="Billing"
                                     labelIcon={<CreditCard size={16} />}
                                     href="/billing"
+                                />
+                                 <UserButton.Link
+                                    label="Dashboard"
+                                    labelIcon={<CreditCard size={16} />}
+                                    href={"/app"}
                                 />
                             </UserButton.MenuItems>
                         </UserButton>

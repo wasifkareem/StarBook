@@ -20,9 +20,15 @@ mode
   if (testimonial.tweet) {
     return (
       <div
+      style={{
+        boxShadow:
+        mode == "true" || mode === true
+          ? "0 0 22px rgba(0,0,0,0.12)"
+          : "0 0 32px rgba(0,0,0,0.24)",
+      }}
         className={` max-w-[354px]   ${
           mode == "true" || mode == true ? "bg-neutral-900 hover:bg-neutral-800 transition-all text-white " : " bg-card"
-        } rounded-xl`}
+        } rounded-[15px]`}
       >
           <TweetCard
                     isAdmin={false}
@@ -49,10 +55,14 @@ mode
     <Card
       style={{
         border: mode == "true" ? "none" : "",
+        boxShadow:
+          mode == "true" || mode === true
+            ? "0 0 22px rgba(0,0,0,0.12)"
+            : "0 0 32px rgba(0,0,0,0.24)",
       }}
       className={`relative border-none flex transition-all flex-col gap-2  ${
         mode == "true" || mode == true ? "bg-neutral-900" : ""
-      } rounded-xl  px-5 py-4 pb-12 max-w-[354px]  md:h-fit ${
+      } rounded-[15px]  px-5 py-4 pb-12 max-w-[354px]  md:h-fit ${
         mode == "true" || mode == true
           ? "hover:bg-neutral-800"
           : "hover:bg-gray-50"

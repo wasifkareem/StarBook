@@ -44,19 +44,27 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const {state} = useAppContext()
+  console.log(state.pro)
   const maxSpaces = state.pro? 10:2
   const handleClick = () => {
-   if(maxSpaces > (cardData?.length || 0)) {
-     setToggle(true);
-   }else{
-    toast.warning('Space limit reached:2',{
-      action:{
-        label:'Upgrade to Pro',
-        onClick:() => window.location.href = '/billing'
+    if(maxSpaces > (cardData?.length || 0)) {
+      setToggle(true);
+    } else {
+      if(!state.pro) {
+        toast.warning(`Space limit reached:${maxSpaces}`,{
+          action:{
+            label:'Upgrade to Pro',
+            onClick:() => window.location.href = '/billing'
+          }
+        })
+      } else {
+        toast.warning(`Space limit reached:${maxSpaces}`)
       }
-    })
-   }
+    }
   };
+
+  
+  
 
   useEffect(() => {
     const getCards = async () => {

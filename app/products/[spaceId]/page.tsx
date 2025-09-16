@@ -120,7 +120,9 @@ const maxTestimonials = state.pro?25:7
     }else{
       const url = `${window.location.origin}/public/${spaceInfo?.id}`
       await navigator.clipboard.writeText(url);
-      toast.success('Space URL copied, send it to your customers/users and ask them for reviews')
+      toast.message('Space URL copied',{
+        description:'send it to your customers/users and ask them for reviews'
+      })
     }
    
   }
@@ -212,7 +214,7 @@ const maxTestimonials = state.pro?25:7
             rel="noopener noreferrer"
             href={`/public/${spaceInfo?.id}`}
             onClick={(e)=>{
-              if((testimonials?.length||0)>=maxTestimonials){
+              if((testimonials?.length||0)>=maxTestimonials && !state.pro){
                 e.preventDefault();
                 toast.warning('Public page disabled, maximum testimonials limit reached: ' + maxTestimonials, {
                   action: {
@@ -220,6 +222,11 @@ const maxTestimonials = state.pro?25:7
                     onClick: () => window.location.href = '/billing'
                   }
                 });
+              }
+
+              if((testimonials?.length||0)>=maxTestimonials && state.pro){
+                e.preventDefault();
+                toast.warning('Public page disabled, maximum testimonials limit reached: ' + maxTestimonials)
               }
             }}
             >

@@ -199,7 +199,7 @@
 }
 
 .animate-infinite-vertical {
-  animation: infinite-vertical 90s linear infinite;
+  animation: infinite-vertical 180s linear infinite;
 }
 
 .animate-infinite-vertical:hover {
@@ -214,4 +214,17 @@
   .text-shadow-yellow {
     text-shadow: 2px 2px 1px rgba(255, 208, 0, 0.856);
   }
+}
+
+
+.goverlay{
+  background: rgba(0, 0, 0, 0) !important;
+}
+.gslide-media{
+  box-shadow: 0 0 60px 20px rgba(0, 0, 0, 0.5);
+}
+
+.gslide-image img{
+  max-width: 750px !important;
+  max-height: 500px !important;
 }
