@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify'
 import { AppProvider } from '@/context/AppContext'
 import { headers } from 'next/headers'
-import ShowNavbar from '@/components/showNavbar'
+import ShowNavbar from '@/components/layout/showNavbar'
 import { Toaster } from '@/components/ui/sonner'
 
 

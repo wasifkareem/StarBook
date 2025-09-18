@@ -4,7 +4,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import z from "zod";
 import { useUser } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
-import { Button } from "./ui/stateful-button";
+import { Button } from "@/components/ui/button";
 
 const deleteSpaceProps = z.object({
   setToggle:z.any(),

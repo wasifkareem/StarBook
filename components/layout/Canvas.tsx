@@ -1,13 +1,11 @@
 import { Testimonial } from "@/lib/schemas/testimonial.schema"
-import { useWindowDimensions } from "@/lib/dimension";
-import Testimonials from "./Testimonials";
 import { useAppContext } from "@/context/AppContext";
-import BasicTheme from "./theme/BasicTheme";
-import ScrollTheme from "./theme/ScrollTheme";
-import VerticalTheme from "./theme/VerticalTheme";
+import BasicTheme from "../theme/BasicTheme";
+import ScrollTheme from "../theme/ScrollTheme";
+import VerticalTheme from "../theme/VerticalTheme";
 
 export interface CanvasProps {
-  publicTestimonials:[Testimonial],
+publicTestimonials:Testimonial[],
   mode:boolean
 }
 

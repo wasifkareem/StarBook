@@ -2,10 +2,10 @@ import { useAppContext } from "@/context/AppContext";
 import { useEffect, useState, useTransition } from "react";
 import { CopyBlock, irBlack } from "react-code-blocks";
 import { toast } from "sonner";
-import Canvas from "./Canvas";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import Canvas from "@/components/layout/Canvas";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -14,12 +14,21 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
-import { Separator } from "./ui/separator";
-import { Switch } from "./ui/switch";
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { IoClose } from "react-icons/io5";
+import { Testimonial } from "@/app/products/[spaceId]/page";
 
-const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
+interface WallProps {
+  publicTestimonials:Testimonial[],
+  spaceId:string,
+  setWallPageToggle: (pogeToggle: boolean) => void;
+
+  
+}
+
+const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
   const [mode, setMode] = useState(false);
   const { setField, state,setTheme } = useAppContext();
   const [isPending, startTransition]=useTransition()
@@ -50,7 +59,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
   };
 
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e:any) => {
       if (e.key === "Escape") {
         setWallPageToggle(false);
       }
@@ -174,7 +183,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }) => {
         ) : (
           <div className="bg-slate-500 relative mx-10 rounded-[10px] shadow-inner shadow-shadow-color">
             
-          <Canvas publicTestimonials={publicTestimonials} mode={mode}/>
+          <Canvas publicTestimonials={publicTestimonials||[]} mode={mode}/>
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
-import { CanvasProps } from "../Canvas"
-import Testimonials from "../Testimonials"
+import { CanvasProps } from "../layout/Canvas"
+import Testimonials from "@/components/cards/Testimonials"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel"
 
 const ScrollTheme = ({publicTestimonials,mode}:CanvasProps) => {

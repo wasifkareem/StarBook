@@ -1,8 +1,8 @@
 'use client'
 
 import { ReactNode, use, useEffect, useState } from "react";
-import Loader from "@/components/Loader";
-import ReviewBox from "@/components/ReviewBox";
+import Loader from "@/components/layout/Loader";
+import ReviewBox from "@/components/dialog/ReviewBox";
 import { SpaceInfo } from "@/lib/schemas/space.schema";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";

@@ -5,9 +5,8 @@ import { RiTwitterXFill } from "react-icons/ri";
 import z from "zod";
 import { testimonialSchema } from "@/lib/schemas/space.schema";
 import { useAppContext } from "@/context/AppContext";
-import { Tooltip } from "./ui/tooltip";
-import { TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { Tooltip } from "@/components/ui/tooltip";
+import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
 const twitterCardPropsSchema = z.object({
@@ -149,6 +148,7 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
                       imgMedia={testimonial?.imgMedia}
                       poster={testimonial?.poster}
                       video={testimonial?.video}
+                      createdAt={testimonial.createdAt}
                     />
                   ))}
               </div>

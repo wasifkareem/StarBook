@@ -5,12 +5,12 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
-import { TweetRenderer } from "./helper-comp/TweetRenderer";
+import { TweetRenderer } from "@/components//helper-comp/TweetRenderer";
 import { tweetSchema } from "@/lib/schemas/testimonial.schema";
 import z from "zod";
 import { useAppContext } from "@/context/AppContext";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 const tweetPropsSchema = tweetSchema.extend({

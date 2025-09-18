@@ -1,15 +1,21 @@
 import StarRatings from "react-star-ratings";
 import TweetCard from "./TweetCard";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
+import { Testimonial } from "@/lib/schemas/testimonial.schema"
 
+
+export interface TestimonialsProps {
+testimonial:Testimonial,
+  mode:boolean|String,
+}
 const Testimonials = ({
 testimonial,
 mode
-}) => {
+}:TestimonialsProps) => {
   const dateObj = new Date(testimonial.createdAt);
-  const options = { year: "numeric", month: "short", day: "2-digit" };
+  const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "short", day: "2-digit" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     dateObj
   );
@@ -34,8 +40,8 @@ mode
                     isAdmin={false}
                     imgPath={testimonial.imgPath}
                     xId={testimonial.xId}
-                    Id={testimonial._id}
-                    key={testimonial._id}
+                    Id={testimonial.id}
+                    key={testimonial.id}
                     WOF={testimonial.WOF}
                     name={testimonial.name}
                     testimonial={testimonial?.testimonial}
@@ -46,7 +52,8 @@ mode
                     imgMedia={testimonial?.imgMedia}
                     poster={testimonial?.poster}
                     video={testimonial?.video}
-                    mode={mode}
+                    spaceId={testimonial.spaceId}
+                    createdAt={testimonial.createdAt}
                     />
       </div>
     );

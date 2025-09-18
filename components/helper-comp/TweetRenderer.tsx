@@ -32,7 +32,7 @@ const EntitiesSchema = z.object({
 const TweetRendererSchema = z.object({
   text: z.string(),
   entities: EntitiesSchema.optional(),
-  isAdmin:z.boolean()
+  isAdmin:z.boolean().optional()
 });
 
 type TweetRendererProps = z.infer<typeof TweetRendererSchema>;

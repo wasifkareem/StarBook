@@ -3,10 +3,10 @@
 import { useAppContext } from '@/context/AppContext';
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@radix-ui/react-select';
 import { CreditCard } from 'lucide-react';
-import { Cover } from './ui/cover';
+import { Cover } from '@/components/ui/cover';
 
 const Navbar = () => {
     const { isSignedIn } = useUser();

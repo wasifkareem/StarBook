@@ -8,9 +8,9 @@ import { FaSquareCheck } from "react-icons/fa6";
 import { Testimonial } from "@/lib/schemas/testimonial.schema";
 import { useAppContext } from "@/context/AppContext";
 import StarRatings from "react-star-ratings";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/stateful-button";
-import { Separator } from "./ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/stateful-button";
+import { Separator } from "@/components/ui/separator";
 
 
 

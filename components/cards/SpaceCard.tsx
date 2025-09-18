@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 // import "reactjs-popup/dist/index.css";
-import DeleteSpace from "./DeleteSpace";
+import DeleteSpace from "@/components/dialog/DeleteSpace";
 import z from "zod";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 
 const spaceCardPropsSchema = z.object({

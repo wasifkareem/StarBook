@@ -15,6 +15,7 @@ export const tweetSchema = z.object({
   entities: z.any().optional(),
   likes: z.number().optional(),
   date: z.string(),
+  createdAt:z.string(),
 });
 export const TestimonialSchema = z.object({
   starRating: z.number().optional(),
@@ -22,7 +23,7 @@ export const TestimonialSchema = z.object({
   tip: z.number().nullable().optional(),
   title: z.string().nullable().optional(),
   tweet: z.boolean().optional(),
-  id:z.string().optional()
+  id:z.string()
 });
 
 export const createTestimonialSchema = tweetSchema.extend(

@@ -77,6 +77,7 @@ const Home = () => {
                 </div>
               
               </div>
+              
               <IframeResizer
                 license='GPLv3'
                 log="collapsed"

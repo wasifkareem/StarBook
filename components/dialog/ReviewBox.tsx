@@ -1,12 +1,12 @@
 import { spaceInfoSchema } from "@/lib/schemas/space.schema";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 import StarRatings from "react-star-ratings";
 import { toast } from "sonner";
 import z from "zod";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 const ReviewBoxPropsSchema = z.object({
   spaceInfo:spaceInfoSchema,
@@ -37,6 +37,16 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
   const [imgPreview, setImgPreview] = useState<string|undefined>(undefined);
   const [isChecked, setIsChecked] = useState(false);
   const { userId } = useAuth();
+
+    useEffect(() => {
+      const handleEsc = (e:any) => {
+        if (e.key === "Escape") {
+          setToggle(false);
+        }
+      };
+      window.addEventListener("keydown", handleEsc);
+      return () => window.removeEventListener("keydown", handleEsc);
+    }, []);
   const changeRating = (newRating:number) => {
     setRating(newRating);
   };

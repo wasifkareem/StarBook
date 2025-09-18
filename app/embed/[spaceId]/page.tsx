@@ -1,12 +1,9 @@
 'use client'
 
 import { use, useEffect, useState } from "react";
-import Testimonials from "@/components/Testimonials";
-import { useWindowDimensions } from "@/lib/dimension";
 import { Testimonial } from "@/lib/schemas/testimonial.schema";
-import { prisma } from "@/lib/db";
 import { useAppContext } from "@/context/AppContext";
-import Canvas from "@/components/Canvas";
+import Canvas from "@/components/layout/Canvas";
 import("@iframe-resizer/child");
 
 

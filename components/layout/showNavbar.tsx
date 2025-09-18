@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/layout/Navbar'
 
 export default function ShowNavbar() {
   const pathname = usePathname()

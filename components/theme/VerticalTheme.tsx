@@ -1,6 +1,6 @@
 import { useWindowDimensions } from "@/lib/dimension";
-import { CanvasProps } from "../Canvas"
-import Testimonials from "../Testimonials";
+import { CanvasProps } from "../layout/Canvas"
+import Testimonials from "@/components/cards/Testimonials";
 
 const VerticalTheme = ({publicTestimonials, mode}:CanvasProps) => {
   const { width } = useWindowDimensions();

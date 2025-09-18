@@ -7,17 +7,17 @@ import { FaPenFancy } from "react-icons/fa";
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
 import z from "zod";
-import AddSpace from "@/components/AddSpace";
-import Loader from "@/components/Loader";
+import AddSpace from "@/components/dialog/AddSpace";
+import Loader from "@/components/layout/Loader";
 import Link from "next/link";
 
 // import DashoardCard from "../components/DashoardCard.jsx";
-import Insights from "@/components/Insights.jsx";
+import Insights from "@/components/dialog/Insights";
 // import Loader from "../components/Loader.jsx";
-import TwitterCard from "@/components/TwitterCard";
+import TwitterCard from "@/components/cards/TwitterCard";
 import { useAppContext } from "@/context/AppContext";
-import DashoardCard from "@/components/DashoardCard";
-import Wall from "@/components/Wall";
+import DashoardCard from "@/components/cards/DashoardCard";
+import Wall from "@/components/layout/Wall";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { toast } from "sonner";
 
@@ -144,7 +144,7 @@ const maxTestimonials = state.pro?25:7
       {wallPageToggle ? (
         <Wall
           spaceId={spaceId}
-          publicTestimonials={publicTestimonials}
+          publicTestimonials={publicTestimonials||[]}
           setWallPageToggle={setWallPageToggle}
         />
       ) : null}

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useUser } from "@clerk/clerk-react";
 import z from "zod";
 import { spaceInfoSchema } from "@/lib/schemas/space.schema";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/context/AppContext";
 import { IoClose } from "react-icons/io5";
 

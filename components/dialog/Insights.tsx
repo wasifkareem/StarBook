@@ -3,11 +3,17 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { SquareX } from "lucide-react";
+import { SpaceInfo, spaceInfoSchema } from "@/lib/schemas/space.schema";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const Insights = ({ setInsightsToggle, spaceInfo }) => {
-  const [aiInsights, setAiInsights] = useState(null);
+interface InsightsProps {
+  setInsightsToggle:(toggle:boolean)=>void,
+  spaceInfo: SpaceInfo
+}
+
+const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
+  const [aiInsights, setAiInsights] = useState<any>(null);
   const [isfetching, setIsfetching] = useState(true);
 
   useEffect(() => {
@@ -54,7 +60,7 @@ const Insights = ({ setInsightsToggle, spaceInfo }) => {
   }, [spaceInfo?.id]); 
 
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e:any) => {
       if (e.key === "Escape") {
         setInsightsToggle(false);
       }
