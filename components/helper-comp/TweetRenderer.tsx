@@ -1,6 +1,6 @@
-import { useAppContext } from '@/context/AppContext';
-import React, { ReactElement, useState } from 'react';
-import z from 'zod';
+import { useAppContext } from "@/context/AppContext";
+import React, { ReactElement, useState } from "react";
+import z from "zod";
 
 const UrlEntitySchema = z.object({
   indices: z.tuple([z.number(), z.number()]),
@@ -32,51 +32,54 @@ const EntitiesSchema = z.object({
 export const TweetRendererSchema = z.object({
   text: z.string(),
   entities: EntitiesSchema.optional(),
-  isAdmin:z.boolean().optional()
+  isAdmin: z.boolean().optional(),
 });
 
 type TweetRendererProps = z.infer<typeof TweetRendererSchema>;
 
 type RenderEntity =
   | {
-      type: 'url';
+      type: "url";
       start: number;
       end: number;
       content: string;
       href: string;
     }
   | {
-    type: 'mention';
-    start: number;
-    end: number;
-    content: string;
-    href: string;
-  }
-  | {
-      type: 'hashtag';
+      type: "mention";
       start: number;
       end: number;
       content: string;
       href: string;
     }
   | {
-      type: 'media';
+      type: "hashtag";
+      start: number;
+      end: number;
+      content: string;
+      href: string;
+    }
+  | {
+      type: "media";
       start: number;
       end: number;
       content: string;
       href?: undefined;
     };
 
-export function TweetRenderer({ text, entities, isAdmin}: TweetRendererProps): ReactElement {
+export function TweetRenderer({
+  text,
+  entities,
+  isAdmin,
+}: TweetRendererProps): ReactElement {
   const { state } = useAppContext();
   const [isExpanded, setIsExpanded] = useState(false);
   const CHARACTER_LIMIT = 180;
   const isLongText = text.length > CHARACTER_LIMIT;
-  
+
   // Truncate text if needed
-  const displayText = isLongText && !isExpanded 
-    ? text.slice(0, CHARACTER_LIMIT) + '...'
-    : text;
+  const displayText =
+    isLongText && !isExpanded ? text.slice(0, CHARACTER_LIMIT) + "..." : text;
 
   const urls = entities?.urls ?? [];
   const mentions = entities?.user_mentions ?? [];
@@ -85,38 +88,39 @@ export function TweetRenderer({ text, entities, isAdmin}: TweetRendererProps): R
 
   const allEntities: RenderEntity[] = [
     ...urls.map((e) => ({
-      type: 'url' as const,
+      type: "url" as const,
       start: e.indices[0],
       end: e.indices[1],
       content: e.display_url,
       href: e.expanded_url,
     })),
     ...mentions.map((e) => ({
-      type: 'mention' as const,
+      type: "mention" as const,
       start: e.indices[0],
       end: e.indices[1] + 1,
       content: ` @${e.screen_name} `,
       href: `https://twitter.com/${e.screen_name}`,
     })),
     ...hashtags.map((e) => ({
-      type: 'hashtag' as const,
+      type: "hashtag" as const,
       start: e.indices[0],
       end: e.indices[1] + 1,
       content: ` #${e.text}`,
       href: `https://x.com/hashtag/${e.text}?src=hashtag_click`,
     })),
     ...media.map((e) => ({
-      type: 'media' as const,
+      type: "media" as const,
       start: e.indices[0],
       end: e.indices[1] + 7,
-      content: '',
+      content: "",
     })),
   ];
 
   // Filter entities that are within the display text range
-  const visibleEntities = isLongText && !isExpanded
-    ? allEntities.filter(entity => entity.start < CHARACTER_LIMIT)
-    : allEntities;
+  const visibleEntities =
+    isLongText && !isExpanded
+      ? allEntities.filter((entity) => entity.start < CHARACTER_LIMIT)
+      : allEntities;
 
   visibleEntities.sort((a, b) => a.start - b.start);
 
@@ -129,9 +133,12 @@ export function TweetRenderer({ text, entities, isAdmin}: TweetRendererProps): R
     }
 
     result.push(
-      <span key={`${entity.type}-${entity.start}-${i}`} style={{ color: '#1DA1F2', textDecoration: 'none' }}>
+      <span
+        key={`${entity.type}-${entity.start}-${i}`}
+        style={{ color: "#1DA1F2", textDecoration: "none" }}
+      >
         {entity.content}
-      </span>
+      </span>,
     );
 
     lastIndex = entity.end;
@@ -141,34 +148,43 @@ export function TweetRenderer({ text, entities, isAdmin}: TweetRendererProps): R
     result.push(displayText.slice(lastIndex));
   }
 
-  const withBreaks: Array<string | React.JSX.Element> = result.flatMap((part, index) =>
-    typeof part === 'string'
-      ? part.split('\n').flatMap((line, i, arr) =>
-          i < arr.length - 1 ? [line, <br key={`br-${index}-${i}`} />] : [line]
-        )
-      : [part]
+  const withBreaks: Array<string | React.JSX.Element> = result.flatMap(
+    (part, index) =>
+      typeof part === "string"
+        ? part
+            .split("\n")
+            .flatMap((line, i, arr) =>
+              i < arr.length - 1
+                ? [line, <br key={`br-${index}-${i}`} />]
+                : [line],
+            )
+        : [part],
   );
 
   return (
     <div>
-      {isAdmin ?<p 
-        className={`font-sans ml-1 text-[15px] my-7`} 
-        style={{ whiteSpace: 'pre-wrap' }}
-      >
-        {withBreaks}
-      </p>:<p 
-        className={`font-sans ml-1 ${state.field=='sm' && "text-[13px] my-5"} ${state.field=='base' && "text-[15px] my-7"} ${state.field=='lg' && "text-[18px] my-10"}`} 
-        style={{ whiteSpace: 'pre-wrap' }}
-      >
-        {withBreaks}
-      </p>}
-      
+      {isAdmin ? (
+        <p
+          className={`font-sans ml-1 text-[15px] my-7`}
+          style={{ whiteSpace: "pre-wrap" }}
+        >
+          {withBreaks}
+        </p>
+      ) : (
+        <p
+          className={`font-sans ml-1 ${state.field == "sm" && "text-[13px] my-5"} ${state.field == "base" && "text-[15px] my-7"} ${state.field == "lg" && "text-[18px] my-10"}`}
+          style={{ whiteSpace: "pre-wrap" }}
+        >
+          {withBreaks}
+        </p>
+      )}
+
       {isLongText && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className={`text-blue-500 hover:text-blue-700 hover:underline ml-1 ${state.field=='sm' && "text-[12px]"} ${state.field=='base' && "text-[14px]"} ${state.field=='lg' && "text-[16px]"}`}
+          className={`text-blue-500 hover:text-blue-700 hover:underline ml-1 ${state.field == "sm" && "text-[12px]"} ${state.field == "base" && "text-[14px]"} ${state.field == "lg" && "text-[16px]"}`}
         >
-          {isExpanded ? 'Show less' : 'Show more'}
+          {isExpanded ? "Show less" : "Show more"}
         </button>
       )}
     </div>

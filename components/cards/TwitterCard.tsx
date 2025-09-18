@@ -10,48 +10,44 @@ import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
 export const twitterCardPropsSchema = z.object({
-  spaceId:z.string(),
-  testimonials:z.array(testimonialSchema)
-})
+  spaceId: z.string(),
+  testimonials: z.array(testimonialSchema),
+});
 
-export type twitterCardProps = z.infer<typeof twitterCardPropsSchema>
-const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
+export type twitterCardProps = z.infer<typeof twitterCardPropsSchema>;
+const TwitterCard = ({ spaceId, testimonials }: twitterCardProps) => {
   const [url, setUrl] = useState("");
-    const {setReloadTweets,state} = useAppContext()
+  const { setReloadTweets, state } = useAppContext();
   const [isFetching, setIsFetching] = useState(false);
   const id = url.split("/")[5];
   const tweetData = testimonials?.filter((t) => t.tweet);
-  const maxTweets = state.pro?25:7;
-  
+  const maxTweets = state.pro ? 25 : 7;
 
   const handleClick = async () => {
-    if(testimonials.length>=maxTweets){
-      toast.warning('Testimonial limit reached:7',{
-        action:{
-          label:'Upgrade to Pro',
-          onClick:() => window.location.href = '/billing'
-        }
-      })
-    return
+    if (testimonials.length >= maxTweets) {
+      toast.warning("Testimonial limit reached:7", {
+        action: {
+          label: "Upgrade to Pro",
+          onClick: () => (window.location.href = "/billing"),
+        },
+      });
+      return;
     }
     setIsFetching(true);
     try {
-      if(id==undefined){
-        toast.warning('Invalid URL')
-        setIsFetching(false)
-        return
+      if (id == undefined) {
+        toast.warning("Invalid URL");
+        setIsFetching(false);
+        return;
       }
-      const response = await fetch(
-        `/api/testimonials/fetch-tweet?xId=${id}`,
-        
-      );
-      console.log(response)
-      if(!response.ok){
-        toast.error('Something went wrong, try again!!');
-        setIsFetching(false)
+      const response = await fetch(`/api/testimonials/fetch-tweet?xId=${id}`);
+      console.log(response);
+      if (!response.ok) {
+        toast.error("Something went wrong, try again!!");
+        setIsFetching(false);
       }
 
-      const tweet =await response.json()
+      const tweet = await response.json();
       const data = {
         tweet: true,
         spaceId: spaceId,
@@ -67,22 +63,21 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
         date: tweet.created_at,
         xId: tweet.id_str,
       };
-      const res = await fetch(
-        `/api/testimonials/create`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+      const res = await fetch(`/api/testimonials/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       if (res.ok) {
         toast.success("Testimonial Created");
         setReloadTweets(!state.reloadTweets);
         setIsFetching(false);
         setUrl("");
-      }else{
-        toast.error('Something went wrong!!');
-        setIsFetching(false)
+      } else {
+        toast.error("Something went wrong!!");
+        setIsFetching(false);
       }
     } catch (err) {
       console.error(err);
@@ -93,32 +88,36 @@ const TwitterCard = ({ spaceId, testimonials }:twitterCardProps) => {
     <>
       <div className="flex w-full my-5 px-4">
         <div className=" flex flex-col md:flex-row items-center gap-2 w-full justify-center ">
-            <label className="font-semibold hidden md:block" htmlFor="">
-              Tweet URL :{" "}
-            </label>
-            <input
-              value={url}
-              className="outline-cyan-700 w-full max-w-[450px] self-center rounded border border-slate-300 px-2 py-1"
-              type="text"
-              placeholder="https://x.com/elonmusk/status/1830650370336473253"
-              onChange={(e) => setUrl(e.target.value)}
-            />
-            {!url.trim()?<Tooltip>
-            <TooltipTrigger className=" cursor-not-allowed">
-            
-            <Button variant="outline" className="mx-2 shrink-0"  >
-            <RiTwitterXFill />
-           
-            Get tweet
+          <label className="font-semibold hidden md:block" htmlFor="">
+            Tweet URL :{" "}
+          </label>
+          <input
+            value={url}
+            className="outline-cyan-700 w-full max-w-[450px] self-center rounded border border-slate-300 px-2 py-1"
+            type="text"
+            placeholder="https://x.com/elonmusk/status/1830650370336473253"
+            onChange={(e) => setUrl(e.target.value)}
+          />
+          {!url.trim() ? (
+            <Tooltip>
+              <TooltipTrigger className=" cursor-not-allowed">
+                <Button variant="outline" className="mx-2 shrink-0">
+                  <RiTwitterXFill />
+                  Get tweet
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Add a URL first!!</TooltipContent>
+            </Tooltip>
+          ) : (
+            <Button
+              variant="outline"
+              className="mx-2 shrink-0"
+              onClick={handleClick}
+            >
+              <RiTwitterXFill className={`${isFetching && "animate-spin"}`} />
+              Get tweet
             </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              Add a URL first!!
-            </TooltipContent>
-            </Tooltip>: <Button variant="outline" className="mx-2 shrink-0" onClick={handleClick}  >
-            <RiTwitterXFill className={`${isFetching && "animate-spin"}`} />
-            Get tweet
-            </Button>}
+          )}
         </div>
       </div>
       <div className="w-full flex justify-center px-4">

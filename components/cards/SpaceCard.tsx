@@ -8,16 +8,21 @@ import z from "zod";
 import Image from "next/image";
 
 export const spaceCardPropsSchema = z.object({
-  imgPath:z.string(),
-  spaceName:z.string(),
-  spaceId:z.string(),
-  testimonialCount:z.number()
-})
+  imgPath: z.string(),
+  spaceName: z.string(),
+  spaceId: z.string(),
+  testimonialCount: z.number(),
+});
 
-type spaceCardProps = z.infer<typeof spaceCardPropsSchema>
-const SpaceCard = ({ imgPath, spaceName, spaceId,testimonialCount }:spaceCardProps) => {
+type spaceCardProps = z.infer<typeof spaceCardPropsSchema>;
+const SpaceCard = ({
+  imgPath,
+  spaceName,
+  spaceId,
+  testimonialCount,
+}: spaceCardProps) => {
   const [toggle, setToggle] = useState(false);
-  const handleDel = (e:React.MouseEvent<HTMLButtonElement>) => {
+  const handleDel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setToggle(true);
   };
@@ -31,31 +36,30 @@ const SpaceCard = ({ imgPath, spaceName, spaceId,testimonialCount }:spaceCardPro
         />
       ) : null}
       <Link href={`/products/${spaceId}`}>
-       <Card className=" overflow-hidden shadow-yellow-glow ">
+        <Card className=" overflow-hidden shadow-yellow-glow ">
           <CardContent className="flex flex-row relative pr-24">
-
-          <button
-            onClick={(e) => handleDel(e)}
-            className="  absolute top-0 right-4 "
-          >
-            <MdDeleteForever className="text-2xl text-slate-400 hover:text-red-900 transition-colors" />
-          </button>
-          <Image
-          width={200}
-          height={200}
-            className=" h-32 w-32 object-cover border bg-white rounded-3xl"
-            loading="lazy"
-            src={imgPath ? imgPath : "/assets/review.png"}
-            alt=""
-          />
-          <div className="xl px-5 py-3">
-            <h2 className=" font-semibold text-xl">{spaceName}</h2>
-            <p className=" text-shadow-muted-foreground">Testimonials:{testimonialCount}</p>
-          </div>
+            <button
+              onClick={(e) => handleDel(e)}
+              className="  absolute top-0 right-4 "
+            >
+              <MdDeleteForever className="text-2xl text-slate-400 hover:text-red-900 transition-colors" />
+            </button>
+            <Image
+              width={200}
+              height={200}
+              className=" h-32 w-32 object-cover border bg-white rounded-3xl"
+              loading="lazy"
+              src={imgPath ? imgPath : "/assets/review.png"}
+              alt=""
+            />
+            <div className="xl px-5 py-3">
+              <h2 className=" font-semibold text-xl">{spaceName}</h2>
+              <p className=" text-shadow-muted-foreground">
+                Testimonials:{testimonialCount}
+              </p>
+            </div>
           </CardContent>
-
-          </Card>
-
+        </Card>
       </Link>
     </>
   );

@@ -7,37 +7,40 @@ import { useAppContext } from "@/context/AppContext";
 import { Button } from "@/components/ui/button";
 
 const deleteSpaceProps = z.object({
-  setToggle:z.any(),
-  spaceName:z.string(),
-  spaceId:z.string()
-})
+  setToggle: z.any(),
+  spaceName: z.string(),
+  spaceId: z.string(),
+});
 
-type deleteSpaceProps = z.infer<typeof deleteSpaceProps>
+type deleteSpaceProps = z.infer<typeof deleteSpaceProps>;
 
-const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
-  const {user} = useUser();
-  console.log(user)
-  const [input, setInput] = useState<string|null>(null);
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+const DeleteSpace = ({ setToggle, spaceName, spaceId }: deleteSpaceProps) => {
+  const { user } = useUser();
+  console.log(user);
+  const [input, setInput] = useState<string | null>(null);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
-  const {setReloadSpaces} = useAppContext()
+  const { setReloadSpaces } = useAppContext();
 
   const handleClick = async () => {
     if (input == spaceName) {
-      const response = await fetch(`/api/space/delete-space?spaceId=${encodeURIComponent(spaceId)}&&userEmail=${user?.primaryEmailAddress?.emailAddress}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
+      const response = await fetch(
+        `/api/space/delete-space?spaceId=${encodeURIComponent(spaceId)}&&userEmail=${user?.primaryEmailAddress?.emailAddress}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
-       if(!response.ok){
-        throw new Error('Failed to delete space!!')
-       }
-       toast.success('Space deleted successfully 🚮')
-       setReloadSpaces(true)
-      } else {
+      if (!response.ok) {
+        throw new Error("Failed to delete space!!");
+      }
+      toast.success("Space deleted successfully 🚮");
+      setReloadSpaces(true);
+    } else {
       toast.warning("Make sure the space name is correct.");
     }
   };
@@ -56,7 +59,7 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
           This action might cause in irreversible data loss,
           <br /> if you want to continue, please type{" "}
           <span className="  px-1   text-center pb-1 font-semibold text-red-900">
-          &quot;{spaceName}&quot;
+            &quot;{spaceName}&quot;
           </span>{" "}
           below{" "}
         </p>

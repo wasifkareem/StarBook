@@ -22,17 +22,19 @@ import { Testimonial } from "@/app/products/[spaceId]/page";
 import Image from "next/image";
 
 interface WallProps {
-  publicTestimonials:Testimonial[],
-  spaceId:string,
+  publicTestimonials: Testimonial[];
+  spaceId: string;
   setWallPageToggle: (pogeToggle: boolean) => void;
-
-  
 }
 
-const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
+const Wall = ({
+  publicTestimonials,
+  setWallPageToggle,
+  spaceId,
+}: WallProps) => {
   const [mode, setMode] = useState(false);
-  const { setField, state,setTheme } = useAppContext();
-  const [isPending, startTransition]=useTransition()
+  const { setField, state, setTheme } = useAppContext();
+  const [isPending, startTransition] = useTransition();
   const code = ` <iframe id="starbook-${spaceId}" src="http://localhost:3000/embed/${spaceId}" frameborder="0" scrolling="no" width="100%"></iframe>
  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
  <script>
@@ -43,24 +45,25 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
     isDark: mode,
     spaceId: spaceId,
     field: state?.field,
-    theme:state?.theme
+    theme: state?.theme,
   };
   const handleTheme = async () => {
-   startTransition(async()=>{
-    const res = await fetch("/api/add-theme", {
-      method: "POST",
-      body: JSON.stringify(data),
+    startTransition(async () => {
+      const res = await fetch("/api/add-theme", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        toast.message("Theme updated successfully", {
+          description:
+            "Copy Embed code and add the tesimonails Wall on your website or landing Pages",
+        });
+      }
     });
-    if (res.ok) {
-      toast.message('Theme updated successfully',{
-        description:'Copy Embed code and add the tesimonails Wall on your website or landing Pages'
-      })
-    }
-  })
   };
 
   useEffect(() => {
-    const handleEsc = (e:KeyboardEvent) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setWallPageToggle(false);
       }
@@ -71,15 +74,15 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`/api/fetch-theme?spaceId=${spaceId}`)
-      const theme = await response.json()
-      setMode(theme?.isDark)
-      setField(theme?.field)
-      setTheme(theme?.theme)
-    })()
-  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+      const response = await fetch(`/api/fetch-theme?spaceId=${spaceId}`);
+      const theme = await response.json();
+      setMode(theme?.isDark);
+      setField(theme?.field);
+      setTheme(theme?.theme);
+    })();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
@@ -91,7 +94,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
           onClick={() => setWallPageToggle(false)}
           className="self-end text-3xl border rounded-[6px] m-4 "
         >
-         <IoClose className=" text-neutral-500 hover:text-neutral-600"/>
+          <IoClose className=" text-neutral-500 hover:text-neutral-600" />
         </button>
         <div className="flex flex-col justify-center">
           <p className="text-center font-bold text-3xl mb-4">
@@ -117,7 +120,11 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
                 <div>
                   <p className="text-sm text-[#81878d]">Select a font size :</p>
                   <Separator className="my-2 mb-4" />
-                  <RadioGroup value={state.field||'base'} className="flex" onValueChange={setField}>
+                  <RadioGroup
+                    value={state.field || "base"}
+                    className="flex"
+                    onValueChange={setField}
+                  >
                     <div className="flex items-center gap-3">
                       <RadioGroupItem
                         className="border-muted"
@@ -145,7 +152,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
                   </RadioGroup>
                 </div>
                 <Separator orientation="vertical" />
-                <Select onValueChange={setTheme} value={state.theme} >
+                <Select onValueChange={setTheme} value={state.theme}>
                   <SelectTrigger className="w-[180px] border-[#e1eaef] rounded-[7px]">
                     <SelectValue placeholder="Select a theme" />
                   </SelectTrigger>
@@ -161,7 +168,6 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
                       <SelectItem className="rounded-[7px]" value="vertical">
                         Animated - Vertical
                       </SelectItem>
-                     
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -169,11 +175,17 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
               <div className="flex justify-center items-center gap-4">
                 <hr className="h-20 w-[1px] bg-gray-300" />
                 <Button onClick={handleTheme} className="w-fit">
-                {isPending ?   <Image width={100} height={100}
-                    className="m-2 h-4 "
-                    src="/assets/Spinner@1x-1.0s-200px-200px.svg"
-                    alt=""
-                  />:"Save"}
+                  {isPending ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      className="m-2 h-4 "
+                      src="/assets/Spinner@1x-1.0s-200px-200px.svg"
+                      alt=""
+                    />
+                  ) : (
+                    "Save"
+                  )}
                 </Button>
               </div>
             </div>
@@ -185,8 +197,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
           </p>
         ) : (
           <div className="bg-slate-500 relative mx-10 rounded-[10px] shadow-inner shadow-shadow-color">
-            
-          <Canvas publicTestimonials={publicTestimonials||[]} mode={mode}/>
+            <Canvas publicTestimonials={publicTestimonials || []} mode={mode} />
           </div>
         )}
       </div>
@@ -195,4 +206,3 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
 };
 
 export default Wall;
-

@@ -33,25 +33,25 @@ export type SpaceForm = z.infer<typeof addSpaceFormSchema>;
 
 const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
   const [headerPreview, setHeaderPreview] = useState<string | null>(
-    isEdit && spaceInfo ? spaceInfo.headerTitle : null
+    isEdit && spaceInfo ? spaceInfo.headerTitle : null,
   );
   const [msgPreview, setMsgPreview] = useState<string | null>(
-    isEdit && spaceInfo ? spaceInfo.message : null
+    isEdit && spaceInfo ? spaceInfo.message : null,
   );
   const [one, setOne] = useState<string | null>(
-    isEdit && spaceInfo ? spaceInfo.qOne : null
+    isEdit && spaceInfo ? spaceInfo.qOne : null,
   );
   const [two, setTwo] = useState<string | null>(
-    isEdit && spaceInfo ? spaceInfo.qTwo : null
+    isEdit && spaceInfo ? spaceInfo.qTwo : null,
   );
   const [three, setThree] = useState<string | null>(
-    isEdit && spaceInfo ? spaceInfo.qThree : null
+    isEdit && spaceInfo ? spaceInfo.qThree : null,
   );
   const [isFetching, setIsFetching] = useState(false);
   const [ImgFile, setImgFile] = useState<File | null>(null);
   const { setReloadCards, state } = useAppContext();
   const [imgPreview, setImgPreview] = useState<string | null>(
-    isEdit && spaceInfo ? (spaceInfo?.imgPath ?? null) : null
+    isEdit && spaceInfo ? (spaceInfo?.imgPath ?? null) : null,
   );
   const { user } = useUser();
   const emailAddress = user?.primaryEmailAddress?.emailAddress;
@@ -128,7 +128,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
-          }
+          },
         );
 
         if (response.ok) {

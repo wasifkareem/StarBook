@@ -11,10 +11,9 @@ export const createSpaceSchema = z.object({
   qThree: z.string(),
 });
 
-
 export const spaceQuerySchema = z.object({
-spaceId:z.string()
-})
+  spaceId: z.string(),
+});
 
 export const updateSpaceSchema = z.object({
   spaceName: z.string(),
@@ -24,16 +23,16 @@ export const updateSpaceSchema = z.object({
   qOne: z.string(),
   qTwo: z.string(),
   qThree: z.string(),
-  tipBox: z.boolean().optional()
-})
+  tipBox: z.boolean().optional(),
+});
 
 export const fetchSpacesSchema = z.object({
-  email:z.email(),
-})
+  email: z.email(),
+});
 
 export const testimonialSchema = z.object({
   id: z.string(),
-  createdAt: z.string(), 
+  createdAt: z.string(),
   updatedAt: z.string(),
   imgPath: z.string(),
   starRating: z.number().optional(),
@@ -57,7 +56,7 @@ export const testimonialSchema = z.object({
 
 export const spaceInfoSchema = z.object({
   id: z.string(),
-  createdAt: z.iso.datetime(), 
+  createdAt: z.iso.datetime(),
   updatedAt: z.string(),
   ownerEmail: z.email(),
   spaceName: z.string(),
@@ -71,9 +70,9 @@ export const spaceInfoSchema = z.object({
   testimonials: z.array(testimonialSchema),
 });
 
-export type SpaceInfo = z.infer<typeof spaceInfoSchema>
+export type SpaceInfo = z.infer<typeof spaceInfoSchema>;
 
-export type fetchSpaces = z.infer<typeof fetchSpacesSchema>
-export type updateSpaces = z.infer<typeof updateSpaceSchema>
-export type spaceQuery  =z.infer<typeof spaceQuerySchema>
-export type createSpace = z.infer<typeof createSpaceSchema>
+export type fetchSpaces = z.infer<typeof fetchSpacesSchema>;
+export type updateSpaces = z.infer<typeof updateSpaceSchema>;
+export type spaceQuery = z.infer<typeof spaceQuerySchema>;
+export type createSpace = z.infer<typeof createSpaceSchema>;

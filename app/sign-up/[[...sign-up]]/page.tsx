@@ -1,11 +1,11 @@
-import { SignUp } from '@clerk/nextjs'
+import { SignUp } from '@clerk/nextjs';
 
 export default function Page() {
-  return(
+  return (
     <>
-     <div className=' w-full flex justify-center md:mt-20 h-screen'>
-     <SignUp />
-     </div>
+      <div className=" w-full flex justify-center md:mt-20 h-screen">
+        <SignUp />
+      </div>
     </>
-  )
+  );
 }

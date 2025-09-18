@@ -9,9 +9,9 @@ import { toast } from "sonner";
 import z from "zod";
 
 export const ReviewBoxPropsSchema = z.object({
-  spaceInfo:spaceInfoSchema,
-  setToggle:z.any()
-})
+  spaceInfo: spaceInfoSchema,
+  setToggle: z.any(),
+});
 export const AddReviewSchema = z.object({
   email: z.email(),
   name: z.string().min(1),
@@ -20,28 +20,28 @@ export const AddReviewSchema = z.object({
   imgPath: z.url(),
   spaceId: z.string(),
   starRating: z.number().min(1).max(5),
-  date:z.string()
-})
-type AddReview = z.infer<typeof AddReviewSchema>
-type reviewBox = z.infer<typeof ReviewBoxPropsSchema>
+  date: z.string(),
+});
+type AddReview = z.infer<typeof AddReviewSchema>;
+type reviewBox = z.infer<typeof ReviewBoxPropsSchema>;
 
-const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
+const ReviewBox = ({ spaceInfo, setToggle }: reviewBox) => {
   const [isFetching, setIsFetching] = useState(false);
   const [rating, setRating] = useState<number>(5);
   const [ImgFile, setImgFile] = useState<File | null>(null);
-  const [imgPreview, setImgPreview] = useState<string|undefined>(undefined);
+  const [imgPreview, setImgPreview] = useState<string | undefined>(undefined);
   const [isChecked, setIsChecked] = useState(false);
 
-    useEffect(() => {
-      const handleEsc = (e:KeyboardEvent) => {
-        if (e.key === "Escape") {
-          setToggle(false);
-        }
-      };
-      window.addEventListener("keydown", handleEsc);
-      return () => window.removeEventListener("keydown", handleEsc);
-    }, [setToggle]);
-  const changeRating = (newRating:number) => {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setToggle(false);
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [setToggle]);
+  const changeRating = (newRating: number) => {
     setRating(newRating);
   };
   const {
@@ -50,14 +50,14 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
     reset,
     formState: { errors },
   } = useForm<AddReview>();
-  const handleImage = (e:React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files && e.target.files[0]){
-    setImgFile(e.target.files[0]);
-    const url = URL.createObjectURL(e.target.files[0]);
-    setImgPreview(url);
-   }
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImgFile(e.target.files[0]);
+      const url = URL.createObjectURL(e.target.files[0]);
+      setImgPreview(url);
+    }
   };
-  const onSubmit = async (data:AddReview) => {
+  const onSubmit = async (data: AddReview) => {
     try {
       if (!ImgFile) {
         toast.warning("Please upload a photo of yours");
@@ -65,7 +65,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
       }
       if (!isChecked) {
         toast.warning(
-          "Please give permission to share your testimonials on our socials!"
+          "Please give permission to share your testimonials on our socials!",
         );
         return;
       }
@@ -73,45 +73,39 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
       setIsFetching(true);
       const imgFile = new FormData();
       imgFile.append("my_file", ImgFile);
-      const response = await fetch(
-        "/api/upload",
-        {
-          method:'POST',
-          body:imgFile
-        }
-      );
-     
-      if(response.ok){
-      const assetInfo = await response.json()
-      data.imgPath = assetInfo.url;
-      data.spaceId = spaceInfo?.id;
-      data.starRating = rating;
-      data.date =new Date().toISOString()
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: imgFile,
+      });
+
+      if (response.ok) {
+        const assetInfo = await response.json();
+        data.imgPath = assetInfo.url;
+        data.spaceId = spaceInfo?.id;
+        data.starRating = rating;
+        data.date = new Date().toISOString();
       }
 
-      const res = await fetch(
-        "/api/testimonials/create",{
-          method:'POST',
-          body:JSON.stringify(data)
-        }
-        
-      );
-      if(res.ok){
+      const res = await fetch("/api/testimonials/create", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
         reset();
-      setIsFetching(false);
-      setToggle(false);
-      toast.success("Thanks for the shoutout, it means a lot to Us!🤗");
-      }else{
-        toast.error('Something went wrong!!');
-        setIsFetching(false)
+        setIsFetching(false);
+        setToggle(false);
+        toast.success("Thanks for the shoutout, it means a lot to Us!🤗");
+      } else {
+        toast.error("Something went wrong!!");
+        setIsFetching(false);
       }
     } catch (err) {
       setIsFetching(false);
-      console.error(err)
+      console.error(err);
       toast.error("Something went wrong at our end! try again later.");
     }
   };
-  
+
   return (
     <div
       className="overflow-y-auto fixed top-0 bottom-0 left-0 right-0 flex flex-col "
@@ -124,37 +118,40 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
         >
           &times;
         </button>
-<div className=" flex flex-col mx-5">
-<p className=" font-semibold text-xl text-slate-800">
-          Write Text Testimonial to
-        </p>
-        <Image
-        width={100}
-        height={100}
-          className=" h-20 w-20 object-cover rounded-lg mt-3"
-          src={spaceInfo.imgPath || ""}
-          alt=""
-        />
-        <div className="  flex flex-col md:self-center">
-          <p className=" font-semibold text-lg mt-10 md:text-xl "> QUESTIONS</p>
-          <hr className=" w-8 h-1 bg-cyan-700 mt-2" />
-          <ul className="  text-slate-700 mt-5 mx-5 list-disc md:text-lg text-[14px]">
-            <li>{spaceInfo?.qOne}</li>
-            <li>{spaceInfo?.qTwo}</li>
-            <li>{spaceInfo?.qThree}</li>
-          </ul>
-        </div>
-        <div className=" mt-5">
-          <StarRatings
-            starHoverColor="#ffa534"
-            starRatedColor="#ffa534"
-            changeRating={changeRating}
-            starDimension="24px"
-            starSpacing="2px"
-            rating={rating}
+        <div className=" flex flex-col mx-5">
+          <p className=" font-semibold text-xl text-slate-800">
+            Write Text Testimonial to
+          </p>
+          <Image
+            width={100}
+            height={100}
+            className=" h-20 w-20 object-cover rounded-lg mt-3"
+            src={spaceInfo.imgPath || ""}
+            alt=""
           />
+          <div className="  flex flex-col md:self-center">
+            <p className=" font-semibold text-lg mt-10 md:text-xl ">
+              {" "}
+              QUESTIONS
+            </p>
+            <hr className=" w-8 h-1 bg-cyan-700 mt-2" />
+            <ul className="  text-slate-700 mt-5 mx-5 list-disc md:text-lg text-[14px]">
+              <li>{spaceInfo?.qOne}</li>
+              <li>{spaceInfo?.qTwo}</li>
+              <li>{spaceInfo?.qThree}</li>
+            </ul>
+          </div>
+          <div className=" mt-5">
+            <StarRatings
+              starHoverColor="#ffa534"
+              starRatedColor="#ffa534"
+              changeRating={changeRating}
+              starDimension="24px"
+              starSpacing="2px"
+              rating={rating}
+            />
+          </div>
         </div>
-</div>
         <form
           className="  self-center  mb-10 md:mb-2  py-4 flex flex-col  md:w-[500px]  gap-2"
           onSubmit={handleSubmit(onSubmit)}
@@ -224,8 +221,8 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
 
             {imgPreview ? (
               <Image
-              width={100}
-              height={100}
+                width={100}
+                height={100}
                 className=" h-16 rounded-full border w-16 "
                 src={imgPreview}
                 alt=""
@@ -242,7 +239,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
             onChange={handleImage}
             accept=".jpg,.jpeg,.png"
           />
-        
+
           <div className=" flex gap-2 mt-3 ">
             <Checkbox
               isChecked={isChecked}
@@ -258,8 +255,8 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
             >
               {isFetching ? (
                 <Image
-                width={100}
-                height={100}
+                  width={100}
+                  height={100}
                   className=" h-6"
                   src="/assets/Spinner@1x-1.0s-200px-200px.svg"
                   alt=""

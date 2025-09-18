@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { SpaceInfo } from "@/lib/schemas/space.schema";
 import { SquareX } from "lucide-react";
@@ -18,8 +18,8 @@ interface AiInsights {
 }
 
 interface InsightsProps {
-  setInsightsToggle:(toggle:boolean)=>void,
-  spaceInfo: SpaceInfo
+  setInsightsToggle: (toggle: boolean) => void;
+  spaceInfo: SpaceInfo;
 }
 
 const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
@@ -38,10 +38,10 @@ const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
 
         const InsightsRes = await fetch(
           `/api/get-insights?spaceId=${spaceInfo?.id}`,
-          { method: 'POST' }
+          { method: "POST" },
         );
 
-        if (isCancelled) return; 
+        if (isCancelled) return;
 
         if (!InsightsRes.ok) {
           toast.error("Something went wrong, Can't generate insights");
@@ -67,10 +67,10 @@ const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
     return () => {
       isCancelled = true;
     };
-  }, [spaceInfo?.id,spaceInfo?.testimonials?.length,setInsightsToggle]); 
+  }, [spaceInfo?.id, spaceInfo?.testimonials?.length, setInsightsToggle]);
 
   useEffect(() => {
-    const handleEsc = (e:KeyboardEvent) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setInsightsToggle(false);
       }
@@ -118,7 +118,9 @@ const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
               <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1 md:mt-3">
                 Issues :
               </label>
-              <p dangerouslySetInnerHTML={{ __html: aiInsights?.negative||'' }}></p>
+              <p
+                dangerouslySetInnerHTML={{ __html: aiInsights?.negative || "" }}
+              ></p>
             </div>
             <div className=" flex flex-col gap-2 ">
               <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1 md:mt-3">

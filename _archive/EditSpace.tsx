@@ -7,10 +7,10 @@ import { toast } from "sonner";
 
 const EditSpace = () => {
   const [isFetching, setIsFetching] = useState(false);
-  const [ImgFile, setImgFile] = useState<File|null>();
-  const [imgPreview, setImgPreview] = useState<string|null>();
-  const {user} = useUser();
-  const email = user?.primaryEmailAddress?.emailAddress
+  const [ImgFile, setImgFile] = useState<File | null>();
+  const [imgPreview, setImgPreview] = useState<string | null>();
+  const { user } = useUser();
+  const email = user?.primaryEmailAddress?.emailAddress;
   const {
     register,
     handleSubmit,
@@ -19,14 +19,14 @@ const EditSpace = () => {
     formState: { errors },
   } = useForm<SpaceForm>();
 
-  const handleImage = (e:React.ChangeEvent<HTMLInputElement>) => {
-   if(e.target.files && e.target.files[0]){
-    setImgFile(e.target.files[0]);
-    const url = URL.createObjectURL(e.target.files[0]);
-    setImgPreview(url);
-   }
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImgFile(e.target.files[0]);
+      const url = URL.createObjectURL(e.target.files[0]);
+      setImgPreview(url);
+    }
   };
-  const onSubmit = async (data:SpaceForm) => {
+  const onSubmit = async (data: SpaceForm) => {
     try {
       setIsFetching(true);
       if (email) {
@@ -35,7 +35,7 @@ const EditSpace = () => {
           imgFile.append("my_file", ImgFile);
           const assetInfo = await axios.post(
             "http://localhost:3000/upload",
-            imgFile
+            imgFile,
           );
           data.imgPath = assetInfo.data.url;
         }

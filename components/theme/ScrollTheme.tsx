@@ -1,8 +1,14 @@
-import { CanvasProps } from "../layout/Canvas"
-import Testimonials from "@/components/cards/Testimonials"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel"
+import { CanvasProps } from "../layout/Canvas";
+import Testimonials from "@/components/cards/Testimonials";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../ui/carousel";
 
-const ScrollTheme = ({publicTestimonials,mode}:CanvasProps) => {
+const ScrollTheme = ({ publicTestimonials, mode }: CanvasProps) => {
   return (
     <Carousel
       opts={{
@@ -12,9 +18,16 @@ const ScrollTheme = ({publicTestimonials,mode}:CanvasProps) => {
     >
       <CarouselContent className=" mx-3">
         {publicTestimonials.map((testimonial) => (
-          <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/3 pl-2 xl:basis-1/4">
+          <CarouselItem
+            key={testimonial.id}
+            className="md:basis-1/2 lg:basis-1/3 pl-2 xl:basis-1/4"
+          >
             <div className="p-1">
-             <Testimonials key={testimonial.id} testimonial={testimonial} mode={mode}/>
+              <Testimonials
+                key={testimonial.id}
+                testimonial={testimonial}
+                mode={mode}
+              />
             </div>
           </CarouselItem>
         ))}
@@ -22,7 +35,7 @@ const ScrollTheme = ({publicTestimonials,mode}:CanvasProps) => {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
-  )
-}
+  );
+};
 
-export default ScrollTheme
+export default ScrollTheme;

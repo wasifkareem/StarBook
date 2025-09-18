@@ -1,30 +1,36 @@
-'use client'
+'use client';
 
-import { Copy, GalleryHorizontalEnd, Heart, SquarePen, StickyNote, Twitter } from "lucide-react";
-import { use, useEffect, useState } from "react";
-import { FaPenFancy } from "react-icons/fa";
+import {
+  Copy,
+  GalleryHorizontalEnd,
+  Heart,
+  SquarePen,
+  StickyNote,
+  Twitter,
+} from 'lucide-react';
+import { use, useEffect, useState } from 'react';
+import { FaPenFancy } from 'react-icons/fa';
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
-import AddSpace from "@/components/dialog/AddSpace";
-import Loader from "@/components/layout/Loader";
-import Link from "next/link";
-import z from "zod";
+import AddSpace from '@/components/dialog/AddSpace';
+import Loader from '@/components/layout/Loader';
+import Link from 'next/link';
+import z from 'zod';
 
 // import DashoardCard from "../components/DashoardCard.jsx";
-import Insights from "@/components/dialog/Insights";
+import Insights from '@/components/dialog/Insights';
 // import Loader from "../components/Loader.jsx";
-import DashoardCard from "@/components/cards/DashoardCard";
-import TwitterCard from "@/components/cards/TwitterCard";
-import Wall from "@/components/layout/Wall";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { useAppContext } from "@/context/AppContext";
-import { toast } from "sonner";
-import Image from "next/image";
-
+import DashoardCard from '@/components/cards/DashoardCard';
+import TwitterCard from '@/components/cards/TwitterCard';
+import Wall from '@/components/layout/Wall';
+import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
+import { useAppContext } from '@/context/AppContext';
+import { toast } from 'sonner';
+import Image from 'next/image';
 
 const testimonialSchema = z.object({
   id: z.string(),
-  createdAt: z.string(), 
+  createdAt: z.string(),
   updatedAt: z.string(),
   imgPath: z.string(),
   starRating: z.number().optional(),
@@ -48,7 +54,7 @@ const testimonialSchema = z.object({
 
 export const spaceInfoSchema = z.object({
   id: z.string(),
-  createdAt: z.iso.datetime(), 
+  createdAt: z.iso.datetime(),
   updatedAt: z.string(),
   ownerEmail: z.email(),
   spaceName: z.string(),
@@ -62,81 +68,77 @@ export const spaceInfoSchema = z.object({
   testimonials: z.array(testimonialSchema),
 });
 
-export type SpaceInfo = z.infer<typeof spaceInfoSchema>
-export type Testimonial = z.infer<typeof testimonialSchema>
- 
+export type SpaceInfo = z.infer<typeof spaceInfoSchema>;
+export type Testimonial = z.infer<typeof testimonialSchema>;
+
 const Dashboard = ({ params }: { params: Promise<{ spaceId: string }> }) => {
-  const [spaceInfo, setSpaceInfo] = useState<SpaceInfo|null>(null);
-  
+  const [spaceInfo, setSpaceInfo] = useState<SpaceInfo | null>(null);
+
   const [wallPageToggle, setWallPageToggle] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [insightsToggle, setInsightsToggle] = useState(false);
-  const [isBtn, setIsBtn] = useState("All");
-  const {spaceId} = use(params);
-  const [testimonials, setTestimonials] = useState<[Testimonial]|null>(null);
-  const publicTestimonials = testimonials?.filter((t)=>t.WOF===true)
-  const manualTestimonials = testimonials?.filter((t)=>t.tweet==false);
-  const {state} = useAppContext()
-const maxTestimonials = state.pro?25:7
-    // Load from localStorage on component mount
-    useEffect(() => {
-      const savedFilter = localStorage.getItem('dashboard-filter');
-      if (savedFilter) {
-        setIsBtn(savedFilter);
-      }
-    }, []);
-  
-    // Save to localStorage whenever state changes
-    useEffect(() => {
-      localStorage.setItem('dashboard-filter', isBtn);
-    }, [isBtn]);
-    
+  const [isBtn, setIsBtn] = useState('All');
+  const { spaceId } = use(params);
+  const [testimonials, setTestimonials] = useState<[Testimonial] | null>(null);
+  const publicTestimonials = testimonials?.filter(t => t.WOF === true);
+  const manualTestimonials = testimonials?.filter(t => t.tweet == false);
+  const { state } = useAppContext();
+  const maxTestimonials = state.pro ? 25 : 7;
+  // Load from localStorage on component mount
+  useEffect(() => {
+    const savedFilter = localStorage.getItem('dashboard-filter');
+    if (savedFilter) {
+      setIsBtn(savedFilter);
+    }
+  }, []);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem('dashboard-filter', isBtn);
+  }, [isBtn]);
+
   useEffect(() => {
     const getSpace = async () => {
-      const res = await fetch(
-        `/api/space/fetch-space?spaceId=${spaceId}`
-      );
-      if(!res.ok){
-        toast.error('failed to fetch spaces, try later!!!')
+      const res = await fetch(`/api/space/fetch-space?spaceId=${spaceId}`);
+      if (!res.ok) {
+        toast.error('failed to fetch spaces, try later!!!');
       }
-      if(res.ok){
-        const data = await res.json()
-      setSpaceInfo(data);
-      setTestimonials(data.testimonials);
+      if (res.ok) {
+        const data = await res.json();
+        setSpaceInfo(data);
+        setTestimonials(data.testimonials);
       }
     };
     getSpace();
-  }, [state.reloadTweets,state.reloadCards,spaceId]);
+  }, [state.reloadTweets, state.reloadCards, spaceId]);
 
-  const copyToClip =async()=>{
-    if((testimonials?.length||0)>=maxTestimonials){
-      toast.warning('public page disabled, maximimum testimonails limit reached: 7',{
-        action:{
-          label:'Upgrade to Pro',
-          onClick:() => window.location.href = '/billing'
+  const copyToClip = async () => {
+    if ((testimonials?.length || 0) >= maxTestimonials) {
+      toast.warning(
+        'public page disabled, maximimum testimonails limit reached: 7',
+        {
+          action: {
+            label: 'Upgrade to Pro',
+            onClick: () => (window.location.href = '/billing'),
+          },
         }
-      })
-      return
-    }else{
-      const url = `${window.location.origin}/public/${spaceInfo?.id}`
+      );
+      return;
+    } else {
+      const url = `${window.location.origin}/public/${spaceInfo?.id}`;
       await navigator.clipboard.writeText(url);
-      toast.message('Space URL copied',{
-        description:'send it to your customers/users and ask them for reviews'
-      })
+      toast.message('Space URL copied', {
+        description: 'send it to your customers/users and ask them for reviews',
+      });
     }
-   
-  }
+  };
   if (!spaceInfo) {
     return <Loader />;
   }
   return (
     <>
-   
       {insightsToggle ? (
-        <Insights
-          spaceInfo={spaceInfo}
-          setInsightsToggle={setInsightsToggle}
-        />
+        <Insights spaceInfo={spaceInfo} setInsightsToggle={setInsightsToggle} />
       ) : null}
       {toggle ? (
         <AddSpace spaceInfo={spaceInfo} setToggle={setToggle} isEdit={true} />
@@ -144,18 +146,18 @@ const maxTestimonials = state.pro?25:7
       {wallPageToggle ? (
         <Wall
           spaceId={spaceId}
-          publicTestimonials={publicTestimonials||[]}
+          publicTestimonials={publicTestimonials || []}
           setWallPageToggle={setWallPageToggle}
         />
       ) : null}
       <div className=" flex flex-col md:flex-row w-full md:h-40 lg:px-16 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
           <Image
-          width={100}
-          height={100}
+            width={100}
+            height={100}
             loading="lazy"
             className=" hidden md:block w-32 object-cover border bg-white  rounded-lg h-32"
-            src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
+            src={spaceInfo?.imgPath ? spaceInfo?.imgPath : '/assets/review.png'}
             alt=""
           />
           <div className=" flex items-center  gap-3 md:gap-5">
@@ -163,135 +165,161 @@ const maxTestimonials = state.pro?25:7
               <h1 className=" text-4xl font-semibold text-slate-800 font-sans ">
                 {spaceInfo?.spaceName}
               </h1>
-              
             </div>
-            <button onClick={copyToClip} className="bg-teal-500/20 hover:border-teal-500 transition-all border cursor-pointer flex gap-2 items-center text-teal-600 px-2 py-1 rounded-[5px] text-xs font-medium">
-                           Space Public Url    <Copy size={20}/>
-                            </button>
+            <button
+              onClick={copyToClip}
+              className="bg-teal-500/20 hover:border-teal-500 transition-all border cursor-pointer flex gap-2 items-center text-teal-600 px-2 py-1 rounded-[5px] text-xs font-medium"
+            >
+              Space Public Url <Copy size={20} />
+            </button>
           </div>
         </div>
         <div className=" hidden  md:flex justify-center items-center">
-        <HoverBorderGradient
-        onClick={() => setInsightsToggle(true)}
-        containerClassName="rounded-full"
-        as="button"
-        className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 py-4"
-      >
-        <FaPenFancy className=" " />
-        <span>Generate Insights</span>
-      </HoverBorderGradient>
-                </div>
+          <HoverBorderGradient
+            onClick={() => setInsightsToggle(true)}
+            containerClassName="rounded-full"
+            as="button"
+            className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 py-4"
+          >
+            <FaPenFancy className=" " />
+            <span>Generate Insights</span>
+          </HoverBorderGradient>
+        </div>
       </div>
       <hr />
       <div className=" flex flex-col md:flex-row">
-        
         <div className=" relative md:w-1/4 md:sticky top-0  md:h-screen bg-gray-100 font-handwriting flex flex-col gap-1 md:pt-7 md:pl-3 md:px-2 ">
           <button
-            onClick={() => setIsBtn("All")}
+            onClick={() => setIsBtn('All')}
             className={` w-full flex gap-2 group items-center  transition-colors  ${
-              isBtn === "All" && "bg-neutral-200"
+              isBtn === 'All' && 'bg-neutral-200'
             }  text-neutral-700  text-start px-4 py-2 rounded-sm `}
           >
             <GalleryHorizontalEnd color="#404040" />
-            <span className="group-hover:translate-x-2 transition-all">All</span>
+            <span className="group-hover:translate-x-2 transition-all">
+              All
+            </span>
           </button>
-            <button
-            onClick={() => setIsBtn("Twitter")}
+          <button
+            onClick={() => setIsBtn('Twitter')}
             className={` w-full  group flex gap-2  items-center transition-colors  ${
-              isBtn === "Twitter" && "bg-neutral-200"
+              isBtn === 'Twitter' && 'bg-neutral-200'
             }  text-neutral-700 text-start px-4 py-2 rounded-sm `}
-            >
+          >
             <Twitter color="#404040" />
-             <span className=" group-hover:translate-x-2 transition-all"> Twitter</span>
-            </button>
-            <button
+            <span className=" group-hover:translate-x-2 transition-all">
+              {' '}
+              Twitter
+            </span>
+          </button>
+          <button
             onClick={() => setWallPageToggle(true)}
             className=" w-full group flex gap-2 items-center  transition-colors   text-neutral-700 text-start px-4 py-2 rounded-md "
-            >
+          >
             <Heart color="#404040" />
-            <span className=" group-hover:translate-x-2 transition-all">Wall of Fame</span>
-            </button>
-            <Link
+            <span className=" group-hover:translate-x-2 transition-all">
+              Wall of Fame
+            </span>
+          </button>
+          <Link
             target="_blank"
             rel="noopener noreferrer"
             href={`/public/${spaceInfo?.id}`}
-            onClick={(e)=>{
-              if((testimonials?.length||0)>=maxTestimonials && !state.pro){
+            onClick={e => {
+              if (
+                (testimonials?.length || 0) >= maxTestimonials &&
+                !state.pro
+              ) {
                 e.preventDefault();
-                toast.warning('Public page disabled, maximum testimonials limit reached: ' + maxTestimonials, {
-                  action: {
-                    label: 'Upgrade to Pro',
-                    onClick: () => window.location.href = '/billing'
+                toast.warning(
+                  'Public page disabled, maximum testimonials limit reached: ' +
+                    maxTestimonials,
+                  {
+                    action: {
+                      label: 'Upgrade to Pro',
+                      onClick: () => (window.location.href = '/billing'),
+                    },
                   }
-                });
+                );
               }
 
-              if((testimonials?.length||0)>=maxTestimonials && state.pro){
+              if ((testimonials?.length || 0) >= maxTestimonials && state.pro) {
                 e.preventDefault();
-                toast.warning('Public page disabled, maximum testimonials limit reached: ' + maxTestimonials)
+                toast.warning(
+                  'Public page disabled, maximum testimonials limit reached: ' +
+                    maxTestimonials
+                );
               }
             }}
-            >
+          >
             <button className=" w-full group flex gap-2 items-center   transition-colors  text-neutral-700 text-start px-4 py-2 rounded-md ">
-            <StickyNote color="#404040" />              
-            <span className=" group-hover:translate-x-2 transition-all">Public landing page</span>
+              <StickyNote color="#404040" />
+              <span className=" group-hover:translate-x-2 transition-all">
+                Public landing page
+              </span>
             </button>
-            </Link>
-            <button
+          </Link>
+          <button
             onClick={() => setToggle(true)}
             className=" w-full group flex gap-2 items-center  transition-colors   text-neutral-700 text-start px-4 py-2 rounded-md "
-            >
-             <SquarePen color="#404040" />
-            <span className=" group-hover:translate-x-2 transition-all">Edit Space</span>
-            </button>
-          
-        </div>
-       <div className="md:w-3/4 bg-gray-100 ">
-       <div className="  flex rounded-l-2xl h-full overflow-hidden border-[1px] bg-white border-gray-200 shadow shadow-gray-300  relative flex-col gap-3 ">
-        <div className="bg-gray-50 border border-gray-200 self-end m-5 rounded-lg text-slate-600 hidden md:block top-0 px-4 py-3 text-sm w-fit">
-          <div className="flex items-center gap-2">
-            <span className="text-base">💡</span>
-            <span className="font-medium text-gray-700">Tip:</span>
-            <span>
-              {isBtn === "All" 
-          ? (
-            <>
-              Share your{" "}
-              <a 
-                href={`/public/${spaceInfo?.id}`}
-                target="_blank" 
-                rel="noopener noreferrer"
-                className=" hover:underline font-semibold underline-offset-2 hover:text-blue-800"
-                onClick={(e) => {
-                  if ((testimonials?.length || 0) >= maxTestimonials) {
-                    e.preventDefault();
-                    toast.warning('Public page disabled, maximum testimonials limit reached: ' + maxTestimonials, {
-                      action: {
-                        label: 'Upgrade to Pro',
-                        onClick: () => window.location.href = '/billing'
-                      }
-                    });
-                  }
-                }}
-              >
-                public landing page
-              </a>
-              {" "}with customers to collect authentic reviews and grow your reputation!
-            </>
-          )
-          : "Paste any tweet URL to instantly showcase social proof from Twitter on your testimonial wall!"
-              }
+          >
+            <SquarePen color="#404040" />
+            <span className=" group-hover:translate-x-2 transition-all">
+              Edit Space
             </span>
-          </div>
+          </button>
         </div>
-          {manualTestimonials?.length === 0 && isBtn !== "Twitter" ? (
-            <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200  mt-12">
-              No Testimonials! Send the public URL to your best customers and
-              ask them for feedback.{" "}
-            </p>
-          ) : !testimonials ? (
-            <>
-              {/* <div className=" transition-all  relative flex flex-col gap-2 border border-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
+        <div className="md:w-3/4 bg-gray-100 ">
+          <div className="  flex rounded-l-2xl h-full overflow-hidden border-[1px] bg-white border-gray-200 shadow shadow-gray-300  relative flex-col gap-3 ">
+            <div className="bg-gray-50 border border-gray-200 self-end m-5 rounded-lg text-slate-600 hidden md:block top-0 px-4 py-3 text-sm w-fit">
+              <div className="flex items-center gap-2">
+                <span className="text-base">💡</span>
+                <span className="font-medium text-gray-700">Tip:</span>
+                <span>
+                  {isBtn === 'All' ? (
+                    <>
+                      Share your{' '}
+                      <a
+                        href={`/public/${spaceInfo?.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className=" hover:underline font-semibold underline-offset-2 hover:text-blue-800"
+                        onClick={e => {
+                          if ((testimonials?.length || 0) >= maxTestimonials) {
+                            e.preventDefault();
+                            toast.warning(
+                              'Public page disabled, maximum testimonials limit reached: ' +
+                                maxTestimonials,
+                              {
+                                action: {
+                                  label: 'Upgrade to Pro',
+                                  onClick: () =>
+                                    (window.location.href = '/billing'),
+                                },
+                              }
+                            );
+                          }
+                        }}
+                      >
+                        public landing page
+                      </a>{' '}
+                      with customers to collect authentic reviews and grow your
+                      reputation!
+                    </>
+                  ) : (
+                    'Paste any tweet URL to instantly showcase social proof from Twitter on your testimonial wall!'
+                  )}
+                </span>
+              </div>
+            </div>
+            {manualTestimonials?.length === 0 && isBtn !== 'Twitter' ? (
+              <p className=" text-center text-2xl md:text-4xl font-semibold text-slate-200  mt-12">
+                No Testimonials! Send the public URL to your best customers and
+                ask them for feedback.{' '}
+              </p>
+            ) : !testimonials ? (
+              <>
+                {/* <div className=" transition-all  relative flex flex-col gap-2 border border-slate-300 rounded-lg w-full px-5 py-4 pb-12  md:min-w-80">
                 <Skeleton className=" w-16 h-6 rounded-xl" />
                 <Skeleton wrapper={starWrapper} count={5} className=" h-full" />
                 <Skeleton count={2} className=" w-4/5 h-6 " />
@@ -313,26 +341,26 @@ const maxTestimonials = state.pro?25:7
                   <Skeleton className=" h-7 " />
                 </div>
               </div> */}
-            </>
-          ) : (
-            <div className=" transition-all flex md:px-6 lg:px-10  h-full  pt-12 flex-col gap-3">
-              {isBtn === "All" &&
-                testimonials
-                  ?.filter((t) => !t.tweet)
-                  ?.toReversed()
-                  .map((testimonial) => (
-                    <DashoardCard
-                    key={testimonial.id}
-                      testimonial={testimonial}
-                    />
-                  ))}
-              {isBtn === "Twitter" && (
-                <TwitterCard spaceId={spaceId} testimonials={testimonials} />
-              )}
-            </div>
-          )}
+              </>
+            ) : (
+              <div className=" transition-all flex md:px-6 lg:px-10  h-full  pt-12 flex-col gap-3">
+                {isBtn === 'All' &&
+                  testimonials
+                    ?.filter(t => !t.tweet)
+                    ?.toReversed()
+                    .map(testimonial => (
+                      <DashoardCard
+                        key={testimonial.id}
+                        testimonial={testimonial}
+                      />
+                    ))}
+                {isBtn === 'Twitter' && (
+                  <TwitterCard spaceId={spaceId} testimonials={testimonials} />
+                )}
+              </div>
+            )}
+          </div>
         </div>
-       </div>
       </div>
     </>
   );

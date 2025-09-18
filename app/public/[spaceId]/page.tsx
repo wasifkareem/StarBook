@@ -1,30 +1,28 @@
-'use client'
+'use client';
 
-import ReviewBox from "@/components/dialog/ReviewBox";
-import Loader from "@/components/layout/Loader";
-import { Button } from "@/components/ui/button";
-import { SpaceInfo } from "@/lib/schemas/space.schema";
-import Image from "next/image";
-import { use, useEffect, useState } from "react";
-import { toast } from "sonner";
+import ReviewBox from '@/components/dialog/ReviewBox';
+import Loader from '@/components/layout/Loader';
+import { Button } from '@/components/ui/button';
+import { SpaceInfo } from '@/lib/schemas/space.schema';
+import Image from 'next/image';
+import { use, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
+const ReviewPage = ({ params }: { params: Promise<{ spaceId: string }> }) => {
   const [spaceInfo, setSpaceInfo] = useState<SpaceInfo>();
   const [toggle, setToggle] = useState<boolean>(false);
-  const {spaceId} = use(params);
+  const { spaceId } = use(params);
 
   useEffect(() => {
     const getSpace = async () => {
-      const res = await fetch(
-        `/api/space/fetch-reviewInfo?spaceId=${spaceId}`
-      );
-      if(!res.ok){
+      const res = await fetch(`/api/space/fetch-reviewInfo?spaceId=${spaceId}`);
+      if (!res.ok) {
         toast.error('Failed to fetch this page, try again later!');
         return;
       }
-      if(res.ok){
+      if (res.ok) {
         const data = await res.json();
-        setSpaceInfo(data)
+        setSpaceInfo(data);
       }
     };
     getSpace();
@@ -40,17 +38,14 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
   return (
     <>
       {toggle ? (
-        <ReviewBox
-          setToggle={setToggle}
-          spaceInfo={spaceInfo}
-        />
+        <ReviewBox setToggle={setToggle} spaceInfo={spaceInfo} />
       ) : null}
       <div className=" overflow-y-auto font flex flex-col justify-center w-full">
         <Image
           width={100}
           height={100}
           className=" h-32 w-32 object-cover self-center mt-20 rounded-lg"
-          src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
+          src={spaceInfo?.imgPath ? spaceInfo?.imgPath : '/assets/review.png'}
           alt=""
         />
 
@@ -62,7 +57,7 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
         </p>
         <div className=" mx-12 flex flex-col md:self-center">
           <p className=" font-semibold text-lg mt-10 md:mt-20 md:text-xl ">
-            {" "}
+            {' '}
             QUESTIONS
           </p>
           <hr className=" w-8 h-1 bg-cyan-700 mt-2" />
@@ -74,7 +69,7 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
         </div>
         <div className=" flex gap-3 justify-center">
           <Button
-          variant="secondary"
+            variant="secondary"
             onClick={handleClick}
             className=" w-4/5 md:w-80 mt-6 h-12 cursor-pointer"
           >
