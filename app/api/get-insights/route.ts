@@ -65,15 +65,10 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(parsedText, { status: 200 });
 
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error generating insights:", error);
         
-        if (error?.status === 429 || error?.message?.includes('quota') || error?.message?.includes('Too Many Requests')) {
-            return NextResponse.json(
-                { error: "API quota exceeded. Please try again later or upgrade your plan." },
-                { status: 429 }
-            );
-        }
+       
         
         if (error instanceof SyntaxError) {
             return NextResponse.json(

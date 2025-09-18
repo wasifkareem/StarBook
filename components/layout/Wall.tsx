@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { IoClose } from "react-icons/io5";
 import { Testimonial } from "@/app/products/[spaceId]/page";
+import Image from "next/image";
 
 interface WallProps {
   publicTestimonials:Testimonial[],
@@ -59,14 +60,15 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
   };
 
   useEffect(() => {
-    const handleEsc = (e:any) => {
+    const handleEsc = (e:KeyboardEvent) => {
       if (e.key === "Escape") {
         setWallPageToggle(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+  }, [setWallPageToggle]);
+
   useEffect(() => {
     (async () => {
       const response = await fetch(`/api/fetch-theme?spaceId=${spaceId}`)
@@ -75,7 +77,8 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
       setField(theme?.field)
       setTheme(theme?.theme)
     })()
-    
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -166,7 +169,7 @@ const Wall = ({ publicTestimonials, setWallPageToggle, spaceId }:WallProps) => {
               <div className="flex justify-center items-center gap-4">
                 <hr className="h-20 w-[1px] bg-gray-300" />
                 <Button onClick={handleTheme} className="w-fit">
-                {isPending ?   <img
+                {isPending ?   <Image width={100} height={100}
                     className="m-2 h-4 "
                     src="/assets/Spinner@1x-1.0s-200px-200px.svg"
                     alt=""

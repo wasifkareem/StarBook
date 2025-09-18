@@ -1,20 +1,17 @@
 'use client'
 
-import Link from "next/link";
-import { FaGithub } from "react-icons/fa";
-import { MeshGradient, DotOrbit } from "@paper-design/shaders-react";
-import { Cover } from "@/components/ui/cover";
 import { Button } from "@/components/ui/button";
-import IframeResizer from '@iframe-resizer/react'
-import { useWindowDimensions } from "@/lib/dimension";
+import { Cover } from "@/components/ui/cover";
 import { Separator } from "@/components/ui/separator";
-import { Linkedin } from "lucide-react";
+import IframeResizer from '@iframe-resizer/react';
+import Image from "next/image";
+import Link from "next/link";
 import { BsGithub, BsLinkedin } from "react-icons/bs";
+import { FaGithub } from "react-icons/fa";
 
 
 
 const Home = () => {
-  const {width} =useWindowDimensions()
   return (
     <>
       <div  className="relative flex w-full justify-center">
@@ -70,7 +67,7 @@ const Home = () => {
                 ></iframe>
               </div>
               <div>
-                <div className=" my-10 md:my-32 md:mt-44 md:mt-32 ">
+                <div className=" my-10 md:my-32 md:mt-44 ">
 
                 <p className=" text-xl md:text-4xl font-mono text-center my-3 ">Add Testimonials to your website without any coding</p>
                 <p className=" text-center my-5 mt-10 font-mono">Copy and paste our HTML code to your website to get a Testimonial wall like below</p>
@@ -96,17 +93,17 @@ const Home = () => {
 
 </p>
                   </div>
-                 <div className=" flex justify-center mt-16 md:mt-0"><img className=" border h-[450px]" src="/assets/Screenshot 2025-09-16 at 12.15.56 AM.png" alt="" /></div>
+                 <div className=" flex justify-center mt-16 md:mt-0"><Image className=" border h-[450px]" src="/assets/Screenshot 2025-09-16 at 12.15.56 AM.png" alt="" /></div>
                 </div>
                 <div className="  grid grid-cols-1 lg:grid-cols-2">
-                <div className=" flex justify-center mt-16 md:mt-0"><img className=" border h-[450px]" src="/assets/Screenshot 2025-09-16 at 12.16.32 AM.png" alt="" /></div>
+                <div className=" flex justify-center mt-16 md:mt-0"><Image className=" border h-[450px]" src="/assets/Screenshot 2025-09-16 at 12.16.32 AM.png" alt="" /></div>
                  <div className="  flex justify-center flex-col gap-2 lg:px-16">
                   <span className=" text-primary text-xl" >Easy to manage
                   </span>
                   <p className=" text-3xl font-mono">A dashboard to manage all testimonials
 
                   </p>
-                  <p className=" text-lg text-neutral-600 mt-3">You will have a simple & clean dashboard to manage all testimonials in one place. It's like your email inbox, but it's designed for your social proof!
+                  <p className=" text-lg text-neutral-600 mt-3">You will have a simple & clean dashboard to manage all testimonials in one place. It&apos;s like your email inbox, but it&apos;s designed for your social proof!
 
 
 
@@ -124,7 +121,7 @@ const Home = () => {
 
 </p>
                   </div>
-                 <div className=" flex justify-center mt-16 md:mt-0"><img className=" border h-[450px]" src="/assets/Screenshot 2025-09-16 at 12.17.11 AM.png" alt="" /></div>
+                 <div className=" flex justify-center mt-16 md:mt-0"><Image className=" border h-[450px]" src="/assets/Screenshot 2025-09-16 at 12.17.11 AM.png" alt="" /></div>
                 </div>
                 <div className="  grid grid-cols-1 lg:grid-cols-2">
                 <div className=" flex justify-center mt-16 md:mt-0"><video className=" border h-[420px]" autoPlay muted loop src="/assets/viddd.mov" /></div>

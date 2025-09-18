@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { toast } from "sonner";
-import { MdDelete } from "react-icons/md";
-import { CiHeart } from "react-icons/ci";
-import { IoMdHeart } from "react-icons/io";
-import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-import { FaSquareCheck } from "react-icons/fa6";
-import { Testimonial } from "@/lib/schemas/testimonial.schema";
-import { useAppContext } from "@/context/AppContext";
-import StarRatings from "react-star-ratings";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/stateful-button";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/stateful-button";
+import { useAppContext } from "@/context/AppContext";
+import { Testimonial } from "@/lib/schemas/testimonial.schema";
+import Image from "next/image";
+import { useState } from "react";
+import { CiHeart } from "react-icons/ci";
+import { FaSquareCheck } from "react-icons/fa6";
+import { IoMdHeart } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import StarRatings from "react-star-ratings";
+import { toast } from "sonner";
 
 
 
@@ -153,7 +153,10 @@ const DashoardCard = ({
         <div>
           <p className=" font-semibold text-slate-800 text-sm">Name</p>
           <div className=" flex gap-2  items-center">
-            <img className=" h-8 rounded-full w-8" src={testimonial.imgPath} alt="" />
+            <Image
+            width={100}
+            height={100}
+            className=" h-8 rounded-full w-8" src={testimonial.imgPath} alt="" />
             <p className=" text-sm text-slate-900 first-letter:uppercase">
               {testimonial.name}
             </p>

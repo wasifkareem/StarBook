@@ -9,7 +9,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
-const twitterCardPropsSchema = z.object({
+export const twitterCardPropsSchema = z.object({
   spaceId:z.string(),
   testimonials:z.array(testimonialSchema)
 })

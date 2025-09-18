@@ -1,7 +1,5 @@
-import { Testimonial } from '@/lib/schemas/testimonial.schema'
-import { useWindowDimensions } from '@/lib/dimension';
-import React from 'react'
 import Testimonials from '@/components/cards/Testimonials';
+import { useWindowDimensions } from '@/lib/dimension';
 import { CanvasProps } from '../layout/Canvas';
 
 const BasicTheme = ({publicTestimonials, mode}:CanvasProps) => {

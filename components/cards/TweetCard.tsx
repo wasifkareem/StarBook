@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
-import { MdDelete } from "react-icons/md";
-import { FaCirclePlay } from "react-icons/fa6";
-import { FaXTwitter } from "react-icons/fa6";
 import { TweetRenderer } from "@/components//helper-comp/TweetRenderer";
-import { tweetSchema } from "@/lib/schemas/testimonial.schema";
-import z from "zod";
-import { useAppContext } from "@/context/AppContext";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useAppContext } from "@/context/AppContext";
+import { tweetSchema } from "@/lib/schemas/testimonial.schema";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { FaCirclePlay, FaXTwitter } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
+import z from "zod";
 
-const tweetPropsSchema = tweetSchema.extend({
+export const tweetPropsSchema = tweetSchema.extend({
   Id:z.string()
 })
 
@@ -36,8 +36,8 @@ const TweetCard = ({
   likes,
   date,
 }:tweetProps) => {
-  let [isDel, setIsDel] = useState(false);
-  let [isWallChange, setIsWallChange] = useState(false);
+  const [isDel, setIsDel] = useState(false);
+  const [isWallChange, setIsWallChange] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const {setReloadCards,state} = useAppContext()
 
@@ -80,6 +80,7 @@ const TweetCard = ({
 
     if(!res.ok){
       toast.error('Failed to delete testimonails, try again later!!!')
+      setIsDel(false)
       return
     }
     if (res.ok) {
@@ -101,10 +102,11 @@ const TweetCard = ({
   useEffect(() => {
     const initLightbox = async () => {
       if (typeof window !== 'undefined') {
-        const GLightbox = (await import('glightbox')).default;
-        await import('glightbox/dist/css/glightbox.min.css');
+      const GLightbox = (await import('glightbox')).default;
+      //@ts-expect-error no-type-support-found
+      await import('glightbox/dist/css/glightbox.min.css');
         
-        const lightbox = GLightbox({
+         GLightbox({
           loop: false,
           autoplayVideos: false,
           zoomable: false,
@@ -132,7 +134,7 @@ const TweetCard = ({
       <div className="flex justify-between items-center">
         <div className=" flex justify-between w-full items-center">
         <div className="flex gap-2 items-start">
-          <img src={imgPath} alt="x-dp" className="  rounded-full" />
+          <Image width={100} height={100}  src={imgPath} alt="x-dp" className="  rounded-full" />
           <div className={`flex flex-col leading-5 text-${state.field}`}>
             <p className="font-semibold">{name}</p>
             <p className="text-gray-500">@{twitterHandle}</p>
@@ -173,7 +175,9 @@ const TweetCard = ({
       {imgMedia && (
         <a href={imgMedia} className="glightbox">
           <div className="bg-black rounded-lg overflow-hidden mt-5 my-2  flex justify-center ">
-            <img
+            <Image
+            width={400}
+            height={500}
              className={`max</a>-h-96 transition-all duration-300 ${
               imageLoaded ? 'blur-0' : 'blur-md opacity-50'
             }`}
@@ -192,7 +196,7 @@ const TweetCard = ({
           className="glightbox relative transition-all opacity-100 hover:opacity-80"
         >
           <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 flex justify-center">
-            <img className="max-h-60" src={poster} alt="" />
+            <Image width={100} height={100} className="max-h-60" src={poster} alt="" />
           </div>
           <FaCirclePlay className="absolute top-[45%] left-[135px] text-5xl text-cyan-400" />
         </a>
@@ -233,7 +237,9 @@ const TweetCard = ({
               <MdDelete className="text-2xl text-[#171717] transition-all hover:text-slate-800" />
             </>
           ) : (
-            <img
+            <Image
+            width={100}
+            height={100}
               className="m-2 h-4"
               src="/assets/Spinner@1x-1.0s-200px-200px.svg"
               alt=""

@@ -1,12 +1,11 @@
 "use client"
 
+import { Button } from '@/components/ui/button';
+import { Cover } from '@/components/ui/cover';
 import { useAppContext } from '@/context/AppContext';
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@radix-ui/react-select';
 import { CreditCard } from 'lucide-react';
-import { Cover } from '@/components/ui/cover';
+import Link from 'next/link';
 
 const Navbar = () => {
     const { isSignedIn } = useUser();

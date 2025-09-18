@@ -1,18 +1,18 @@
+import { Button } from "@/components/ui/button";
 import { spaceInfoSchema } from "@/lib/schemas/space.schema";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 import StarRatings from "react-star-ratings";
 import { toast } from "sonner";
 import z from "zod";
-import { Button } from "@/components/ui/button";
 
-const ReviewBoxPropsSchema = z.object({
+export const ReviewBoxPropsSchema = z.object({
   spaceInfo:spaceInfoSchema,
   setToggle:z.any()
 })
-const AddReviewSchema = z.object({
+export const AddReviewSchema = z.object({
   email: z.email(),
   name: z.string().min(1),
   testimonial: z.string().min(1),
@@ -29,24 +29,18 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
   const [isFetching, setIsFetching] = useState(false);
   const [rating, setRating] = useState<number>(5);
   const [ImgFile, setImgFile] = useState<File | null>(null);
-  const [amount, setAmount] = useState(null);
-  const [isPaid, setIsPaid] = useState(false);
-  const [payDetails, setPayDetails] = useState(null);
-  console.log(payDetails);
-  const [selectedValue, setSelectedValue] = useState("");
   const [imgPreview, setImgPreview] = useState<string|undefined>(undefined);
   const [isChecked, setIsChecked] = useState(false);
-  const { userId } = useAuth();
 
     useEffect(() => {
-      const handleEsc = (e:any) => {
+      const handleEsc = (e:KeyboardEvent) => {
         if (e.key === "Escape") {
           setToggle(false);
         }
       };
       window.addEventListener("keydown", handleEsc);
       return () => window.removeEventListener("keydown", handleEsc);
-    }, []);
+    }, [setToggle]);
   const changeRating = (newRating:number) => {
     setRating(newRating);
   };
@@ -94,7 +88,6 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
       data.starRating = rating;
       data.date =new Date().toISOString()
       }
-    console.log(data)
 
       const res = await fetch(
         "/api/testimonials/create",{
@@ -114,6 +107,7 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
       }
     } catch (err) {
       setIsFetching(false);
+      console.error(err)
       toast.error("Something went wrong at our end! try again later.");
     }
   };
@@ -134,7 +128,9 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
 <p className=" font-semibold text-xl text-slate-800">
           Write Text Testimonial to
         </p>
-        <img
+        <Image
+        width={100}
+        height={100}
           className=" h-20 w-20 object-cover rounded-lg mt-3"
           src={spaceInfo.imgPath || ""}
           alt=""
@@ -227,7 +223,9 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
             </label>
 
             {imgPreview ? (
-              <img
+              <Image
+              width={100}
+              height={100}
                 className=" h-16 rounded-full border w-16 "
                 src={imgPreview}
                 alt=""
@@ -259,7 +257,9 @@ const ReviewBox = ({ spaceInfo, setToggle }:reviewBox) => {
               type="submit"
             >
               {isFetching ? (
-                <img
+                <Image
+                width={100}
+                height={100}
                   className=" h-6"
                   src="/assets/Spinner@1x-1.0s-200px-200px.svg"
                   alt=""

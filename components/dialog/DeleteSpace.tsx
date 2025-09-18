@@ -56,7 +56,7 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }:deleteSpaceProps) => {
           This action might cause in irreversible data loss,
           <br /> if you want to continue, please type{" "}
           <span className="  px-1   text-center pb-1 font-semibold text-red-900">
-            "{spaceName}"
+          &quot;{spaceName}&quot;
           </span>{" "}
           below{" "}
         </p>

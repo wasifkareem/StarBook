@@ -1,11 +1,21 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { SpaceInfo } from "@/lib/schemas/space.schema";
 import { SquareX } from "lucide-react";
-import { SpaceInfo, spaceInfoSchema } from "@/lib/schemas/space.schema";
+import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { toast } from "sonner";
+
+interface AiInsights {
+  negative: string;
+  positive: string;
+  suggestions: {
+    one: string;
+    two: string;
+    three: string;
+  };
+}
 
 interface InsightsProps {
   setInsightsToggle:(toggle:boolean)=>void,
@@ -13,7 +23,7 @@ interface InsightsProps {
 }
 
 const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
-  const [aiInsights, setAiInsights] = useState<any>(null);
+  const [aiInsights, setAiInsights] = useState<AiInsights | null>(null);
   const [isfetching, setIsfetching] = useState(true);
 
   useEffect(() => {
@@ -57,17 +67,17 @@ const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
     return () => {
       isCancelled = true;
     };
-  }, [spaceInfo?.id]); 
+  }, [spaceInfo?.id,spaceInfo?.testimonials?.length,setInsightsToggle]); 
 
   useEffect(() => {
-    const handleEsc = (e:any) => {
+    const handleEsc = (e:KeyboardEvent) => {
       if (e.key === "Escape") {
         setInsightsToggle(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+  }, [setInsightsToggle]);
 
   return (
     <div
@@ -108,7 +118,7 @@ const Insights = ({ setInsightsToggle, spaceInfo }: InsightsProps) => {
               <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1 md:mt-3">
                 Issues :
               </label>
-              <p dangerouslySetInnerHTML={{ __html: aiInsights?.negative }}></p>
+              <p dangerouslySetInnerHTML={{ __html: aiInsights?.negative||'' }}></p>
             </div>
             <div className=" flex flex-col gap-2 ">
               <label className="opacity-100 w-fit text-gray-600  bg-gray-200 px-2 rounded py-1 md:mt-3">

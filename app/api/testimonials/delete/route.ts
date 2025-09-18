@@ -23,7 +23,7 @@ export async function DELETE(request: NextRequest) {
             );
         }
 
-        const deletedTestimonial = await prisma.testimonial.delete({
+         await prisma.testimonial.delete({
             where: {
                 id: testimonialId,
                 spaceId: spaceId,

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { z } from 'zod';
 import { createTestimonialSchema } from '@/lib/schemas/testimonial.schema';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 

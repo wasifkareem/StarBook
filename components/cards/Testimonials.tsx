@@ -1,14 +1,14 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { useAppContext } from "@/context/AppContext";
+import { Testimonial } from "@/lib/schemas/testimonial.schema";
 import StarRatings from "react-star-ratings";
 import TweetCard from "./TweetCard";
-import { Card, CardContent } from "@/components/ui/card";
-import { useEffect, useState } from "react";
-import { useAppContext } from "@/context/AppContext";
-import { Testimonial } from "@/lib/schemas/testimonial.schema"
+import Image from "next/image";
 
 
 export interface TestimonialsProps {
 testimonial:Testimonial,
-  mode:boolean|String,
+  mode:boolean|string,
 }
 const Testimonials = ({
 testimonial,
@@ -79,7 +79,10 @@ mode
 
       <div className=" flex justify-between items-center">
         <div className=" flex gap-2  items-center">
-          <img className=" h-12 rounded-full w-12" src={testimonial.imgPath} />
+          <Image
+          width={100}
+          height={100}
+          alt="pfp" className=" h-12 rounded-full w-12" src={testimonial.imgPath} />
           <div>
             <p
               style={{

@@ -29,7 +29,7 @@ const EntitiesSchema = z.object({
   media: z.array(MediaEntitySchema).optional(),
 });
 
-const TweetRendererSchema = z.object({
+export const TweetRendererSchema = z.object({
   text: z.string(),
   entities: EntitiesSchema.optional(),
   isAdmin:z.boolean().optional()

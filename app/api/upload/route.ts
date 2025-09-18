@@ -35,10 +35,10 @@ export async function POST(request: NextRequest) {
     const cldRes = await handleUpload(dataURI);
     
     return NextResponse.json(cldRes);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { message: error.message },
+      { message: error },
       { status: 500 }
     );
   }

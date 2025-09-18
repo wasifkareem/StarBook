@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,14 +9,15 @@ import { spaceInfoSchema } from "@/lib/schemas/space.schema";
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/context/AppContext";
 import { IoClose } from "react-icons/io5";
+import Image from "next/image";
 
-const addSpacePropsSchema = z.object({
+export const addSpacePropsSchema = z.object({
   setToggle: z.any(),
   isEdit: z.boolean(),
-  spaceInfo: spaceInfoSchema.optional()
+  spaceInfo: spaceInfoSchema.optional(),
 });
 
-const addSpaceFormSchema = z.object({
+export const addSpaceFormSchema = z.object({
   spaceName: z.string(),
   headerTitle: z.string(),
   message: z.string(),
@@ -24,28 +25,33 @@ const addSpaceFormSchema = z.object({
   qTwo: z.string(),
   qThree: z.string(),
   imgPath: z.string(),
-  ownerEmail: z.string().email()
+  ownerEmail: z.string().email(),
 });
 
 type addSpaceProps = z.infer<typeof addSpacePropsSchema>;
 export type SpaceForm = z.infer<typeof addSpaceFormSchema>;
 
 const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
-  
   const [headerPreview, setHeaderPreview] = useState<string | null>(
     isEdit && spaceInfo ? spaceInfo.headerTitle : null
   );
   const [msgPreview, setMsgPreview] = useState<string | null>(
     isEdit && spaceInfo ? spaceInfo.message : null
   );
-  const [one, setOne] = useState<string | null>(isEdit && spaceInfo ? spaceInfo.qOne : null);
-  const [two, setTwo] = useState<string | null>(isEdit && spaceInfo ? spaceInfo.qTwo : null);
-  const [three, setThree] = useState<string | null>(isEdit && spaceInfo ? spaceInfo.qThree : null);
+  const [one, setOne] = useState<string | null>(
+    isEdit && spaceInfo ? spaceInfo.qOne : null
+  );
+  const [two, setTwo] = useState<string | null>(
+    isEdit && spaceInfo ? spaceInfo.qTwo : null
+  );
+  const [three, setThree] = useState<string | null>(
+    isEdit && spaceInfo ? spaceInfo.qThree : null
+  );
   const [isFetching, setIsFetching] = useState(false);
   const [ImgFile, setImgFile] = useState<File | null>(null);
-  const {setReloadCards, state} = useAppContext();
+  const { setReloadCards, state } = useAppContext();
   const [imgPreview, setImgPreview] = useState<string | null>(
-    isEdit && spaceInfo ? spaceInfo?.imgPath ?? null : null
+    isEdit && spaceInfo ? (spaceInfo?.imgPath ?? null) : null
   );
   const { user } = useUser();
   const emailAddress = user?.primaryEmailAddress?.emailAddress;
@@ -84,7 +90,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
   const onSubmit = async (data: SpaceForm) => {
     try {
       setIsFetching(true);
-      
+
       if (!emailAddress) {
         toast.error("User email not found");
         setIsFetching(false);
@@ -95,7 +101,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
       if (ImgFile) {
         const imgFile = new FormData();
         imgFile.append("my_file", ImgFile);
-        
+
         const response = await fetch("/api/upload", {
           method: "POST",
           body: imgFile,
@@ -128,7 +134,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
         if (response.ok) {
           reset();
           setIsFetching(false);
-          setReloadCards(!state.reloadCards)
+          setReloadCards(!state.reloadCards);
           setToggle(false);
           toast.success("Space Updated Successfully!");
         } else {
@@ -150,7 +156,7 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
           toast.success("Space Created.");
         } else {
           toast.error("Failed to create space");
-          setIsFetching(false)
+          setIsFetching(false);
         }
       }
     } catch (err) {
@@ -168,38 +174,41 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
   };
 
   useEffect(() => {
-    document.body.style.overflow='hidden'
-    const handleKeyDown = (e:KeyboardEvent)=>{
-      if(e.key==='Escape'){
-        setToggle(false)
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setToggle(false);
       }
-    }
-     document.addEventListener('keydown',handleKeyDown)
+    };
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener('keydown',handleKeyDown)
-    document.body.style.overflow='unset'
-
-    }
-  }, [])
-  
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "unset";
+    };
+  });
 
   return (
     <div
       style={{
-      backgroundPosition: "0 0, 10px 10px",
-      backgroundSize: "20px 20px",
-      backgroundImage: 'radial-gradient(circle, #cccccc 1px, transparent 1px), radial-gradient(circle, #cccccc 1px, transparent 1px)'
+        backgroundPosition: "0 0, 10px 10px",
+        backgroundSize: "20px 20px",
+        backgroundImage:
+          "radial-gradient(circle, #cccccc 1px, transparent 1px), radial-gradient(circle, #cccccc 1px, transparent 1px)",
       }}
       className="z-50 overflow-y-auto fixed top-0 bottom-0 right-0 flex justify-center items-start left-0 bg-slate-100"
     >
-      <div className="flex relative justify-center flex-col min-w-[90%] bg-white mt-20 min-h-[90%] rounded-lg mx-3" style={{
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)'
-      }}>
+      <div
+        className="flex relative justify-center flex-col min-w-[90%] bg-white mt-20 min-h-[90%] rounded-lg mx-3"
+        style={{
+          boxShadow:
+            "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)",
+        }}
+      >
         <button
           onClick={handleToggle}
           className="self-end text-3xl absolute top-5 right-5  "
         >
-          <IoClose className=" text-neutral-500 border rounded-[5px] hover:text-neutral-600 "/>
+          <IoClose className=" text-neutral-500 border rounded-[5px] hover:text-neutral-600 " />
         </button>
 
         <div className="md:flex flex-row md:justify-center px-10 gap-4">
@@ -210,7 +219,9 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                 Space public page - Live Preview
                 <div className="text-red-500 shadow-2xl shadow-red-700 m-0 p-0 animate-pulse h-2 w-2 rounded-full bg-red-700"></div>
               </label>
-              <img
+              <Image
+                width={100}
+                height={100}
                 className="h-20 rounded w-fit self-center"
                 src={imgPreview ? imgPreview : "/assets/review.png"}
                 alt=""
@@ -242,10 +253,10 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               </div>
               <Button
                 variant="secondary"
-            className=" w-4/5 self-center mb-5 md:mb-9 md:w-80 mt-6 h-12 cursor-pointer"
-          >
-            Send Text
-          </Button>
+                className=" w-4/5 self-center mb-5 md:mb-9 md:w-80 mt-6 h-12 cursor-pointer"
+              >
+                Send Text
+              </Button>
             </div>
           </div>
 
@@ -269,7 +280,9 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               {/* All form fields remain the same */}
               <label className="text-slate-500">Space name</label>
               <input
-                defaultValue={isEdit && spaceInfo ? spaceInfo.spaceName : undefined}
+                defaultValue={
+                  isEdit && spaceInfo ? spaceInfo.spaceName : undefined
+                }
                 maxLength={40}
                 placeholder="Space name"
                 className="h-10 focus:outline-cyan-600 border rounded-[6px] pl-3 border-slate-300"
@@ -296,7 +309,9 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                   onChange={handleImage}
                   accept=".jpg,.jpeg,.png,.webp"
                 />
-                <img
+                <Image
+                  width={100}
+                  height={100}
                   className="h-20 rounded-full border w-20"
                   src={imgPreview ? imgPreview : "/assets/review.png"}
                   alt=""
@@ -306,7 +321,9 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
               {/* Rest of the form fields remain the same */}
               <label className="text-slate-500">Header title</label>
               <input
-                defaultValue={isEdit && spaceInfo ? spaceInfo.headerTitle : undefined}
+                defaultValue={
+                  isEdit && spaceInfo ? spaceInfo.headerTitle : undefined
+                }
                 maxLength={70}
                 placeholder="Would you like to give a shoutout to xyz?"
                 className="h-10 border rounded-[7px] focus:outline-cyan-600 pl-3 border-slate-300"
@@ -321,7 +338,9 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
 
               <label className="text-slate-500">Your custom message</label>
               <textarea
-                defaultValue={isEdit && spaceInfo ? spaceInfo.message : undefined}
+                defaultValue={
+                  isEdit && spaceInfo ? spaceInfo.message : undefined
+                }
                 maxLength={250}
                 className="h-24 focus:outline-cyan-600 border rounded-[7px] pl-3 border-slate-300"
                 placeholder="Write a warm message to your customers, and ask them to give you lot of stars."
@@ -374,14 +393,15 @@ const AddSpace = ({ setToggle, isEdit, spaceInfo }: addSpaceProps) => {
                 }
                 onChange={handleThree}
               />
-              
               <Button
                 className="cursor-pointer rounded-[7px]  w-40 self-end"
                 type="submit"
                 disabled={isFetching}
               >
                 {isFetching ? (
-                  <img
+                  <Image
+                    width={100}
+                    height={100}
                     className="m-2 h-7 "
                     src="/assets/Spinner@1x-1.0s-200px-200px.svg"
                     alt=""

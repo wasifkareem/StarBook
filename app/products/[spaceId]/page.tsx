@@ -1,25 +1,25 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
 import { Copy, GalleryHorizontalEnd, Heart, SquarePen, StickyNote, Twitter } from "lucide-react";
 import { use, useEffect, useState } from "react";
 import { FaPenFancy } from "react-icons/fa";
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
-import z from "zod";
 import AddSpace from "@/components/dialog/AddSpace";
 import Loader from "@/components/layout/Loader";
 import Link from "next/link";
+import z from "zod";
 
 // import DashoardCard from "../components/DashoardCard.jsx";
 import Insights from "@/components/dialog/Insights";
 // import Loader from "../components/Loader.jsx";
-import TwitterCard from "@/components/cards/TwitterCard";
-import { useAppContext } from "@/context/AppContext";
 import DashoardCard from "@/components/cards/DashoardCard";
+import TwitterCard from "@/components/cards/TwitterCard";
 import Wall from "@/components/layout/Wall";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { useAppContext } from "@/context/AppContext";
 import { toast } from "sonner";
+import Image from "next/image";
 
 
 const testimonialSchema = z.object({
@@ -106,7 +106,7 @@ const maxTestimonials = state.pro?25:7
       }
     };
     getSpace();
-  }, [state.reloadTweets,state.reloadCards]);
+  }, [state.reloadTweets,state.reloadCards,spaceId]);
 
   const copyToClip =async()=>{
     if((testimonials?.length||0)>=maxTestimonials){
@@ -150,7 +150,9 @@ const maxTestimonials = state.pro?25:7
       ) : null}
       <div className=" flex flex-col md:flex-row w-full md:h-40 lg:px-16 justify-between py-4 px-5 ">
         <div className=" w-fit flex gap-3 items-center">
-          <img
+          <Image
+          width={100}
+          height={100}
             loading="lazy"
             className=" hidden md:block w-32 object-cover border bg-white  rounded-lg h-32"
             src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
@@ -335,19 +337,19 @@ const maxTestimonials = state.pro?25:7
     </>
   );
 };
-const starWrapper = ({ children }: { children?: React.ReactNode }) => {
-  return (
-    <div
-      style={{
-        display: "inline-block",
-        clipPath:
-          "polygon(50% 4%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-        width: "32px",
-        height: "32px",
-      }}
-    >
-      {children}
-    </div>
-  );
-};
+// const starWrapper = ({ children }: { children?: React.ReactNode }) => {
+//   return (
+//     <div
+//       style={{
+//         display: "inline-block",
+//         clipPath:
+//           "polygon(50% 4%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+//         width: "32px",
+//         height: "32px",
+//       }}
+//     >
+//       {children}
+//     </div>
+//   );
+// };
 export default Dashboard;

@@ -2,11 +2,12 @@ import { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 // import "reactjs-popup/dist/index.css";
 import DeleteSpace from "@/components/dialog/DeleteSpace";
-import z from "zod";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import z from "zod";
+import Image from "next/image";
 
-const spaceCardPropsSchema = z.object({
+export const spaceCardPropsSchema = z.object({
   imgPath:z.string(),
   spaceName:z.string(),
   spaceId:z.string(),
@@ -39,7 +40,9 @@ const SpaceCard = ({ imgPath, spaceName, spaceId,testimonialCount }:spaceCardPro
           >
             <MdDeleteForever className="text-2xl text-slate-400 hover:text-red-900 transition-colors" />
           </button>
-          <img
+          <Image
+          width={200}
+          height={200}
             className=" h-32 w-32 object-cover border bg-white rounded-3xl"
             loading="lazy"
             src={imgPath ? imgPath : "/assets/review.png"}

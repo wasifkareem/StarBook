@@ -1,10 +1,11 @@
 'use client'
 
-import { ReactNode, use, useEffect, useState } from "react";
-import Loader from "@/components/layout/Loader";
 import ReviewBox from "@/components/dialog/ReviewBox";
-import { SpaceInfo } from "@/lib/schemas/space.schema";
+import Loader from "@/components/layout/Loader";
 import { Button } from "@/components/ui/button";
+import { SpaceInfo } from "@/lib/schemas/space.schema";
+import Image from "next/image";
+import { use, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
@@ -27,7 +28,7 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
       }
     };
     getSpace();
-  }, []);
+  }, [spaceId]);
 
   const handleClick = () => {
     setToggle(true);
@@ -45,7 +46,9 @@ const ReviewPage = ({params}:{params:Promise<{ spaceId: string }>}) => {
         />
       ) : null}
       <div className=" overflow-y-auto font flex flex-col justify-center w-full">
-        <img
+        <Image
+          width={100}
+          height={100}
           className=" h-32 w-32 object-cover self-center mt-20 rounded-lg"
           src={spaceInfo?.imgPath ? spaceInfo?.imgPath : "/assets/review.png"}
           alt=""

@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import { Testimonial } from "@/lib/schemas/testimonial.schema";
 import { useAppContext } from "@/context/AppContext";
 import Canvas from "@/components/layout/Canvas";
+import Image from "next/image";
 import("@iframe-resizer/child");
 
 
@@ -12,7 +13,7 @@ interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-const  EmbedPage= ({ params, searchParams }: PageProps)=> {
+const  EmbedPage= ({ params }: PageProps)=> {
   const { spaceId } = use(params)
   const [isDark, setIsDark] = useState(false);
   const {setField,setTheme} = useAppContext()
@@ -38,11 +39,13 @@ const  EmbedPage= ({ params, searchParams }: PageProps)=> {
     };
     getTestimonials();
     
-  }, []);
+  });
   if (!testimonials) {
     return (
       <div className=" flex justify-center items-center  h-screen w-screen">
-        <img
+        <Image
+        width={100}
+        height={100}
           className=" h-16"
           src="/assets/Spinner@1x-1.0s-200px-200px.svg"
           alt=""
