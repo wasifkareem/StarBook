@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Cover } from '@/components/ui/cover';
 import { Separator } from '@/components/ui/separator';
 import IframeResizer from '@iframe-resizer/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { BsGithub, BsLinkedin } from 'react-icons/bs';
 import { FaGithub } from 'react-icons/fa';
@@ -72,7 +71,7 @@ const Home = () => {
               license="GPLv3"
               log="collapsed"
               scrolling={false}
-              src="http://localhost:3000/embed/cmfm931zh0000sk2zflixyb44"
+              src="https://starbook.wasifkareem.com/embed/cmfm931zh0000sk2zflixyb44"
               style={{ width: '100%' }}
             />
             <div className=" mt-4 lg:mt-40  lg:max-w-7xl flex flex-col gap-32 ">
@@ -92,8 +91,9 @@ const Home = () => {
                   </p>
                 </div>
                 <div className=" flex justify-center mt-16 md:mt-0">
-                  <Image
-                    className=" border h-[450px]"
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className=" border h-[450px] object-cover"
                     src="/assets/Screenshot 2025-09-16 at 12.15.56 AM.png"
                     alt=""
                   />
@@ -101,8 +101,9 @@ const Home = () => {
               </div>
               <div className="  grid grid-cols-1 lg:grid-cols-2">
                 <div className=" flex justify-center mt-16 md:mt-0">
-                  <Image
-                    className=" border h-[450px]"
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className=" border h-[450px] object-cover"
                     src="/assets/Screenshot 2025-09-16 at 12.16.32 AM.png"
                     alt=""
                   />
@@ -133,22 +134,27 @@ const Home = () => {
                   </p>
                 </div>
                 <div className=" flex justify-center mt-16 md:mt-0">
-                  <Image
-                    className=" border h-[450px]"
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className=" border h-[450px] object-cover"
                     src="/assets/Screenshot 2025-09-16 at 12.17.11 AM.png"
                     alt=""
                   />
                 </div>
               </div>
-              <div className="  grid grid-cols-1 lg:grid-cols-2">
+              {/* <div className="  grid grid-cols-1 lg:grid-cols-2">
                 <div className=" flex justify-center mt-16 md:mt-0">
                   <video
-                    className=" border h-[420px]"
+                    className="border h-[420px]"
                     autoPlay
                     muted
                     loop
-                    src="/assets/viddd.mov"
-                  />
+                    preload="auto"
+                    onError={e => console.error('Video failed to load:', e)}
+                  >
+                    <source src="/assets/viddd.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
                 <div className="  flex justify-center flex-col gap-2 lg:px-16">
                   <span className=" text-primary text-xl">
@@ -163,7 +169,7 @@ const Home = () => {
                     under a minute. No coding knowledge required!
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
             <Separator className=" mt-10" />
             <div className=" flex items-center justify-end gap-6 w-full lg:px-32">

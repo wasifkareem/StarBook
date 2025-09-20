@@ -34,7 +34,8 @@ const EmbedPage = ({ params }: PageProps) => {
       setTheme(theme?.theme);
     };
     getTestimonials();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (!testimonials) {
     return (
       <div className=" flex justify-center items-center  h-screen w-screen">
