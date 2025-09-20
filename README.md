@@ -1,48 +1,52 @@
-# Writora AI
+# StarBook
 
-Writora AI is a powerful tool that transforms your video or audio content into a blog post in seconds, powered by cutting-edge AI technology. It’s designed to streamline your content creation process and generate high-quality blog posts effortlessly.
+StarBook is a powerful testimonial collection platform that helps businesses gather, manage, and showcase customer feedback seamlessly. Built for startups and growing companies to collect authentic reviews and grow their reputation effortlessly.
 
-![thumbnails](https://github.com/user-attachments/assets/04dccf47-316b-46b7-b69b-e07482a683ba)
+![StarBook Demo](https://github.com/user-attachments/assets/placeholder-demo-image.png)
 
 ## Features
 
-- 🚀 AI-Powered Conversion: Convert audio or video into a blog post within seconds using AI.
-- 🔐 Authentication: Secure user authentication via Clerk
-- 📝 Blog Post Generation: Automatically generate blog posts based on audio or video transcriptions.
-- 💳 Payment Integration: Fully integrated with Stripe for handling payments, custom pricing, and subscription management.
-- 💾 Database Management: Efficient data management with NeonDb.
-- 📤 File Uploads: Seamless file uploads using UploadThing.
-- 🎙️ Audio and video file processing (up to 25MB)
-- 🖋️ Markdown Editor: Edit your blog posts with a built-in Markdown editor.
-- 💅 TailwindCSS for styling
-- 🔒 Secure file handling and processing
-- 🪝 Webhook implementation for Stripe events
-- 🔍 SEO-friendly blog post generation
+- 🎨 **Beautiful Landing Pages**: Create dedicated testimonial collection pages with customizable themes
+- 🐦 **Twitter Integration**: Import tweets as testimonials by simply pasting tweet URLs
+- 🤖 **AI-Powered Insights**: Generate insights from collected feedback using Google Gemini AI
+- 📊 **Analytics Dashboard**: Track testimonial performance and manage all feedback in one place
+- 🎨 **Customizable Themes**: Multiple display options with dark/light mode support
+- 🔗 **Easy Embedding**: One-click website integration with responsive iframe embedding
+- ⭐ **Star Ratings**: Interactive star rating system for testimonials
+- 📱 **Responsive Design**: Mobile-first design that works on all devices
+- 🔐 **Secure Authentication**: User authentication and authorization via Clerk
+- 💳 **Payment Integration**: Stripe integration for Pro plan subscriptions
+- 📸 **Image Uploads**: Testimonial photos with Cloudinary integration
+- 🎯 **Public Collection Pages**: Shareable links for customers to submit testimonials
+- 🚀 **Performance Optimized**: Built with Next.js 15 and optimized for speed
 
 ## Built with
 
 - [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Shadcn/ui](https://ui.shadcn.com/)
-- [Magic UI](https://magicui.design)
+- [Prisma](https://www.prisma.io/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Clerk](https://clerk.com/)
 - [Stripe](https://stripe.com/)
-- [Neon](https://neon.tech/)
-- [Upload things](https://uploadthing.com/)
-- [Open AI](https://openai.com/)
+- [Cloudinary](https://cloudinary.com/)
+- [Google Gemini AI](https://ai.google.dev/)
+- [Framer Motion](https://www.framer.com/motion/)
 
 ### Tools
 
-- [Biome](https://biomejs.dev/)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
 - [Husky](https://typicode.github.io/husky/)
 
 ## Feature Requests
 
-To request a feature open a [GitHub issue](https://github.com/anayatkhan1/Writora-AI/issues).
+To request a feature open a [GitHub issue](https://github.com/yourusername/starbook/issues).
 
 ## Contribution Guidelines
 
-Thank you for considering contributing to our AI-powered blog generator project! Please follow these guidelines to ensure smooth collaboration:
+Thank you for considering contributing to StarBook! Please follow these guidelines to ensure smooth collaboration:
 
 1. Fork the repository to your GitHub account.
 2. Clone the forked repository to your local machine:
@@ -60,7 +64,7 @@ Thank you for considering contributing to our AI-powered blog generator project!
    git commit -m 'feat: Add your descriptive commit message'
    ```
 
-   `Note:` Before committing changes, ensure you include one of these tags in your commit message: `feat, fix, wip, patch, build`.
+   **Note:** Before committing changes, ensure you include one of these tags in your commit message: `feat, fix, docs, style, refactor, test, chore`.
 
 7. Push your changes to your forked repository:
 
@@ -76,31 +80,30 @@ Thank you for considering contributing to our AI-powered blog generator project!
 
 To run the project locally, you need to set up the following environment variables:
 
-```python
+```env
+# DATABASE
+DATABASE_URL=postgresql://username:password@localhost:5432/starbook
+
 # CLERK
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=/dashboard
-NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=/dashboard
 
 # STRIPE
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
-STRIPE_PRICE_ID_BASIC_PLAN=
-STRIPE_PRICE_ID_PRO_PLAN=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 
-# NEONDB
-DATABASE_URL=
+# GOOGLE AI
+GOOGLE_API_KEY=
 
-# UPLOADTHING
-UPLOADTHING_SECRET=
-UPLOADTHING_APP_ID=
+# CLOUDINARY
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
 
-# OPENAI
-OPENAI_API_KEY=
-
-PRODUCTION_ORIGIN_URL=
-NEXT_PUBLIC_APP_NAME=Writora
+# APP CONFIGURATION
+NEXT_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_APP_NAME=StarBook
 ```
