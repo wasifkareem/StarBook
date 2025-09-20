@@ -1,18 +1,15 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { IoWarningOutline } from "react-icons/io5";
-import z from "zod";
 import { useUser } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
 import { Button } from "@/components/ui/button";
 
-const deleteSpaceProps = z.object({
-  setToggle: z.any(),
-  spaceName: z.string(),
-  spaceId: z.string(),
-});
-
-type deleteSpaceProps = z.infer<typeof deleteSpaceProps>;
+type deleteSpaceProps = {
+  setToggle: (toggle: boolean) => void;
+  spaceName: string;
+  spaceId: string;
+};
 
 const DeleteSpace = ({ setToggle, spaceName, spaceId }: deleteSpaceProps) => {
   const { user } = useUser();
@@ -32,7 +29,7 @@ const DeleteSpace = ({ setToggle, spaceName, spaceId }: deleteSpaceProps) => {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
 
       if (!response.ok) {

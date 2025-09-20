@@ -45,8 +45,8 @@ const SpaceCard = ({
               <MdDeleteForever className="text-2xl text-slate-400 hover:text-red-900 transition-colors" />
             </button>
             <Image
-              width={200}
-              height={200}
+              width={140}
+              height={140}
               className=" h-32 w-32 object-cover border bg-white rounded-3xl"
               loading="lazy"
               src={imgPath ? imgPath : "/assets/review.png"}

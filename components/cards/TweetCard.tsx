@@ -47,7 +47,7 @@ const TweetCard = ({
       `/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=true`,
       {
         method: "PUT",
-      },
+      }
     );
     if (res.ok) {
       setIsWallChange(false);
@@ -62,7 +62,7 @@ const TweetCard = ({
       `/api/wall/update-wall?spaceId=${spaceId}&testimonialId=${Id}&WOF=false`,
       {
         method: "PUT",
-      },
+      }
     );
     if (res.ok) {
       setIsWallChange(false);
@@ -76,7 +76,7 @@ const TweetCard = ({
       `/api/testimonials/delete?spaceId=${spaceId}&testimonialId=${Id}`,
       {
         method: "DELETE",
-      },
+      }
     );
 
     if (!res.ok) {
@@ -137,8 +137,8 @@ const TweetCard = ({
           <div className=" flex justify-between w-full items-center">
             <div className="flex gap-2 items-start">
               <Image
-                width={100}
-                height={100}
+                width={40}
+                height={40}
                 src={imgPath}
                 alt="x-dp"
                 className="  rounded-full"
@@ -195,7 +195,7 @@ const TweetCard = ({
               <Image
                 width={400}
                 height={500}
-                className={`max</a>-h-96 transition-all duration-300 ${
+                className={`max-h-96 transition-all duration-300 ${
                   imageLoaded ? "blur-0" : "blur-md opacity-50"
                 }`}
                 src={imgMedia}
@@ -214,8 +214,8 @@ const TweetCard = ({
           >
             <div className="bg-black rounded-lg overflow-hidden mt-5 my-2 flex justify-center">
               <Image
-                width={100}
-                height={100}
+                width={400}
+                height={400}
                 className="max-h-60"
                 src={poster}
                 alt=""
