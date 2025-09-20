@@ -1,109 +1,189 @@
 # StarBook
 
-StarBook is a powerful testimonial collection platform that helps businesses gather, manage, and showcase customer feedback seamlessly. Built for startups and growing companies to collect authentic reviews and grow their reputation effortlessly.
+StarBook is a modern SaaS platform for collecting, managing, and showcasing customer testimonials and reviews effortlessly. Designed to help businesses build social proof and enhance brand trust, StarBook offers seamless integrations, AI-powered insights, and an elegant user experience.
 
-![StarBook Demo](https://github.com/user-attachments/assets/placeholder-demo-image.png)
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Demo](#demo)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+---
 
 ## Features
 
-- 🎨 **Beautiful Landing Pages**: Create dedicated testimonial collection pages with customizable themes
-- 🐦 **Twitter Integration**: Import tweets as testimonials by simply pasting tweet URLs
-- 🤖 **AI-Powered Insights**: Generate insights from collected feedback using Google Gemini AI
-- 📊 **Analytics Dashboard**: Track testimonial performance and manage all feedback in one place
-- 🎨 **Customizable Themes**: Multiple display options with dark/light mode support
-- 🔗 **Easy Embedding**: One-click website integration with responsive iframe embedding
-- ⭐ **Star Ratings**: Interactive star rating system for testimonials
-- 📱 **Responsive Design**: Mobile-first design that works on all devices
-- 🔐 **Secure Authentication**: User authentication and authorization via Clerk
-- 💳 **Payment Integration**: Stripe integration for Pro plan subscriptions
-- 📸 **Image Uploads**: Testimonial photos with Cloudinary integration
-- 🎯 **Public Collection Pages**: Shareable links for customers to submit testimonials
-- 🚀 **Performance Optimized**: Built with Next.js 15 and optimized for speed
+- **Customizable Landing Pages**: Create beautiful, responsive testimonial pages with multiple themes
+- **Twitter Integration**: Import and display tweets as testimonials by simply pasting tweet URLs
+- **AI-Powered Insights**: Leverage Google Gemini AI to analyze and summarize customer feedback
+- **Interactive Star Ratings**: Collect ratings with a smooth star rating UI
+- **Embedded Widget**: Easily embed testimonials on any website using a responsive iframe
+- **Image Uploads**: Support for customer images via Cloudinary integration
+- **Secure Authentication**: User accounts and authentication powered by Clerk
+- **Subscription Plans**: Manage Pro subscriptions via Stripe payment integration
+- **Analytics Dashboard**: Comprehensive dashboard to manage and track testimonials
 
-## Built with
+---
 
-- [Next.js](https://nextjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Shadcn/ui](https://ui.shadcn.com/)
-- [Prisma](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Clerk](https://clerk.com/)
-- [Stripe](https://stripe.com/)
-- [Cloudinary](https://cloudinary.com/)
-- [Google Gemini AI](https://ai.google.dev/)
-- [Framer Motion](https://www.framer.com/motion/)
+## Demo
 
-### Tools
+Explore the live app: [https://starbook.wasifkareem.com](https://starbook.wasifkareem.com)
 
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-- [Husky](https://typicode.github.io/husky/)
+<a href="https://codepen.io/Wasif-Kareem/pen/OJeExjy?editors=1000"
+rel="noopener noreferrer"
+target="_blank">
+<img src="https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=appveyor" alt="Live Demo">
+</a>
 
-## Feature Requests
+Check out the 3-minute demo video below:
 
-To request a feature open a [GitHub issue](https://github.com/yourusername/starbook/issues).
+https://github.com/user-attachments/assets/43731594-7035-41d1-8460-758f99126f0a
 
-## Contribution Guidelines
+---
 
-Thank you for considering contributing to StarBook! Please follow these guidelines to ensure smooth collaboration:
+## Tech Stack
 
-1. Fork the repository to your GitHub account.
-2. Clone the forked repository to your local machine:
-3. Create a new branch for your changes:
+- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
+- **UI Components**: Shadcn/ui, Radix UI
+- **Backend**: Next.js API Routes, Prisma ORM, Supabase
+- **Authentication**: Clerk
+- **Payments**: Stripe
+- **AI Integration**: Google Gemini API
+- **File Storage**: Cloudinary
+- **Animation**: Framer Motion
 
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+---
 
-4. Make your changes and ensure they adhere to the project's coding style and guidelines.
-5. Test your changes thoroughly to avoid introducing bugs.
-6. Commit your changes with clear and descriptive commit messages:
+## Getting Started
 
-   ```bash
-   git commit -m 'feat: Add your descriptive commit message'
-   ```
+### Prerequisites
 
-   **Note:** Before committing changes, ensure you include one of these tags in your commit message: `feat, fix, docs, style, refactor, test, chore`.
+- Node.js v18 or newer
+- Supabase database
+- Clerk account for authentication
+- Stripe account for payment processing
+- Cloudinary account for image uploads
 
-7. Push your changes to your forked repository:
+### Installation
 
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+1. Clone the repository
 
-8. Open a pull request against the `main` branch of the original repository.
-9. Provide a clear and concise description of your changes in the pull request, along with any relevant information.
-10. Ensure your pull request passes all checks and tests before requesting a review.
+```bash
+git clone https://github.com/wasifkareem/StarBook.git
+cd StarBook
+```
 
-### Setting Up Environment Variables
+2. Install dependencies
 
-To run the project locally, you need to set up the following environment variables:
+```bash
+npm install
+```
+
+3. Set up environment variables
+
+Create a `.env` file in the root with the following keys:
 
 ```env
-# DATABASE
-DATABASE_URL=postgresql://username:password@localhost:5432/starbook
-
-# CLERK
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+DATABASE_URL=your_postgres_connection_string
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+CLOUD_NAME=your_cloudinary_cloud_name
+API_KEY=your_cloudinary_api_key
+API_SECRET=your_cloudinary_api_secret
+GOOGLE_API_KEY=your_google_gemini_api_key
+JWT_SECRET=your_jwt_secret
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-
-# STRIPE
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
-
-# GOOGLE AI
-GOOGLE_API_KEY=
-
-# CLOUDINARY
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
-
-# APP CONFIGURATION
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/app
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/app
 NEXT_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_APP_NAME=StarBook
+PORT=3000
 ```
+
+4. Run database migrations
+
+```bash
+npx prisma migrate deploy
+```
+
+5. Start the development server
+
+```bash
+npm run dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+### Add this Code to a replit template website
+
+```html
+<iframe
+  id="starbook-cmdjursce0000skxy386qm721"
+  src="https://starbook.wasifkareem.com/embed/cmdjursce0000skxy386qm721?dark=false"
+  frameborder="0"
+  scrolling="no"
+  width="100%"
+></iframe>
+<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent"></script>
+<script>
+  iframeResize(
+    { license: "GPLv3", log: true, checkOrigin: false },
+    "#starbook-cmdjursce0000skxy386qm721"
+  );
+</script>
+```
+
+---
+
+## Usage
+
+- Sign up or log in using Clerk authentication
+- Create a testimonial landing page with a theme of your choice
+- Add testimonials manually or import tweets via URLs
+- View AI-generated insights to better understand your customer feedback
+- Embed the testimonial widget on your website for social proof
+- Manage and upgrade subscription plans with Stripe billing
+
+---
+
+## Roadmap
+
+- [x] Basic testimonial collection and management
+- [x] Twitter integration for importing testimonials
+- [x] AI-powered feedback insights with Google Gemini
+- [x] Stripe subscription management
+- [x] Image uploads via Cloudinary
+- [ ] Multi-language support
+- [ ] Advanced analytics and reporting
+- [ ] Mobile app development
+
+---
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for bug fixes and feature requests.
+
+---
+
+## Contact
+
+**Wasif Kareem**
+
+- GitHub: [https://github.com/wasifkareem](https://github.com/wasifkareem)
+- LinkedIn: [[LinkedIn](https://www.linkedin.com/in/wasifdev2762/)]
+- Email: wasifkareem2762@gmail.com
+
+---
+
+_Thank you for checking out StarBook! Your feedback and contributions are highly appreciated._
