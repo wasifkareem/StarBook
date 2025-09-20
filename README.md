@@ -13,22 +13,18 @@ StarBook is a modern SaaS platform for collecting, managing, and showcasing cust
 - [Usage](#usage)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ---
 
 ## Features
 
-- **Customizable Landing Pages**: Create beautiful, responsive testimonial pages with multiple themes
-- **Twitter Integration**: Import and display tweets as testimonials by simply pasting tweet URLs
-- **AI-Powered Insights**: Leverage Google Gemini AI to analyze and summarize customer feedback
-- **Interactive Star Ratings**: Collect ratings with a smooth star rating UI
-- **Embedded Widget**: Easily embed testimonials on any website using a responsive iframe
-- **Image Uploads**: Support for customer images via Cloudinary integration
-- **Secure Authentication**: User accounts and authentication powered by Clerk
-- **Subscription Plans**: Manage Pro subscriptions via Stripe payment integration
-- **Analytics Dashboard**: Comprehensive dashboard to manage and track testimonials
+- **Testimonial Collection**: Collect and manage customer testimonials with customizable landing pages
+- **Twitter Integration**: Import tweets as testimonials by pasting URLs
+- **AI Insights**: Analyze feedback with Google Gemini AI
+- **Embeddable Widget**: Add testimonials to any website with responsive iframe
+- **Secure Authentication**: User management powered by Clerk
+- **Subscription Management**: Pro plans with Stripe integration
 
 ---
 
@@ -48,16 +44,24 @@ https://github.com/user-attachments/assets/43731594-7035-41d1-8460-758f99126f0a
 
 ---
 
-## Tech Stack
+## Built with
 
-- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
-- **UI Components**: Shadcn/ui, Radix UI
-- **Backend**: Next.js API Routes, Prisma ORM, Supabase
-- **Authentication**: Clerk
-- **Payments**: Stripe
-- **AI Integration**: Google Gemini API
-- **File Storage**: Cloudinary
-- **Animation**: Framer Motion
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Shadcn/ui](https://ui.shadcn.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Clerk](https://clerk.com/)
+- [Stripe](https://stripe.com/)
+- [Supabase](https://supabase.com/)
+- [Prisma](https://www.prisma.io/)
+- [Google Gemini](https://ai.google.dev/)
+- [Cloudinary](https://cloudinary.com/)
+
+### Tools
+
+- [Prisma](https://www.prisma.io/)
+- [ESLint](https://eslint.org/)
 
 ---
 
@@ -164,7 +168,6 @@ npm run dev
 - [x] AI-powered feedback insights with Google Gemini
 - [x] Stripe subscription management
 - [x] Image uploads via Cloudinary
-- [ ] Multi-language support
 - [ ] Advanced analytics and reporting
 - [ ] Mobile app development
 
